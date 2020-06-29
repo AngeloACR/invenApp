@@ -13,6 +13,10 @@ const users = require('./users/routes/users');
 const superadmins = require('./users/routes/superadmins');
 const administradores = require('./users/routes/administradores');
 const vendedores = require('./users/routes/vendedores');
+const clientes = require('./directorio/routes/clientes');
+const productos = require('./inventario/routes/productos');
+const locaciones = require('./inventario/routes/locaciones');
+const proveedores = require('./directorio/routes/proveedores');
 const mails = require('./users/routes/mails');
 const auth = require('./users/routes/auth');
 const general = require('./general/routes/general');
@@ -61,10 +65,14 @@ module.exports.init = function(folder, thePath, port) {
     app.use('/users', users);
     app.use('/vendedores', vendedores);
     app.use('/administradores', administradores);
+    app.use('/clientes', clientes);
+    app.use('/proveedores', proveedores);
     app.use('/mails', mails);
     app.use('/general', general);
     app.use('/auth', auth);
     app.use('/superadmins', superadmins);
+    app.use('/productos', productos);
+    app.use('/locaciones', locaciones);
 
     app.get('/', (req, res) => {
         res.send('We are having some troubles, please come back in a while!');

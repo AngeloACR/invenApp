@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
-const adminSchema = mongoose.Schema({
+const superAdminSchema = mongoose.Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -10,25 +10,25 @@ const adminSchema = mongoose.Schema({
   }
 });
 
-const Admin = module.exports = mongoose.model("Admin", adminSchema);
+const SuperAdmin = module.exports = mongoose.model("SuperAdmin", superAdminSchema);
 
 module.exports.fillUser = async function (id) {
   try {
     const query = { '_id': id }
-    let admin = await this.findOne(query).populate('userId');
-    admin.userId['adminId'] = id;
-    let user = admin.userId.save();
-    return admin
+    let superAdmin = await this.findOne(query).populate('userId');
+    superAdmin.userId['superAdminId'] = id;
+    let user = superAdmin.userId.save();
+    return superAdmin
   } catch (error) { throw error; }
 }
 
-module.exports.addAdmin = async function (newAdmin) {
+module.exports.addSuperAdmin = async function (newSuperAdmin) {
   try {
-    let admin = await newAdmin.save();
-    admin = await this.fillUser(admin._id);
+    let superAdmin = await newSuperAdmin.save();
+    superAdmin = await this.fillUser(superAdmin._id);
     let response = {
       status: true,
-      values: admin
+      values: superAdmin
     }
     return response;
   } catch (error) { throw error; }
@@ -37,10 +37,10 @@ module.exports.addAdmin = async function (newAdmin) {
 module.exports.addQuestion = async function (pId, qId) {
   try {
     const query = { '_id': pId };
-    let admin = await this.findOne(query);
-    admin.questionsId.push(qId);
-    admin = await admin.save();
-    if (admin) {
+    let superAdmin = await this.findOne(query);
+    superAdmin.questionsId.push(qId);
+    superAdmin = await superAdmin.save();
+    if (superAdmin) {
       return true;
     } else {
       throw new Error('Cannot add answer to doctor');
@@ -50,18 +50,18 @@ module.exports.addQuestion = async function (pId, qId) {
 module.exports.addMH = async function (pId, mhId) {
   try {
     const query = { '_id': pId };
-    let admin = await this.findOne(query);
-    admin.mhsId.push(mhId);
-    admin = await admin.save();
-    if (admin) {
+    let superAdmin = await this.findOne(query);
+    superAdmin.mhsId.push(mhId);
+    superAdmin = await superAdmin.save();
+    if (superAdmin) {
       return true;
     } else {
-      throw new Error('Cannot add appointment to admin');
+      throw new Error('Cannot add appointment to superAdmin');
     }
   } catch (error) { throw error; }
 }
 
-module.exports.deleteAdmin = async function (id) {
+module.exports.deleteSuperAdmin = async function (id) {
     try {
         const query = { "userId": id };
         return await this.findOneAndRemove(query);
@@ -70,52 +70,52 @@ module.exports.deleteAdmin = async function (id) {
     }
 }
 
-module.exports.getAdmins = async function () {
+module.exports.getSuperAdmins = async function () {
   try {
     const query = {};
-    let admins = await this.find(query)
+    let superAdmins = await this.find(query)
       .populate({ path: 'userId', select: 'username mail type name' })
     //.populate({ path: 'questionsId', populate: 'answerId' })
     //        .populate('mhsId')
     //.populate('appointments');
     let response = {
       status: true,
-      values: admins
+      values: superAdmins
     }
     return response;
   } catch (error) { throw error; }
 }
 
-module.exports.getAdmin = async function (pId) {
+module.exports.getSuperAdmin = async function (pId) {
   try {
     const query = { '_id': pId };
-    let admin = await this.findOne(query)
+    let superAdmin = await this.findOne(query)
       //      .populate({ path: 'questionsId', populate: 'answerId' })
       //        .populate('mhsId')
       //   .populate('appointmentsId')
       .populate({ path: 'userId', select: 'username mail type name' })
     let response = {
       status: true,
-      values: admin
+      values: superAdmin
     }
     return response;
   } catch (error) { throw error; }
 }
 
-module.exports.updateAdmin = async function (data) {
+module.exports.updateSuperAdmin = async function (data) {
     try {
         const query = { 'userId': data.id }
-        let admin = await this.findOne(query)
+        let superAdmin = await this.findOne(query)
         .populate('userId');
-        admin.userId.name = data.name;
-        if(username != patient.userId.username){
+        superAdmin.userId.name = data.name;
+        if(username != superAdmin.userId.username){
           let user = await this.findOne({ "username": data.username });
           if (user) {
               throw new Error('Nombre de usuario no disponible');
           }
-          admin.userId.username = data.username;
+          superAdmin.userId.username = data.username;
         }
-        let user = await admin.userId.save();
+        let user = await superAdmin.userId.save();
         let response = {
             status: true,
             values: user

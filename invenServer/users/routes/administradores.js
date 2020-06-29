@@ -2,7 +2,7 @@ const express = require('express');
 const adminRouter = express.Router();
 const auth = require("../auth/auth");
 const User = require('../models/user');
-const Admin = require('../models/admin');
+const Admin = require('../models/administrador');
 
 adminRouter.post('/', /*auth,*/ async (req, res) => {
 	try {

@@ -35,18 +35,6 @@ const userSchema = mongoose.Schema({
     type: {
         type: String,
     },
-    doctorId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Doctor',
-    },
-    patientId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-    },
-    adminId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Admin',
-    },
     createdAt: { type: Date, default: Date.now },
 });
 
@@ -131,13 +119,12 @@ module.exports.authUser = async function (username, password) {
     try {
         const query = { "username": username };
         let user = await this.findOne(query)
-        .populate('patientId')
-        .populate('doctorId')
-        .populate('adminId')
+        console.log(user);
         if (!user) {
             throw new Error("No existe ese nombre de usuario")
         }
         let isMatch = await this.comparePass(password, user.password)
+        console.log(isMatch);
         let auth = {}
         if (isMatch) {
             const token = jwt.sign(user.toJSON(), environment.authSecret, {
@@ -150,6 +137,7 @@ module.exports.authUser = async function (username, password) {
         } else {
             throw new Error('Contraseña inválida')
         }
+        console.log(auth);
         return auth;
     } catch (error) {
         let response = {

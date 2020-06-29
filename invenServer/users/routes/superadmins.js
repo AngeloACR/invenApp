@@ -2,7 +2,7 @@ const express = require('express');
 const superAdminRouter = express.Router();
 const auth = require("../auth/auth");
 const User = require('../models/user');
-const SuperAdmin = require('../models/superAdmin');
+const SuperAdmin = require('../models/superadmin');
 
 superAdminRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
