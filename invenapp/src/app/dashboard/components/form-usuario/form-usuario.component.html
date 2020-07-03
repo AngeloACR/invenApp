@@ -1,0 +1,50 @@
+<div class="cardBox">
+    <form class="formBox" [formGroup]="registroUsuario" (ngSubmit)="endRegistro()">
+        <div class="formContent">
+            <div class="formInput">
+                <label for="">Nombre*</label>
+                <input class="lInput" type="text" formControlName="name" name="name" />
+            </div>
+            <div class="errorTag" *ngIf="fUsuario.name.errors?.required && (fUsuario.name.touched || fUsuario.name.dirty)">Por favor ingrese su nombre</div>
+            <div class="formInput">
+                <label for="">Correo Electrónico*</label>
+                <input class="lInput" type="text" formControlName="mail" name="mail" />
+            </div>
+            <div class="errorTag" *ngIf="fUsuario.mail.errors?.required && (fUsuario.mail.touched || fUsuario.mail.dirty)">Por favor ingrese su correo</div>
+            <div class="errorTag" *ngIf="fUsuario.mail.errors?.email && (fUsuario.mail.touched || fUsuario.mail.dirty)">Por favor ingrese una dirección de correo válida</div>
+            <div class="formInput">
+                <label for="">Usuario*</label>
+                <input class="lInput" type="text" formControlName="username" name="username" />
+            </div>
+            <div class="errorTag" *ngIf="fUsuario.username.errors?.required && (fUsuario.username.touched || fUsuario.username.dirty)">Por favor ingrese un nombre de usuario</div>
+                  <div class="formInput">
+        <label for="">Tipo de usuario</label>
+          <select class="lInput" formControlName="tipo">
+            <option value="Todos" selected="true">Todos</option>
+            <option value="SuperAdmin">Super Administrador</option>
+            <option value="Vendedor">Vendedor</option>
+            <option value="Admin">Administrador</option>
+          </select>
+      </div>
+<!--       <div class="formInput" *ngIf="!isUpdate">
+ -->      <div class="formInput">
+                <label for="">Contraseña*</label>
+                <input class="lInput" type="password" formControlName="password" name="password" />
+            </div>
+            <div class="errorTag" *ngIf="fUsuario.password.errors?.required && (fUsuario.password.touched || fUsuario.password.dirty)">Por favor ingrese una contraseña valida</div>
+            <div class="errorTag" *ngIf="fUsuario.password.errors?.minlength && (fUsuario.password.touched || fUsuario.password.dirty)">La contraseña debe contener al menos 6 carácteres</div>
+<!--             <div class="formInput" *ngIf="!isUpdate">
+ -->            <div class="formInput">
+                <label for="">Confirmar contraseña*</label>
+                <input class="lInput" type="password" formControlName="cpassword" name="cpassword" />
+            </div>
+            <div class="errorTag" *ngIf="fUsuario.cpassword.errors?.ConfirmPassword">Las contraseñas deben coincidir</div>
+            <div class="errorTag" *ngIf="fUsuario.cpassword.errors?.required && (fUsuario.cpassword.touched || fUsuario.cpassword.dirty)">Por favor vuelva a ingresar la contraseña</div>
+        </div>
+        <button type="submit" class="formButton">
+          <p>Registrar usuario</p>
+        </button>
+      </form>
+</div>
+
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

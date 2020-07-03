@@ -1,0 +1,67 @@
+
+  <div class="cardBox" *ngIf="!isEmpty">
+    <div class="listBox">
+      <div class="titleRow">
+          <p style="width: 250px;">Acciones</p>
+          <p *ngFor="let field of fields">{{ field }}</p>
+      </div>
+      <div class="contentRow" *ngFor="let value of values">
+        <div class="actionBox" style="width: 250px;">
+          <!-- <p class="listButton"> -->
+          <!-- <button type="button" id="closeB" (click)="deleteItem($event, value)">
+            X
+          </button>
+          <img
+            id="updateB"
+            src="/assets/tuerca.png"
+            (click)="openUpdate($event, value)"
+          /> -->
+          <button
+              style="background-color: orange"
+              type="button"
+              class="actionButton"
+              (click)="openUpdate($event, value)"
+            >
+              <p>EDITAR</p>
+            </button>
+            <button
+              style="background-color: red"
+              type="button"
+              class="actionButton"
+              (click)="deleteItem($event, value)"
+            >
+              <p>ELIMINAR</p>
+            </button>            
+            <button
+              style="background-color: green"
+              type="button"
+              class="actionButton"
+              (click)="habilitarElemento($event, value, 1)"
+            >
+              <p>HABILITAR</p>
+            </button>
+            <button
+              style="background-color: red"
+              type="button"
+              class="actionButton"
+              (click)="habilitarElemento($event, value, 0)"
+            >
+              <p>DESHABILITAR</p>
+            </button>
+        </div>
+        <div *ngFor="let field of fields">
+          <p>{{ value[field.toLowerCase()] }}</p>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <div class="cardBox" *ngIf="isEmpty">
+    <p>No hay elementos para mostrar</p>
+  </div>
+
+  <button class="buttonBox" (click)="agregar()">
+    {{ addText }}
+  </button>  
+  
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

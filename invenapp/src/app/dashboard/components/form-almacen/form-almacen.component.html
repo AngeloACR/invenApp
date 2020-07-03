@@ -1,0 +1,31 @@
+<div class="cardBox">
+    <form class="formBox" [formGroup]="registroAlmacen" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+        <div class="formInput">
+            <label for="">Código*</label>
+            <input class="lInput" type="text" formControlName="code" name="code" />
+        </div>
+            <div class="errorTag" *ngIf="fAlmacen.code.errors?.required && (fAlmacen.code.touched || fAlmacen.code.dirty)">Por favor ingrese un código</div>
+        <div class="formInput">
+            <label for="">Estado*</label>
+            <input class="lInput" type="text" formControlName="state" name="state" />
+        </div>
+            <div class="errorTag" *ngIf="fAlmacen.state.errors?.required && (fAlmacen.state.touched || fAlmacen.state.dirty)">Por favor ingrese un estado</div>
+        <div class="formInput">
+            <label for="">Ciudad*</label>
+            <input class="lInput" type="text" formControlName="city" name="city" />
+        </div>
+            <div class="errorTag" *ngIf="fAlmacen.city.errors?.required && (fAlmacen.city.touched || fAlmacen.city.dirty)">Por favor ingrese una ciudad</div>
+        <div class="formInput">
+            <label for="">Dirección*</label>
+            <input class="lInput" type="text" formControlName="address" name="address" />
+        </div>
+            <div class="errorTag" *ngIf="fAlmacen.address.errors?.required && (fAlmacen.address.touched || fAlmacen.address.dirty)">Por favor ingrese una dirección</div>
+    </div>
+    <button type="submit" class="formButton">
+        <p>Registrar almacén</p>
+    </button>
+    </form>
+</div>
+
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

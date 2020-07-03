@@ -1,0 +1,11 @@
+<div class="cardBox">
+    <form class="formBox" [formGroup]="registroPedido" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+    </div>
+    <button type="submit" class="formButton">
+      <p>Registrar pedido</p>
+    </button>
+    </form>
+</div>
+
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

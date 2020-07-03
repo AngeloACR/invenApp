@@ -1,0 +1,42 @@
+<div class="cardBox">
+    <form class="formBox" [formGroup]="registroCliente" (ngSubmit)="endRegistro()">
+  <div class="formContent">
+      <div class="formInput">
+          <label for="">Nombre*</label>
+          <input class="lInput" type="text" formControlName="name" name="name" />
+      </div>
+          <div class="errorTag" *ngIf="fCliente.name.errors?.required && (fCliente.name.touched || fCliente.name.dirty)">Por favor ingrese su nombre</div>
+      <div class="formInput">
+          <label for="">RIF*</label>
+          <input class="lInput" type="text" formControlName="rif" name="rif" />
+      </div>
+          <div class="errorTag" *ngIf="fCliente.rif.errors?.required && (fCliente.rif.touched || fCliente.rif.dirty)">Por favor ingrese su nombre</div>
+      <div class="formInput">
+          <label for="">Correo Electrónico*</label>
+          <input class="lInput" type="text" formControlName="mail" name="mail" />
+      </div>
+          <div class="errorTag" *ngIf="fCliente.mail.errors?.required && (fCliente.mail.touched || fCliente.mail.dirty)">Por favor ingrese su correo</div>
+          <div class="errorTag" *ngIf="fCliente.mail.errors?.email && (fCliente.mail.touched || fCliente.mail.dirty)">Por favor ingrese una dirección de correo válida</div>
+      <div class="formInput">
+          <label for="">Dirección*</label>
+          <input class="lInput" type="text" formControlName="address" name="address" />
+      </div>
+          <div class="errorTag" *ngIf="fCliente.address.errors?.required && (fCliente.address.touched || fCliente.address.dirty)">Por favor ingrese una dirección</div>
+      <div class="formInput">
+          <label for="">Whatsapp*</label>
+          <input class="lInput" type="text" formControlName="ws" name="ws" />
+        </div>
+          <div class="errorTag" *ngIf="fCliente.ws.errors?.required && (fCliente.ws.touched || fCliente.ws.dirty)">Por favor ingrese un número valido</div>
+      <div class="formInput">
+          <label for="">Instagram</label>
+          <input class="lInput" type="text" formControlName="ig" name="ig" />
+        </div>
+          <div class="errorTag" *ngIf="fCliente.ig.errors?.required && (fCliente.ig.touched || fCliente.ig.dirty)">Por favor ingrese un número valido</div>
+  </div>
+  <button type="submit" class="formButton">
+    <p>Registrar cliente</p>
+  </button>
+</form>
+</div>
+
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
