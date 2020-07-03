@@ -33,6 +33,8 @@ export class ListaClientesComponent implements OnInit {
     this.initComponent('/clientes', 'Lista de Clientes', 'Agregar Cliente', 'clientes')
     this.isEmpty = true;
 
+    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
+    this.values = this.dbHandler.getLocal(this.name + 'Values');
     if(this.values.length){
       this.isEmpty = false;
     }
@@ -46,8 +48,6 @@ export class ListaClientesComponent implements OnInit {
     this.title = title;
     this.addText = addText;
     this.name = name;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
   }
 
 

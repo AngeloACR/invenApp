@@ -32,6 +32,8 @@ export class ListaProveedoresComponent implements OnInit {
     this.initComponent('/proveedores', 'Lista de Proveedores', 'Agregar Proveedor', 'proveedores')
     this.isEmpty = true;
 
+    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
+    this.values = this.dbHandler.getLocal(this.name + 'Values');
     if(this.values.length){
       this.isEmpty = false;
     }
@@ -45,8 +47,6 @@ export class ListaProveedoresComponent implements OnInit {
     this.title = title;
     this.addText = addText;
     this.name = name;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
   }
 
 

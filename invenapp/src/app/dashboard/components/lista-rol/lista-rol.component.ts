@@ -31,6 +31,8 @@ export class ListaRolComponent implements OnInit {
 
   ngOnInit() {
     this.initComponent('/roles', 'Lista de Roles', 'Agregar Rol', 'roles')
+    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
+    this.values = this.dbHandler.getLocal(this.name + 'Values');
     this.isEmpty = true;
 
     if(this.values.length){
@@ -46,8 +48,6 @@ export class ListaRolComponent implements OnInit {
     this.title = title;
     this.addText = addText;
     this.name = name;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
   }
 
 

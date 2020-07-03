@@ -35,6 +35,8 @@ export class ListaAlmacenComponent implements OnInit {
     this.initComponent('/almacenes', 'Lista de Almacenes', 'Agregar Almacén', 'almacenes')
     this.initForm();
     this.isEmpty = true;
+    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
+    this.values = this.dbHandler.getLocal(this.name + 'Values');
 
     if(this.values.length){
       this.isEmpty = false;
@@ -52,8 +54,6 @@ export class ListaAlmacenComponent implements OnInit {
     this.title = title;
     this.addText = addText;
     this.name = name;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
   }
 
 

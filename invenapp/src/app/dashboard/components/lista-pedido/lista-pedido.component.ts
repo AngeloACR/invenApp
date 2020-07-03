@@ -32,6 +32,8 @@ export class ListaPedidoComponent implements OnInit {
   ngOnInit() {
     this.initComponent('/pedidos', 'Lista de Pedidos', 'Agregar Pedido', 'pedidos')
     this.isEmpty = true;
+    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
+    this.values = this.dbHandler.getLocal(this.name + 'Values');
 
     if(this.values.length){
       this.isEmpty = false;
@@ -46,8 +48,6 @@ export class ListaPedidoComponent implements OnInit {
     this.title = title;
     this.addText = addText;
     this.name = name;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
   }
 
 
