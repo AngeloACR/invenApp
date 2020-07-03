@@ -11,6 +11,14 @@ const disponibilidadSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Almacen',
   }],
+  Ingresos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Ingreso',
+  }],
+  Egreso: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Egreso',
+  }],
   qtyDisponible: {
     type: Number,
   },
@@ -22,17 +30,24 @@ const disponibilidadSchema = mongoose.Schema({
 .post('save', elementAdded);
 
 function elementAdded(element) {
+  console.log(element._id)
     let almacen = Event.findOne({_id: { $in: element.almacen }})
     let producto = Event.findOne({_id: { $in: element.producto }})
-    almacen.disponibilidad.push(element._id)
-    almacen = almacen.save();
-    producto.disponibilidad.push(element._id)
-    producto = producto.save();
+    let dispoAlmacen = almacen.disponibilidad; 
+    let dispoProducto = producto.disponibilidad; 
+    let dispoId = element._id
+    if(dispoAlmacen.indexOf(dispoId) <= -1){
+      dispoAlmacen.push(element._id)
+      almacen = almacen.save();
+      dispoProducto.push(element._id)
+      producto = producto.save();
+    }
 
 }
 
 function removeLinkedDocuments(element) {
     // doc will be the removed Person document
+
     let almacen = Event.findOne({_id: { $in: element.almacen }})
     let producto = Event.findOne({_id: { $in: element.producto }})
     let disponibilidad = ellement._id

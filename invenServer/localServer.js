@@ -15,6 +15,8 @@ const administradores = require('./users/routes/administradores');
 const vendedores = require('./users/routes/vendedores');
 const clientes = require('./directorio/routes/clientes');
 const productos = require('./inventario/routes/productos');
+const ingresos = require('./inventario/routes/ingresos');
+const pedidos = require('./inventario/routes/pedidos');
 const almacenes = require('./inventario/routes/almacenes');
 const proveedores = require('./directorio/routes/proveedores');
 const mails = require('./users/routes/mails');
@@ -68,6 +70,8 @@ module.exports.init = function(folder, thePath, port) {
     app.use('/clientes', clientes);
     app.use('/proveedores', proveedores);
     app.use('/mails', mails);
+    app.use('/ingresos', pedidos);
+    app.use('/pedidos', ingresos);
     app.use('/general', general);
     app.use('/auth', auth);
     app.use('/superadmins', superadmins);

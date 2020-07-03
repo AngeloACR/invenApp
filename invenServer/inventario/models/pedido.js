@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
-const movimientoSchema = mongoose.Schema({
+const pedidoSchema = mongoose.Schema({
   producto: [{
     type: Schema.Types.ObjectId,
     ref: 'Producto',
@@ -69,7 +69,7 @@ function movementDeleted(element){
       }
       
 
-      let moves = disponibilidad.movimientos;
+      let moves = disponibilidad.pedidos;
       let moveId = ellement._id
       let pLength = moves.length;
       for( var i = 0; i < pLength; i++){ 
@@ -123,10 +123,10 @@ function alterDisponibilidad(element){
 
 }
 
-const Movimiento = module.exports = mongoose.model("Movimiento", movimientoSchema);
+const Pedido = module.exports = mongoose.model("Pedido", pedidoSchema);
 
 
-module.exports.deleteMovimiento = async function (id) {
+module.exports.deletePedido = async function (id) {
     try {
         const query = { "_id": id };
         let deleteRes =  await this.findOneAndRemove(query);
@@ -144,22 +144,22 @@ module.exports.deleteMovimiento = async function (id) {
     }
 }
 
-module.exports.addMovimiento = async function (newMovimiento) {
+module.exports.addPedido = async function (newPedido) {
   try {
-    let movimiento = await newMovimiento.save()
-/*     .populate({ path: 'almacen', select: 'movimientos' });
-    .populate({ path: 'producto', select: 'movimientos' }); */
+    let pedido = await newPedido.save()
+/*     .populate({ path: 'almacen', select: 'pedidos' });
+    .populate({ path: 'producto', select: 'pedidos' }); */
 
-/*     let almacen = movimiento.almacen;
-    almacen.movimiento.push(movimiento._id)
+/*     let almacen = pedido.almacen;
+    almacen.pedido.push(pedido._id)
     almacen = almacen.save();
-    producto.movimiento.push(movimiento._id)
+    producto.pedido.push(pedido._id)
     producto = producto.save();
- *///    movimiento = movimiento.save();
-    console.log(movimiento)
+ *///    pedido = pedido.save();
+    console.log(pedido)
     let response = {
       status: true,
-      values: movimiento
+      values: pedido
     }
     return response;
   } catch (error) { 
@@ -171,13 +171,13 @@ module.exports.addMovimiento = async function (newMovimiento) {
   }
 }
 
-module.exports.getMovimientos = async function () {
+module.exports.getPedidos = async function () {
   try {
     const query = {};
-    let movimientos = await this.find(query)
+    let pedidos = await this.find(query)
     let response = {
       status: true,
-      values: movimientos
+      values: pedidos
     }
     return response;
   } catch (error) {
@@ -188,13 +188,13 @@ module.exports.getMovimientos = async function () {
         return response
     }
 }
-module.exports.getMovimiento = async function (id) {
+module.exports.getPedido = async function (id) {
   try {
     const query = { '_id': id };
-    let movimiento = await this.findOne(query)
+    let pedido = await this.findOne(query)
   let response = {
       status: true,
-      values: movimiento
+      values: pedido
     }
     return response;
   } catch (error) { 
@@ -205,16 +205,16 @@ module.exports.getMovimiento = async function (id) {
         return response 
     }
 }
-module.exports.updateMovimiento = async function (data) {
+module.exports.updatePedido = async function (data) {
     try {
         const query = { '_id': data.id }
-        let movimiento = await this.findOne(query);
-        movimiento.name = data.name;
-        movimiento.code = data.code;
-        movimiento = await movimiento.save();
+        let pedido = await this.findOne(query);
+        pedido.name = data.name;
+        pedido.code = data.code;
+        pedido = await pedido.save();
         let response = {
             status: true,
-            values: movimiento
+            values: pedido
         }
         return response
 

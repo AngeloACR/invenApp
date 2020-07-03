@@ -222,7 +222,9 @@ module.exports.getUser = async function (uid) { //Need tons of work
 module.exports.getUsers = async function () { //Need tons of work
     try {
         const query = {};
-        let users = await this.find(query).select('username type -_id');
+        let users = await this.find(query)
+        .select('-password');
+//        .select('username type -_id');
         let response = {
             status: true,
             values: users

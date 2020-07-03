@@ -9,10 +9,6 @@ const productoSchema = mongoose.Schema({
   code: {
     type: String,
   },
-  moves: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Movimiento',
-  }],
   brand: {
     type: String,
   },
@@ -31,15 +27,21 @@ const productoSchema = mongoose.Schema({
 
 function removeLinkedDocuments(element) {
     // doc will be the removed Person document
-    let almacen = Event.findOne({_id: { $in: element.almacen }})
-    let producto = ellement._id
-    let disponibilidad = almacen.productos;
-    let pLength = productos.length;
-    for( var i = 0; i < pLength; i++){ 
-      if ( productos[i] === producto) { 
-        productos.splice(i, producto); 
+    let disponibilidades = element.disponibilidades
+    disponibilidades.forEach(disponibilidadId => {
+      let disponibilidad = Event.findOne({_id: { $in: disponibilidadId }})    
+      .populate('almacen');
+      let almacen = disponibilidad.almacen;
+      let dispoAlmacen = almacen.disponibilidades;
+      let dLength = dispoAlmacen.length;
+      for( var i = 0; i < dLength; i++){ 
+        if ( dispoAlmacen[i] === disponibilidadId) { 
+          dispoAlmacen.splice(i, disponibilidadId); 
+        }
       }
-    }
+
+    });
+
 }
 
 const Producto = module.exports = mongoose.model("Producto", productoSchema);

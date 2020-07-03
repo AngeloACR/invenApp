@@ -25,7 +25,20 @@ const almacenSchema = mongoose.Schema({
 
 function removeLinkedDocuments(element) {
     // doc will be the removed Person document
-    // Event.remove({_id: { $in: element.userId }})
+    let disponibilidades = element.disponibilidades
+    disponibilidades.forEach(disponibilidadId => {
+      let disponibilidad = Event.findOne({_id: { $in: disponibilidadId }})    
+      .populate('producto');
+      let producto = disponibilidad.producto;
+      let dispoProducto = producto.disponibilidades;
+      let dLength = dispoProducto.length;
+      for( var i = 0; i < dLength; i++){ 
+        if ( dispoProducto[i] === disponibilidadId) { 
+          dispoProducto.splice(i, disponibilidadId); 
+        }
+      }
+
+    });
 }
 
 const Almacen = module.exports = mongoose.model("Almacen", almacenSchema);
