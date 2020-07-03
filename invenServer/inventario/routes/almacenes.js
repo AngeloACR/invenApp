@@ -1,18 +1,18 @@
 const express = require('express');
-const locacionRouter = express.Router();
+const almacenRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Locacion = require('../models/locacion');
+const Almacen = require('../models/almacen');
 
-locacionRouter.post('/', /*auth,*/ async (req, res) => {
+almacenRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
-			const locacion = {
+			const almacen = {
 				state: req.body.state,
 				code: req.body.code,
 				city: req.body.city,
 				address: req.body.address,
 			};	
-			let newLocacion = new Locacion(locacion);
-			response = await Locacion.addLocacion(newLocacion);
+			let newAlmacen = new Almacen(almacen);
+			response = await Almacen.addAlmacen(newAlmacen);
 		res.status(200).json(response);
 	}	
 	catch (e) {
@@ -21,12 +21,12 @@ locacionRouter.post('/', /*auth,*/ async (req, res) => {
 });	
 
 
-locacionRouter.get('/all', /*auth,*/ async (req, res) => {
+almacenRouter.get('/all', /*auth,*/ async (req, res) => {
 	try {
-		let response = await Locacion.getLocaciones();
+		let response = await Almacen.getAlmacenes();
 		/* if (response.values && response.values.length) {
 		} else {
-			throw new Error('There are no locacions')
+			throw new Error('There are no almacens')
 		} */
 		res.status(200).json(response);
 	}
@@ -36,12 +36,12 @@ locacionRouter.get('/all', /*auth,*/ async (req, res) => {
 });
 
 
-locacionRouter.get('/:locacionId', /*auth,*/ async (req, res) => {
+almacenRouter.get('/:almacenId', /*auth,*/ async (req, res) => {
 	try {
-		const locacionId = req.params.locacionId;
-		const locacion = await Locacion.getLocacion(locacionId);
+		const almacenId = req.params.almacenId;
+		const almacen = await Almacen.getAlmacen(almacenId);
 		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, locacion)
+		sendOk(msg, res, almacen)
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -50,12 +50,13 @@ locacionRouter.get('/:locacionId', /*auth,*/ async (req, res) => {
 });
 
 // Delete user
-locacionRouter.delete('/', auth, async (req, res, next) => {
+almacenRouter.delete('/', auth, async (req, res, next) => {
 	try {
 
 		const item = req.query.item;
 
-		let response = await Locacion.deleteLocacion(item);
+		let response = await Almacen.deleteAlmacen(item);
+		console.log(response);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -64,11 +65,11 @@ locacionRouter.delete('/', auth, async (req, res, next) => {
 });
 
 // Update user, NEED TO IMPROVE
-locacionRouter.put('/', auth, async (req, res, next) => {
+almacenRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
 
-		let response = await Locacion.updateLocacion(updateData);
+		let response = await Almacen.updateAlmacen(updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -78,4 +79,4 @@ locacionRouter.put('/', auth, async (req, res, next) => {
 
 });
 
-module.exports = locacionRouter;
+module.exports = almacenRouter;

@@ -9,33 +9,38 @@ const productoSchema = mongoose.Schema({
   code: {
     type: String,
   },
-  entry: [{
+  moves: [{
     type: Schema.Types.ObjectId,
-    ref: 'Ingreso',
+    ref: 'Movimiento',
   }],
-  egress: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Egreso',
-  }],
-  qty: {
-    type: Number,
-  },
-  proveedor: {
-    type: Schema.Types.ObjectId,
-    ref: 'Proveedor',
-  },
   brand: {
     type: String,
-  },  
-  location: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'Locacion',
   },
-  price: {
+  qtyTotal: {
     type: Number,
-  }
-});
+  },
+  salesPrice: {
+    type: Number,
+  }, 
+  disponibilidades: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Disponibilidad',
+  }]
+})
+.post('remove', removeLinkedDocuments);
+
+function removeLinkedDocuments(element) {
+    // doc will be the removed Person document
+    let almacen = Event.findOne({_id: { $in: element.almacen }})
+    let producto = ellement._id
+    let disponibilidad = almacen.productos;
+    let pLength = productos.length;
+    for( var i = 0; i < pLength; i++){ 
+      if ( productos[i] === producto) { 
+        productos.splice(i, producto); 
+      }
+    }
+}
 
 const Producto = module.exports = mongoose.model("Producto", productoSchema);
 
@@ -43,52 +48,44 @@ const Producto = module.exports = mongoose.model("Producto", productoSchema);
 module.exports.deleteProducto = async function (id) {
     try {
         const query = { "_id": id };
-        return await this.findOneAndRemove(query);
+        let deleteRes =  await this.findOneAndRemove(query);
+        let response = {
+          status: true,
+          values: deleteRes
+        }
+    return response;
     } catch (error) {
-        throw error;
+               let response = {
+            status: false,
+            msg: error.toString().replace("Error: ", "")
+        }
+        return response
     }
 }
 
 module.exports.addProducto = async function (newProducto) {
   try {
-    let producto = await newProducto.save();
+
+    const query = {'code': newProducto.code};
+    let producto = await this.findOne(query)
+    if(producto){
+      throw new Error('Código de producto ya registrado');
+    }
+    
+    producto = await newProducto.save()
+
     let response = {
       status: true,
       values: producto
     }
     return response;
-  } catch (error) { throw error; }
-}
-
-
-module.exports.entryProducto = async function (code, qty, entr) {
-  try {
-    const query = { 'code': code };
-    let producto = await this.findOne(query);
-    producto.qty += newProducto.qty
-    producto = await producto.save();
-    products.entry.push(ingress);
+  } catch (error) { 
     let response = {
-      status: true,
-      values: producto
+      status: false,
+      msg: error.toString().replace("Error: ", "")
     }
-    return response;
-  } catch (error) { throw error; }
-}
-
-module.exports.egressProducto = async function (code, qty, egress) {
-  try {
-    const query = { 'code': code };
-    let producto = await this.findOne(query);
-      producto.qty -= newProducto.qty
-      products.egress.push(egress);
-      producto = await producto.save();
-    let response = {
-      status: true,
-      values: producto
-    }
-    return response;
-  } catch (error) { throw error; }
+    return response
+  } 
 }
 
 module.exports.getProductos = async function () {
@@ -106,13 +103,18 @@ module.exports.getProducto = async function (id) {
   try {
     const query = { '_id': id };
     let producto = await this.findOne(query)
-  .populate({ path: 'userId', select: 'username mail type name' })
   let response = {
       status: true,
       values: producto
     }
     return response;
-  } catch (error) { throw error; }
+  } catch (error) { 
+            let response = {
+            status: false,
+            msg: error.toString().replace("Error: ", "")
+        }
+        return response 
+    }
 }
 module.exports.updateProducto = async function (data) {
     try {
@@ -120,6 +122,7 @@ module.exports.updateProducto = async function (data) {
         let producto = await this.findOne(query);
         producto.name = data.name;
         producto.code = data.code;
+        producto.brand = data.brand;
         producto = await producto.save();
         let response = {
             status: true,

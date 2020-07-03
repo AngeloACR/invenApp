@@ -8,7 +8,13 @@ const adminSchema = mongoose.Schema({
     required: true,
     ref: 'User',
   }
-});
+})
+.post('remove', removeLinkedDocuments);
+
+function removeLinkedDocuments(element) {
+    // doc will be the removed Person document
+    Event.remove({_id: { $in: element.userId }})
+}
 
 const Admin = module.exports = mongoose.model("Admin", adminSchema);
 
@@ -37,10 +43,19 @@ module.exports.addAdmin = async function (newAdmin) {
 
 module.exports.deleteAdmin = async function (id) {
     try {
-        const query = { "userId": id };
-        return await this.findOneAndRemove(query);
+        const query = { "_id": id };
+        let deleteRes =  await this.findOneAndRemove(query);
+        let response = {
+          status: true,
+          values: deleteRes
+        }
+    return response;
     } catch (error) {
-        throw error;
+               let response = {
+            status: false,
+            msg: error.toString().replace("Error: ", "")
+        }
+        return response
     }
 }
 

@@ -1,8 +1,8 @@
 const express = require('express');
 const productoRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Egreso = require('../models/egreso');
-const Ingreso = require('../models/ingreso');
+const Movimiento = require('../models/movimiento');
+const Disponibilidad = require('../models/disponibilidad');
 const Producto = require('../models/producto');
 
 productoRouter.post('/', /*auth,*/ async (req, res) => {
@@ -10,10 +10,9 @@ productoRouter.post('/', /*auth,*/ async (req, res) => {
 			const producto = {
 				name: req.body.name,
 				code: req.body.code,
-				location: req.body.location,
-				proveedor: req.body.proveedor,
+				salesPrice: req.body.salesPrice,
 				brand: req.body.brand,
-				price: req.body.price
+				qtyTotal: 0,
 			};	
 			let newProducto = new Producto(producto);
 			response = await Producto.addProducto(newProducto);

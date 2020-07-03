@@ -15,7 +15,7 @@ const administradores = require('./users/routes/administradores');
 const vendedores = require('./users/routes/vendedores');
 const clientes = require('./directorio/routes/clientes');
 const productos = require('./inventario/routes/productos');
-const locaciones = require('./inventario/routes/locaciones');
+const almacenes = require('./inventario/routes/almacenes');
 const proveedores = require('./directorio/routes/proveedores');
 const mails = require('./users/routes/mails');
 const auth = require('./users/routes/auth');
@@ -72,7 +72,7 @@ module.exports.init = function(folder, thePath, port) {
     app.use('/auth', auth);
     app.use('/superadmins', superadmins);
     app.use('/productos', productos);
-    app.use('/locaciones', locaciones);
+    app.use('/almacenes', almacenes);
 
     app.get('/', (req, res) => {
         res.send('We are having some troubles, please come back in a while!');

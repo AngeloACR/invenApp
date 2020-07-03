@@ -150,10 +150,7 @@ module.exports.authUser = async function (username, password) {
 module.exports.deleteUser = async function (username) {
     try {
         const query = { "username": username };
-        let user = await this.findOne(query)
-        .populate('adminId')
-        .populate({ path: 'doctorId', populate: 'appointmentsId'})
-        .populate({path: 'patientId', populate: 'appointmentsId'})            
+        let user = await this.findOne(query)         
         let appointments
         switch (user.type) {
             case 'Admin':

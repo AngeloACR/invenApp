@@ -28,8 +28,13 @@ const Cliente = module.exports = mongoose.model("Cliente", clienteSchema);
 
 module.exports.deleteCliente = async function (id) {
     try {
-        const query = { "_id": id };
-        return await this.findOneAndRemove(query);
+        const query = { "_id": id };         
+        let deleteRes =  await this.findOneAndRemove(query);
+        let response = {
+          status: true,
+          values: deleteRes
+        }
+    return response;
     } catch (error) {
         let response = {
             status: false,
@@ -46,15 +51,15 @@ module.exports.addCliente = async function (newCliente) {
     const query = { 'rif': newCliente.rif };
     let cliente = await this.findOne(query)
     if(cliente){
-      throw new Error('Cliente ya registrado')
+      throw new Error('Rif de cliente ya registrado')
     }else{
       cliente = await newCliente.save();
       let response = {
         status: true,
         values: cliente
       }
-    }
     return response;
+    }
   } catch (error) { 
     let response = {
         status: false,

@@ -14,8 +14,8 @@ clienteRouter.post('/', /*auth,*/ async (req, res) => {
 				rif: req.body.rif,
 			};	
 			let newCliente = new Cliente(cliente);
+			
 			response = await Cliente.addCliente(newCliente);
-			console.log(response)
 		res.status(200).json(response);
 	}	
 	catch (e) {

@@ -29,7 +29,14 @@ const Proveedor = module.exports = mongoose.model("Proveedor", proveedorSchema);
 module.exports.deleteProveedor = async function (id) {
     try {
         const query = { "_id": id };
-        return await this.findOneAndRemove(query);
+
+         let deleteRes =  await this.findOneAndRemove(query);
+
+        let response = {
+          status: true,
+          values: deleteRes
+        }
+    return response;
     } catch (error) {
         let response = {
             status: false,
@@ -44,7 +51,7 @@ module.exports.addProveedor = async function (newProveedor) {
         const query = { 'rif': newProveedor.rif };
     let proveedor = await this.findOne(query)
     if(proveedor){
-      throw new Error('Proveedor ya registrado')
+      throw new Error('Rif de proveedor ya registrado')
     }else{
       let proveedor = await newProveedor.save();
     let response = {

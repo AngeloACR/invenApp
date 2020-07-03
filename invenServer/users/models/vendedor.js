@@ -9,17 +9,31 @@ const vendedorSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref:'User'    
   }
-});
+})
+.post('remove', removeLinkedDocuments);
 
+function removeLinkedDocuments(element) {
+    // doc will be the removed Person document
+    Event.remove({_id: { $in: element.userId }})
+}
 const Vendedor = module.exports = mongoose.model("Vendedor", vendedorSchema);
 
 
 module.exports.deleteVendedor = async function (id) {
     try {
         const query = { "_id": id };
-        return await this.findOneAndRemove(query);
+        let deleteRes =  await this.findOneAndRemove(query);
+        let response = {
+          status: true,
+          values: deleteRes
+        }
+    return response;
     } catch (error) {
-        throw error;
+               let response = {
+            status: false,
+            msg: error.toString().replace("Error: ", "")
+        }
+        return response
     }
 }
 
