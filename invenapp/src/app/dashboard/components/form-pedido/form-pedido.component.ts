@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray  } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
@@ -17,10 +17,27 @@ export class FormPedidoComponent implements OnInit {
   @Input()
   pedido: any;
 
+  cliente: any;
+  vendedor: any;
+  observaciones: any;
+  estado: any;
+
+  isVendedor: boolean;
+  isSuperAdmin: boolean;
+  isAdmin: boolean;
+
+  clientes: any;
+  vendedores: any;
+  productos: any;
+
+
+
   @Output()
   onData = new EventEmitter<any>();
 
   registroPedido: FormGroup;
+
+  productosPedidos = new FormArray([]);
 
   showError: {};
   errorMsg: string;
@@ -33,41 +50,80 @@ export class FormPedidoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getValues();
     this.initForm();
+    let type = this.auth.getType();
+    switch (type) {
+      case 'Vendedor':
+          this.vendedor = this.auth.getId();
+          this.registroPedido.controls['vendedor'].setValue(this.vendedor);
+          this.registroPedido.controls['vendedor'].disable();
+          this.registroPedido.controls['estado'].setValue('Bloqueada');
+          this.registroPedido.controls['estado'].disable();
+        break;
+      case 'Admin':
+        break;
+    
+      default:
+        break;
+    }
         this.showError = {
         errorAct: false
       }
   }
 
-  initForm() {
-    this.registroPedido = new FormGroup({
-      date: new FormControl("", Validators.required),
-    });
-    let registroIngreso = new FormGroup({
-      producto: new FormControl("", Validators.required),
-      almacen: new FormControl("", Validators.required),
-      type: new FormControl("", Validators.required),
-      unitcost: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
-      qty: new FormControl("", Validators.required),
-      reference: new FormControl("", Validators.required),
-    });
+  getValues(){
+    this.clientes =  this.dbHandler.getLocal('clientesValues');
+    this.productos =  this.dbHandler.getLocal('productosValues');
+    this.vendedores = [];
+    let users =  this.dbHandler.getLocal('usersValues');
+      for (var i = 0; i < users.length; i++) {
+        if (users[i]['type'] === 'Vendedor') {
+          this.vendedores.push(users[i]);
+        }
+      }
+      console.log(this.clientes)
+      console.log(this.vendedores)
+      console.log(this.productos)
+  }
 
-    let registroEgreso = new FormGroup({
+  initForm() {
+
+    this.registroPedido = new FormGroup({
       cliente: new FormControl("", Validators.required),
       vendedor: new FormControl("", Validators.required),
-      type: new FormControl("", Validators.required),
-      unitcost: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
-      qty: new FormControl("", Validators.required),
-      reference: new FormControl("", Validators.required),
+      fecha: new FormControl("", Validators.required),
+      estado: new FormControl("", Validators.required),
+      observaciones: new FormControl("", Validators.required),
+      productos: this.productosPedidos,
     });
 
+    this.addProducto();
+
+  }
+
+  addProducto() {
+    const productoPedido = new FormGroup({
+      producto: new FormControl("", Validators.required),
+      qty: new FormControl("", Validators.required),
+      price: new FormControl(""),
+    });
+
+    this.productosPedidos.push(productoPedido);
+  }
+
+  removeProduct(event, index) {
+    this.productosPedidos.removeAt(index);  
   }
 
   get fPedido() { 
     return this.registroPedido.controls;
   }
+
+
+getToday(): string {
+   return new Date().toISOString().split('T')[0]
+}
 
   endRegistro() {
     var dataAux = this.registroPedido.value;
@@ -76,8 +132,34 @@ export class FormPedidoComponent implements OnInit {
     let refreshList;
     let endpoint;
 
+    let productosPedidos = []
+      var productosPedidosControls = this.productosPedidos.controls;
+       for (let control of productosPedidosControls) {
+        if (control instanceof FormGroup) {
+          let producto = control.controls['producto'].value;
+          let qty = control.controls['qty'].value;
+          let price = control.controls['price'].value;
+          let productoPedido = {
+            producto,
+            qty,
+            price,
+          }
+        productosPedidos.push(productoPedido);
+        };
+        } 
+
     dataValues = {
+      cliente: dataAux.cliente,
+      vendedor: dataAux.vendedor,
+      fecha: dataAux.fecha,
+      estado: dataAux.estado,
+      observaciones: dataAux.observaciones,
+      referencia: dataAux.reference,
+      productosPedidos: productosPedidos,
     };
+
+
+
     endpoint = "/pedidos";
     error = this.catchUserErrors();
     if(error){
@@ -115,7 +197,7 @@ export class FormPedidoComponent implements OnInit {
   }
 
   catchUserErrors(){
-    let aux1 = this.fPedido.date.errors ? this.fPedido.date.errors.required : false;
+    let aux1 = this.fPedido.fecha.errors ? this.fPedido.fecha.errors.required : false;
     let error = aux1;
     return error
   }

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
+const Disponibilidad = require('./disponibilidad');
+const Producto = require('./producto');
 
 const almacenSchema = mongoose.Schema({
 
@@ -20,14 +22,37 @@ const almacenSchema = mongoose.Schema({
   address: {
     type: String,
   },
-})
+}).post('save', createDisponibilidad)
 .post('remove', removeLinkedDocuments);
 
-function removeLinkedDocuments(element) {
+
+async function createDisponibilidad(element) {
+  try{
+      let almacenId = element._id;
+      let productos = await Producto.find({});
+      productos.forEach( async (producto) => {
+        let productoId = producto._id;
+        let disponibilidad = {
+          almacen: almacenId,
+          producto: productoId,
+          qtyDisponible: 0,
+          qtyBloqueada: 0,
+        }
+        let newDisponibilidad = new Disponibilidad(disponibilidad);
+        newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
+      });
+} catch (error) {
+
+}
+
+}
+
+async function removeLinkedDocuments(element) {
+  try{
     // doc will be the removed Person document
     let disponibilidades = element.disponibilidades
-    disponibilidades.forEach(disponibilidadId => {
-      let disponibilidad = Event.findOne({_id: { $in: disponibilidadId }})    
+    disponibilidades.forEach(async (disponibilidadId) => {
+      let disponibilidad = await Disponibilidad.findOne({_id: disponibilidadId })    
       .populate('producto');
       let producto = disponibilidad.producto;
       let dispoProducto = producto.disponibilidades;
@@ -39,6 +64,10 @@ function removeLinkedDocuments(element) {
       }
 
     });
+} catch (error) {
+
+}
+
 }
 
 const Almacen = module.exports = mongoose.model("Almacen", almacenSchema);

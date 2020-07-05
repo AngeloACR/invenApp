@@ -118,7 +118,7 @@ module.exports.updatePassword = async function (username, password) {
 module.exports.authUser = async function (username, password) {
     try {
         const query = { "username": username };
-        let user = await this.findOne(query)
+        let user = await this.findOne(query).select('-password')
         console.log(user);
         if (!user) {
             throw new Error("No existe ese nombre de usuario")

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray  } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
@@ -17,10 +17,26 @@ export class FormIngresoComponent implements OnInit {
   @Input()
   ingreso: any;
 
+  proveedor: any;
+  observaciones: any;
+  estado: any;
+
+  isVendedor: boolean;
+  isSuperAdmin: boolean;
+  isAdmin: boolean;
+
+  proveedores: any;
+  productos: any;
+  almacenes: any;
+
+
+
   @Output()
   onData = new EventEmitter<any>();
 
   registroIngreso: FormGroup;
+
+  productosIngresos = new FormArray([]);
 
   showError: {};
   errorMsg: string;
@@ -33,17 +49,63 @@ export class FormIngresoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getValues();
     this.initForm();
+    let type = this.auth.getType();
+    switch (type) {
+      case 'Admin':
+        break;
+      case 'Vendedor':
+        break;
+    
+      default:
+        break;
+    }
         this.showError = {
         errorAct: false
       }
   }
 
+getToday(): string {
+   return new Date().toISOString().split('T')[0]
+}
+
+  getValues(){
+    this.proveedores =  this.dbHandler.getLocal('proveedoresValues');
+    this.productos =  this.dbHandler.getLocal('productosValues');
+    this.almacenes =  this.dbHandler.getLocal('almacenesValues');
+      console.log(this.proveedores)
+      console.log(this.productos)
+  }
+
   initForm() {
+
     this.registroIngreso = new FormGroup({
-      date: new FormControl("", Validators.required),
+      proveedor: new FormControl("", Validators.required),
+      fecha: new FormControl("", Validators.required),
+      almacen: new FormControl("", Validators.required),
+      estado: new FormControl("", Validators.required),
+      observaciones: new FormControl("", Validators.required),
+      referencia: new FormControl("", Validators.required),
+      productos: this.productosIngresos,
     });
 
+    this.addProducto();
+
+  }
+
+  addProducto() {
+    const productoIngreso = new FormGroup({
+      producto: new FormControl("", Validators.required),
+      qty: new FormControl("", Validators.required),
+      price: new FormControl(""),
+    });
+
+    this.productosIngresos.push(productoIngreso);
+  }
+
+  removeProduct(event, index) {
+    this.productosIngresos.removeAt(index);  
   }
 
   get fIngreso() { 
@@ -57,8 +119,34 @@ export class FormIngresoComponent implements OnInit {
     let refreshList;
     let endpoint;
 
+    let productosIngresos = []
+      var productosIngresosControls = this.productosIngresos.controls;
+       for (let control of productosIngresosControls) {
+        if (control instanceof FormGroup) {
+          let producto = control.controls['producto'].value;
+          let qty = control.controls['qty'].value;
+          let unitcost = control.controls['price'].value;
+          let productoIngreso = {
+            producto,
+            qty,
+            unitcost,
+          }
+        productosIngresos.push(productoIngreso);
+        };
+        } 
+
     dataValues = {
+      proveedor: dataAux.proveedor,
+      fecha: dataAux.fecha,
+      estado: dataAux.estado,
+      almacen: dataAux.almacen,
+      observaciones: dataAux.observaciones,
+      referencia: dataAux.reference,
+      productosIngresados: productosIngresos,
     };
+
+
+
     endpoint = "/ingresos";
     error = this.catchUserErrors();
     if(error){
@@ -96,10 +184,8 @@ export class FormIngresoComponent implements OnInit {
   }
 
   catchUserErrors(){
-    let aux1 = this.fIngreso.date.errors ? this.fIngreso.date.errors.required : false;
+    let aux1 = this.fIngreso.fecha.errors ? this.fIngreso.fecha.errors.required : false;
     let error = aux1;
     return error
   }
-
-
 }

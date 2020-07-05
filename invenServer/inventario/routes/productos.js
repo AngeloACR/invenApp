@@ -1,7 +1,6 @@
 const express = require('express');
 const productoRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Movimiento = require('../models/movimiento');
 const Disponibilidad = require('../models/disponibilidad');
 const Producto = require('../models/producto');
 
@@ -10,11 +9,12 @@ productoRouter.post('/', /*auth,*/ async (req, res) => {
 			const producto = {
 				name: req.body.name,
 				code: req.body.code,
-				salesPrice: req.body.salesPrice,
 				brand: req.body.brand,
 				qtyTotal: 0,
 			};	
+			console.log(producto)
 			let newProducto = new Producto(producto);
+			console.log(newProducto)
 			response = await Producto.addProducto(newProducto);
 		res.status(200).json(response);
 	}	

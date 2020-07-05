@@ -68,6 +68,7 @@ export class FormProveedoresComponent implements OnInit {
       ws: dataAux.ws,
       mail: dataAux.mail,
       address: dataAux.address,
+      rif: dataAux.rif,
       ig: dataAux.ig,
     };
     endpoint = "/proveedores";

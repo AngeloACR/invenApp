@@ -1,125 +1,153 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
+const Producto = require('./producto');
+const Almacen = require('./almacen');
 
 const pedidoSchema = mongoose.Schema({
-  producto: [{
+  cliente: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Cliente',
+  }],
+  vendedor: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  productosPedidos: [{
+    producto: {
     type: Schema.Types.ObjectId,
     ref: 'Producto',
+    },
+    qty: {
+      type: Number,
+    },
+    precio: {
+      type: Number,
+    }
   }],
-  almacen: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Almacen',
-  }],
-  qty: {
-    type: Number,
-  },
-  type: {
-    type: String,
-  },
-  unitcost: {
-    type: Number,
-  },
   date: {
     type: Date,
   },
-  status: {
+  estado: {
     type: String,
   },
-  reference: {
+  observaciones: {
     type: String,
-  }
-}).pre('save', alterDisponibilidad)
-.post('remove', movementDeleted);
+  },
+}).post('save', alterDisponibilidad)
+.post('remove', egresoDeleted);
 
-function movementDeleted(element){
-      let productoId = element.producto;
+async function egresoDeleted(element){
+  try{
+      let productosPedidos = element.productosPedidos;
       let almacenId = element.almacen;
 
-      let producto = Event.findOne({_id: { $in: productoId }})
-      .populate('disponibilidades');
 
-      let almacen = Event.findOne({_id: { $in: almacenId }})
+      let almacen = await Almacen.findOne({_id: { $in: almacenId }})
       .populate('disponibilidades');
 
       let dispoAlmacen = almacen.disponibilidades;      
-      
-      let aLength = dispoAlmacen.length;
+      productosPedidos.forEach(async (productoPedido) => {
+        let productoId = productoPedido.producto;
+        let producto = await Producto.findOne({_id: { $in: productoId }})
+        .populate('disponibilidades');
+        let dispoProducto = producto.disponibilidades;      
+/*           let aLength = dispoAlmacen.length;
 
-      let disponibilidad;
-      for (let i=0; i < aLength; i++) {
-          if (dispoAlmacen[i].producto === producto.id) {
-              disponibilidad = dispoAlmacen[i];
-              break;
-          }
-        }
+          let disponibilidad;
+          for (let i=0; i < aLength; i++) {
+              if (dispoAlmacen[i].producto === productoId) {
+                  disponibilidad = dispoAlmacen[i];
+                  break;
+              }
+            }
+ */
 
-      let qtyTotal = productos.qtyTotal;
-      let qtyDisponible = disponibilidad.qtyDisponible;
-      let qtyBloqueada = disponibilidad.qtyBloqueada;
-      let movementType = element.type;
-      let movementQty = element.qty;
-      
-      if(movementType == 'Ingreso'){ 
-        qtyDisponible -=  qty;
-        qtyTotal -=  qty;
-      } else if(movementType == 'Egreso'){
-        qtyBloqueada -=  qty;
-        qtyDisponible +=  qty;
-      }
-      
+          let aLength = dispoProducto.length;
 
-      let moves = disponibilidad.pedidos;
-      let moveId = ellement._id
-      let pLength = moves.length;
-      for( var i = 0; i < pLength; i++){ 
-        if ( moves[i] === moveId) { 
-          moves.splice(i, moveId); 
-        }
-      }
+          let disponibilidad;
+          for (let i=0; i < aLength; i++) {
+              if (dispoProducto[i].producto === productoId) {
+                  disponibilidad = dispoProducto[i];
+                  break;
+              }
+            }
 
-      disponibilidad = disponibilidad.save()
+
+          let qtyTotal = producto.qtyTotal;
+          let qtyDisponible = disponibilidad.qtyDisponible;
+          let pedidoQty = element.qty;
+          
+          qtyBloqueada -=  qty;
+          qtyDisponible +=  qty;     
+            
+            let pedidos = disponibilidad.pedidos;
+            let pedidoId = element._id
+            let pLength = pedido.length;
+            for( var i = 0; i < pLength; i++){ 
+              if ( pedidos[i] === pedidoId) { 
+                pedidos.splice(i, pedidoId); 
+              }
+            }
+
+            disponibilidad = await disponibilidad.save()
+      });
+} catch (error) {
 
 }
 
-function alterDisponibilidad(element){
-      let productoId = element.producto;
+}
+
+async function alterDisponibilidad(element){
+  try{
+  console.log('alterando pedido')
+      let productosPedidos = element.productosPedidos;
       let almacenId = element.almacen;
 
-      let producto = Event.findOne({_id: { $in: productoId }})
-      .populate('disponibilidades');
 
-      let almacen = Event.findOne({_id: { $in: almacenId }})
+      let almacen = await Almacen.findOne({_id: { $in: almacenId }})
       .populate('disponibilidades');
 
       let dispoAlmacen = almacen.disponibilidades;      
-      
-      let aLength = dispoAlmacen.length;
+      productosPedidos.forEach(async (productoPedido) => {
+        let productoId = productoPedido.producto;
+        let producto = await Producto.findOne({_id: { $in: productoId }})
+        .populate('disponibilidades');
+        let dispoProducto = producto.disponibilidades;      
+/*           let aLength = dispoAlmacen.length;
 
-      let disponibilidad;
-      for (let i=0; i < aLength; i++) {
-          if (dispoAlmacen[i].producto === producto.id) {
-              disponibilidad = dispoAlmacen[i];
-              break;
-          }
-        }
+          let disponibilidad;
+          for (let i=0; i < aLength; i++) {
+              if (dispoAlmacen[i].producto === productoId) {
+                  disponibilidad = dispoAlmacen[i];
+                  break;
+              }
+            }
+ */
 
-      let qtyTotal = productos.qtyTotal;
-      let qtyDisponible = disponibilidad.qtyDisponible;
-      let qtyBloqueada = disponibilidad.qtyBloqueada;
-      let movementType = element.type;
-      let movementQty = element.qty;
-      
-      if(movementType == 'Ingreso'){ 
-        qtyDisponible +=  qty;
-        qtyTotal +=  qty;
-      } else if(movementType == 'Egreso'){
+          let aLength = dispoProducto.length;
+
+          let disponibilidad;
+          for (let i=0; i < aLength; i++) {
+              if (dispoProducto[i].producto === productoId) {
+                  disponibilidad = dispoProducto[i];
+                  break;
+              }
+            }
+
+
+          let qtyTotal = producto.qtyTotal;
+          let qtyDisponible = disponibilidad.qtyDisponible;
+          let pedidoQty = element.qty;
+          
         qtyDisponible -=  qty;
         qtyBloqueada +=  qty;
-      }
       
+            disponibilidad = await disponibilidad.save()
+      });
+} catch (error) {
 
-      disponibilidad = disponibilidad.save()
+}
 
 }
 

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
+const User = require('./user');
 
 const adminSchema = mongoose.Schema({
   userId: {
@@ -11,9 +12,13 @@ const adminSchema = mongoose.Schema({
 })
 .post('remove', removeLinkedDocuments);
 
-function removeLinkedDocuments(element) {
-    // doc will be the removed Person document
-    Event.remove({_id: { $in: element.userId }})
+async function removeLinkedDocuments(element) {
+try {
+  
+    await User.remove({_id: element.userId })
+} catch (error) {
+  
+}    // doc will be the removed Person document
 }
 
 const Admin = module.exports = mongoose.model("Admin", adminSchema);

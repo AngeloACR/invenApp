@@ -16,8 +16,8 @@ export class ListaAlmacenComponent implements OnInit {
   endpoint: string;
   name: string;
   addText: string;
-  fields: string[];
-  values: string[];
+  fields: any[];
+  values: any[];
 
   title: string;
   filterForm: FormGroup;
@@ -35,8 +35,32 @@ export class ListaAlmacenComponent implements OnInit {
     this.initComponent('/almacenes', 'Lista de Almacenes', 'Agregar Almacén', 'almacenes')
     this.initForm();
     this.isEmpty = true;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
+     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
+     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+
+    this.fields = [
+      'Id',
+      'Código',
+      'Estado',
+      'Ciudad',
+      'Dirección',
+      ]
+
+    this.values = [];
+
+    auxValues.forEach(value => {
+      let aux = [
+        value._id,
+        value.code,
+        value.state,
+        value.city,
+        value.address,
+      ]
+      this.values.push(aux)
+    });
+
+
+
 
     if(this.values.length){
       this.isEmpty = false;
@@ -60,7 +84,7 @@ export class ListaAlmacenComponent implements OnInit {
   deleteItem(event, item) {
     var myEnd = this.endpoint;
 
-    this.dbHandler.deleteSomething(item._id, myEnd)
+    this.dbHandler.deleteSomething(item[0], myEnd)
       .subscribe((data: any) => {   // data is already a JSON object
         if(!data.status){
           let errorMsg = data.msg;

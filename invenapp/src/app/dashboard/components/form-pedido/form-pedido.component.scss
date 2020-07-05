@@ -1,0 +1,155 @@
+.productsBox{
+width: 100%;
+display: flex;
+flex-direction: column;
+margin-top: 25px;
+}
+
+.productsFunctions{
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.productFunction{
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.productFunction:hover{
+    font-weight: bold;
+}
+
+.productsList{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.productsTitle{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.productField{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    align-self: center;
+    width: 50%;
+}
+
+.qtyField{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    align-self: center;
+    width: 25%;
+}
+
+.deleteField{
+        display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    align-self: center;
+    width: 25%
+}
+
+.deleteField p{
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.deleteField p:hover{
+    font-weight: bold;
+}
+
+.productTitle{
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+
+    width: 50%
+}
+
+.qtyTitle{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+
+    width: 25%
+}
+
+.deleteTitle{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+        width: 25%
+}
+.qtyInput{
+    width:50%;
+    margin-top: 5px;
+    font-size: 16px;
+    padding-left: 16px;
+    height: 33px;
+    border: none;
+    background-image: none;
+    background-color: white;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: black;
+    box-shadow: none;
+}
+
+.productInput {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 16px;
+    padding-left: 16px;
+    height: 33px;
+    border: none;
+    background-image: none;
+    background-color: white;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: black;
+    box-shadow: none;
+}
+
+.arrayBox{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.formInput textarea {
+  width: 100%;
+  border-width: 2px;
+  padding-left: 16px;
+  border-color: black;
+  background-color: white;
+}
+
+.controlBox{
+    width: 100%;
+}

@@ -30,12 +30,7 @@
             </select>
             </div>
           <div class="errorTag" *ngIf="fProducto.almacen.errors?.required && (fProducto.almacen.touched || fProducto.almacen.dirty)">Por favor ingrese la ubicación del producto</div>
- -->      <div class="formInput">
-          <label for="">Precio de venta*</label>
-          <input class="lInput" type="text" formControlName="price" name="price" />
-      </div>
-          <div class="errorTag" *ngIf="fProducto.price.errors?.required && (fProducto.price.touched || fProducto.price.dirty)">Por favor ingrese el precio del producto</div>
-  </div>
+ -->      </div>
   <button type="submit" class="formButton">
     <p>Registrar producto</p>
   </button>

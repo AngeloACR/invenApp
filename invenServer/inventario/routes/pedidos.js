@@ -6,12 +6,13 @@ const Pedido = require('../models/pedido');
 pedidoRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
 			const pedido = {
-				producto: req.body.state,
-				almacen: req.body.code,
-				qty: req.body.city,
-				fecha: req.body.address,
-				reference: req.body.address,
-				type: req.body.address,
+				cliente: req.body.cliente,
+				productosPedidos: req.body.productosPedidos,
+				vendedor: req.body.vendedor,
+				fecha: req.body.fecha,
+				referencia: req.body.referencia,
+				estado: req.body.estado,
+				observaciones: req.body.observaciones,
 			};	
 			let newPedido = new Pedido(pedido);
 			response = await Pedido.addPedido(newPedido);

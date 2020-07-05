@@ -46,6 +46,11 @@
     align-items: center;
 }
 
+.formBox{
+  width: 70%;
+  margin: auto;
+}
+
 .formButton {
     display: flex;
     flex-direction: row;
@@ -76,7 +81,7 @@
 .formButton p {
     color: white;
     margin: 0;
-    font-size: 23px;
+    font-size: 16px;
     font-weight: bold;
     width: 100%;
     text-decoration: none !important;
@@ -93,7 +98,7 @@
   justify-content: center;
   align-items: center;
     width: 30%;
-    font-size: 23px;
+    font-size: 16px;
     font-weight: bold;
     height: 35px;
     margin-bottom: 10px;
@@ -120,16 +125,15 @@
     margin-top: 5px;
     font-size: 16px;
     padding-left: 16px;
-    border-radius: 42px;
     height: 33px;
     border: none;
     background-image: none;
-    background-color: #ffffc5;
+    background-color: white;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    border-style: solid;
-    border-color: #0072b9;
-    border-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: black;
     box-shadow: none;
 }
 
@@ -150,8 +154,6 @@
 }
 
 .formInput select {
-    border: 3px solid #0072b9;
-    color: #0072b9;
     background-color: white;
 }
 

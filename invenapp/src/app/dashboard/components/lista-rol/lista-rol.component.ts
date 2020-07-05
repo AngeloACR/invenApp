@@ -33,6 +33,7 @@ export class ListaRolComponent implements OnInit {
     this.initComponent('/roles', 'Lista de Roles', 'Agregar Rol', 'roles')
     this.fields = this.dbHandler.getLocal(this.name + 'Fields');
     this.values = this.dbHandler.getLocal(this.name + 'Values');
+    
     this.isEmpty = true;
 
     if(this.values.length){

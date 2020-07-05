@@ -12,7 +12,7 @@ proveedorRouter.post('/', /*auth,*/ async (req, res) => {
 				ig: req.body.ig,
 				mail: req.body.mail,
 				rif: req.body.rif,
-			};	
+			};
 			let newProveedor = new Proveedor(proveedor);
 			response = await Proveedor.addProveedor(newProveedor);
 		res.status(200).json(response);

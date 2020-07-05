@@ -6,15 +6,17 @@ const Ingreso = require('../models/ingreso');
 ingresoRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
 			const ingreso = {
-				producto: req.body.state,
-				almacen: req.body.code,
-				qty: req.body.city,
-				fecha: req.body.address,
-				reference: req.body.address,
-				type: req.body.address,
-			};	
+				proveedor: req.body.proveedor,
+				almacen: req.body.almacen,
+				productosIngresados: req.body.productosIngresados,
+				fecha: req.body.fecha,
+				estado: req.body.estado,
+				referencia: req.body.referencia,
+				observaciones: req.body.observaciones,
+			};
 			let newIngreso = new Ingreso(ingreso);
 			response = await Ingreso.addIngreso(newIngreso);
+
 		res.status(200).json(response);
 	}	
 	catch (e) {

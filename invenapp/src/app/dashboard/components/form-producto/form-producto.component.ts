@@ -43,10 +43,7 @@ export class FormProductoComponent implements OnInit {
     this.registroProducto = new FormGroup({
       code: new FormControl("", Validators.required),
       name: new FormControl("", Validators.required),
-      proveedor: new FormControl("", Validators.required),
-      almacen: new FormControl("", Validators.required),
       brand: new FormControl("", Validators.required),
-      price: new FormControl("", Validators.required),
     });
 
   }
@@ -106,13 +103,13 @@ export class FormProductoComponent implements OnInit {
   }
 
   catchUserErrors(){
-    let aux1 = this.fProducto.price.errors ? this.fProducto.price.errors.required : false;
-    /* let aux2 = this.fProducto.almacen.errors ? this.fProducto.almacen.errors.required : false;
+/*     let aux1 = this.fProducto.price.errors ? this.fProducto.price.errors.required : false;
+ */    /* let aux2 = this.fProducto.almacen.errors ? this.fProducto.almacen.errors.required : false;
      */let aux3 = this.fProducto.brand.errors ? this.fProducto.brand.errors.required : false;
     let aux4 = this.fProducto.name.errors ? this.fProducto.name.errors.required : false;
     let aux5 = this.fProducto.code.errors ? this.fProducto.code.errors.required : false;
     /* let aux6 = this.fProducto.proveedor.errors ? this.fProducto.provvedor.errors.required : false;
-     */let error = aux1 || aux3 || aux4 || aux5;
+     */let error = aux3 || aux4 || aux5;
     return error
   }
 

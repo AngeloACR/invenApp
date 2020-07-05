@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
+const Producto = require('./producto');
+const Almacen = require('./almacen');
+
 
 const disponibilidadSchema = mongoose.Schema({
   producto: [{
@@ -29,27 +32,32 @@ const disponibilidadSchema = mongoose.Schema({
 .post('remove', removeLinkedDocuments)
 .post('save', elementAdded);
 
-function elementAdded(element) {
+async function elementAdded(element) {
+    try {
   console.log(element._id)
-    let almacen = Event.findOne({_id: { $in: element.almacen }})
-    let producto = Event.findOne({_id: { $in: element.producto }})
+    let almacen = await Almacen.findOne({_id: element.almacen })
+    let producto = await Producto.findOne({_id: element.producto })
     let dispoAlmacen = almacen.disponibilidad; 
     let dispoProducto = producto.disponibilidad; 
     let dispoId = element._id
     if(dispoAlmacen.indexOf(dispoId) <= -1){
       dispoAlmacen.push(element._id)
-      almacen = almacen.save();
+      almacen = await almacen.save();
       dispoProducto.push(element._id)
-      producto = producto.save();
+      producto = await producto.save();
     }
+} catch (error) {
 
 }
 
-function removeLinkedDocuments(element) {
+}
+
+async function removeLinkedDocuments(element) {
+    try {
     // doc will be the removed Person document
 
-    let almacen = Event.findOne({_id: { $in: element.almacen }})
-    let producto = Event.findOne({_id: { $in: element.producto }})
+    let almacen = await Almacen.findOne({_id: element.almacen })
+    let producto = await Producto.findOne({_id: element.producto })
     let disponibilidad = ellement._id
     let disponibilidades = almacen.disponibilidades;
     let pLength = disponibilidads.length;
@@ -58,7 +66,7 @@ function removeLinkedDocuments(element) {
         disponibilidads.splice(i, disponibilidad); 
       }
     }
-    almacen.save();
+    await almacen.save();
 
     disponibilidades = producto.disponibilidades;
     pLength = disponibilidads.length;
@@ -67,7 +75,10 @@ function removeLinkedDocuments(element) {
         disponibilidads.splice(i, disponibilidad); 
       }
     }
-    producto.save();
+   await producto.save();
+} catch (error) {
+
+}
 
 }
 

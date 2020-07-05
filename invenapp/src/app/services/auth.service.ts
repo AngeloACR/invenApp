@@ -64,6 +64,21 @@ export class AuthService {
     }
   }
 
+  getType(){
+    try{
+        let type = this.decode().type;
+    } catch (Error){
+      return null;
+    }
+  }
+  getId(){
+    try{
+        let type = this.decode()._id;
+    } catch (Error){
+      return null;
+    }
+  }
+
   isAuthenticated() {
     const loggedIn = localStorage.getItem('loggedIn');
     const isLogged = (loggedIn == 'true')

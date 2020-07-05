@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
+const Disponibilidad = require('./disponibilidad');
+const Almacen = require('./almacen');
 
 const productoSchema = mongoose.Schema({
   name: {
@@ -22,14 +24,38 @@ const productoSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Disponibilidad',
   }]
-})
+}).post('save', createDisponibilidad)
 .post('remove', removeLinkedDocuments);
 
-function removeLinkedDocuments(element) {
+async function createDisponibilidad(element) {
+try{
+  console.log('here')
+      let productoId = element._id;
+      let almacenes = await Almacen.find({});
+      almacenes.forEach( async (almacen) => {
+        let almacenId = almacen._id;
+        const disponibilidad = {
+          almacen: almacenId,
+          producto: productoId,
+          qtyDisponible: 0,
+          qtyBloqueada: 0,
+        }
+        let newDisponibilidad = new Disponibilidad(disponibilidad);
+        console.log(newDisponibilidad)
+        newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
+      });
+} catch (error) {
+
+}
+
+}
+
+async function removeLinkedDocuments(element) {
+  try{
     // doc will be the removed Person document
     let disponibilidades = element.disponibilidades
-    disponibilidades.forEach(disponibilidadId => {
-      let disponibilidad = Event.findOne({_id: { $in: disponibilidadId }})    
+    disponibilidades.forEach(async (disponibilidadId) => {
+      let disponibilidad = await Disponibilidad.findOne({_id: disponibilidadId })    
       .populate('almacen');
       let almacen = disponibilidad.almacen;
       let dispoAlmacen = almacen.disponibilidades;
@@ -39,8 +65,11 @@ function removeLinkedDocuments(element) {
           dispoAlmacen.splice(i, disponibilidadId); 
         }
       }
-
+      await Almacen.save()
     });
+} catch (error) {
+
+}
 
 }
 

@@ -70,8 +70,8 @@ module.exports.init = function(folder, thePath, port) {
     app.use('/clientes', clientes);
     app.use('/proveedores', proveedores);
     app.use('/mails', mails);
-    app.use('/ingresos', pedidos);
-    app.use('/pedidos', ingresos);
+    app.use('/pedidos', pedidos);
+    app.use('/ingresos', ingresos);
     app.use('/general', general);
     app.use('/auth', auth);
     app.use('/superadmins', superadmins);
