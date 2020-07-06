@@ -1,7 +1,6 @@
 const express = require('express');
 const productoRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Disponibilidad = require('../models/disponibilidad');
 const Producto = require('../models/producto');
 
 productoRouter.post('/', /*auth,*/ async (req, res) => {
@@ -12,10 +11,9 @@ productoRouter.post('/', /*auth,*/ async (req, res) => {
 				brand: req.body.brand,
 				qtyTotal: 0,
 			};	
-			console.log(producto)
 			let newProducto = new Producto(producto);
-			console.log(newProducto)
 			response = await Producto.addProducto(newProducto);
+
 		res.status(200).json(response);
 	}	
 	catch (e) {

@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
-const Disponibilidad = require('./disponibilidad');
-const Almacen = require('./almacen');
 
-const productoSchema = mongoose.Schema({
+const productoSchema = new mongoose.Schema({
+  disponibilidades: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Disponibilidad',
+  }],
   name: {
     type: String,
   },
@@ -13,49 +15,76 @@ const productoSchema = mongoose.Schema({
   },
   brand: {
     type: String,
-  },
-  qtyTotal: {
-    type: Number,
-  },
-  salesPrice: {
-    type: Number,
-  }, 
-  disponibilidades: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Disponibilidad',
-  }]
+  }
 }).post('save', createDisponibilidad)
 .post('remove', removeLinkedDocuments);
 
-async function createDisponibilidad(element) {
+async function createDisponibilidad(element, next) {
 try{
-  console.log('here')
+  
+      const Disponibilidad = require('./disponibilidad');
+      const Almacen = require('./almacen');
       let productoId = element._id;
-      let almacenes = await Almacen.find({});
-      almacenes.forEach( async (almacen) => {
-        let almacenId = almacen._id;
-        const disponibilidad = {
-          almacen: almacenId,
-          producto: productoId,
-          qtyDisponible: 0,
-          qtyBloqueada: 0,
+      let query = {'producto': productoId}
+      let dispoAux = await Disponibilidad.findOne(query);
+
+
+      if(!dispoAux){
+
+        let dispoAlmacen = [];
+        let almacenes = await Almacen.find({});
+        let aLength = almacenes.length;
+        for(let i = 0; i < aLength; i++){
+          let almacenId = almacenes[i]._id;
+          let aux = {
+            almacen: almacenId,
+            qty: 0,
+          }
+          dispoAlmacen.push(aux);
         }
-        let newDisponibilidad = new Disponibilidad(disponibilidad);
-        console.log(newDisponibilidad)
-        newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
-      });
-} catch (error) {
+            const disponibilidad = {
+              producto: productoId,
+              dispoAlmacen: dispoAlmacen,
+              qtyDisponible: 0,
+              qtyBloqueada: 0,
+            }
+            let newDisponibilidad = new Disponibilidad(disponibilidad);
+            newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
+            
+          }
 
+  next()
+ } catch (error) {
+   console.log(error.toString())
 }
 
 }
 
-async function removeLinkedDocuments(element) {
+async function removeLinkedDocuments(element, next) {
   try{
     // doc will be the removed Person document
     let disponibilidades = element.disponibilidades
-    disponibilidades.forEach(async (disponibilidadId) => {
-      let disponibilidad = await Disponibilidad.findOne({_id: disponibilidadId })    
+
+      let dLength = disponibilidades.length;
+      console.log(dLength);
+      for(let i = 0; i < dLength; i++){
+        let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidad[i] }) 
+        .populate('almacen');
+        let almacen = disponibilidad.almacen;
+        let dispoAlmacen = almacen.disponibilidades;
+        let aLength = dispoAlmacen.length;
+        for( var j = 0; j < aLength; i++){ 
+          if ( dispoAlmacen[i] === disponibilidadId) { 
+            dispoAlmacen.splice(i, disponibilidadId); 
+          }
+        }
+        await Almacen.save()
+
+      }
+    next()
+
+/*     disponibilidades.forEach(async (disponibilidadId) => {
+      let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId })    
       .populate('almacen');
       let almacen = disponibilidad.almacen;
       let dispoAlmacen = almacen.disponibilidades;
@@ -67,7 +96,7 @@ async function removeLinkedDocuments(element) {
       }
       await Almacen.save()
     });
-} catch (error) {
+ */} catch (error) {
 
 }
 
@@ -98,6 +127,7 @@ module.exports.addProducto = async function (newProducto) {
   try {
 
     const query = {'code': newProducto.code};
+
     let producto = await this.findOne(query)
     if(producto){
       throw new Error('Código de producto ya registrado');

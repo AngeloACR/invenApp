@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
-const Disponibilidad = require('./disponibilidad');
-const Producto = require('./producto');
 
-const almacenSchema = mongoose.Schema({
+const almacenSchema = new mongoose.Schema({
 
   code: {
     type: String,
@@ -26,33 +24,53 @@ const almacenSchema = mongoose.Schema({
 .post('remove', removeLinkedDocuments);
 
 
-async function createDisponibilidad(element) {
+async function createDisponibilidad(element, next) {
   try{
+    const Disponibilidad = require('./disponibilidad');
+    const Producto = require('./producto');
+
       let almacenId = element._id;
       let productos = await Producto.find({});
-      productos.forEach( async (producto) => {
-        let productoId = producto._id;
-        let disponibilidad = {
-          almacen: almacenId,
-          producto: productoId,
-          qtyDisponible: 0,
-          qtyBloqueada: 0,
+      let pLength = productos.length;
+      
+      for(let i = 0; i < pLength; i++){
+        let productoId = productos[i]._id;
+        let query = {
+          'producto': productoId
         }
-        let newDisponibilidad = new Disponibilidad(disponibilidad);
-        newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
-      });
+        let isInDispo = false
+        let dispoAux = await Disponibilidad.findOne(query);
+        let dLength = dispoAux.dispoAlmacen.length;
+        for (let j = 0; j < dLength; j++) {
+          let almacen = dispoAux.dispoAlmacen[j].almacen;
+          if(almacen == almacenId){
+            isInDispo = true;
+            break;
+          }
+        }
+        if(!isInDispo){
+          let aux = {
+            almacen: almacenId,
+            qty: 0,
+          } 
+          dispoAux.dispoAlmacen.push(aux);
+          await dispoAux.save();
+        }
+
+      } 
+     next();
 } catch (error) {
-
+console.log(error.toString())
 }
 
 }
 
-async function removeLinkedDocuments(element) {
+async function removeLinkedDocuments(element, next) {
   try{
     // doc will be the removed Person document
     let disponibilidades = element.disponibilidades
     disponibilidades.forEach(async (disponibilidadId) => {
-      let disponibilidad = await Disponibilidad.findOne({_id: disponibilidadId })    
+      let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId })    
       .populate('producto');
       let producto = disponibilidad.producto;
       let dispoProducto = producto.disponibilidades;
@@ -64,6 +82,7 @@ async function removeLinkedDocuments(element) {
       }
 
     });
+    next()
 } catch (error) {
 
 }

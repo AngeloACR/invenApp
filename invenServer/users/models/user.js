@@ -118,16 +118,23 @@ module.exports.updatePassword = async function (username, password) {
 module.exports.authUser = async function (username, password) {
     try {
         const query = { "username": username };
-        let user = await this.findOne(query).select('-password')
-        console.log(user);
+        let user = await this.findOne(query)//.select('-password')
         if (!user) {
             throw new Error("No existe ese nombre de usuario")
         }
         let isMatch = await this.comparePass(password, user.password)
-        console.log(isMatch);
+
         let auth = {}
         if (isMatch) {
-            const token = jwt.sign(user.toJSON(), environment.authSecret, {
+             let payload = {
+                _id: user._id,
+                type: user.type,
+                name: user.name,
+                mail: user.mail,
+                phone: user.phone,
+                avatarSrc: user.avatarSrc,
+            }
+            const token = jwt.sign(payload, environment.authSecret, {
                 expiresIn: 604800 //1 week
             });
             auth = {
@@ -224,7 +231,6 @@ module.exports.getUsers = async function () { //Need tons of work
         const query = {};
         let users = await this.find(query)
         .select('-password');
-//        .select('username type -_id');
         let response = {
             status: true,
             values: users

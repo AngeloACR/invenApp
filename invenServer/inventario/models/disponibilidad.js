@@ -1,26 +1,33 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
-const Producto = require('./producto');
-const Almacen = require('./almacen');
 
-
-const disponibilidadSchema = mongoose.Schema({
+const disponibilidadSchema = new mongoose.Schema({
   producto: [{
     type: Schema.Types.ObjectId,
     ref: 'Producto',
   }],
-  almacen: [{
+  dispoAlmacen: [{
+    almacen: {
+      type: Schema.Types.ObjectId,
+      ref: 'Almacen',
+    },
+    qty: {
+      type: Number,
+    }
+  }],
+
+/*   almacen: [{
     type: Schema.Types.ObjectId,
     ref: 'Almacen',
   }],
-  Ingresos: [{
+ */  ingresos: [{
     type: Schema.Types.ObjectId,
     ref: 'Ingreso',
   }],
-  Egreso: [{
+  pedidos: [{
     type: Schema.Types.ObjectId,
-    ref: 'Egreso',
+    ref: 'Pedido',
   }],
   qtyDisponible: {
     type: Number,
@@ -29,35 +36,47 @@ const disponibilidadSchema = mongoose.Schema({
     type: Number,
   }
 })
+.post('save', elementAdded)
 .post('remove', removeLinkedDocuments)
-.post('save', elementAdded);
 
-async function elementAdded(element) {
+async function elementAdded(element, next) {
     try {
-  console.log(element._id)
-    let almacen = await Almacen.findOne({_id: element.almacen })
-    let producto = await Producto.findOne({_id: element.producto })
-    let dispoAlmacen = almacen.disponibilidad; 
-    let dispoProducto = producto.disponibilidad; 
+    const Almacen = require('./almacen');
+    const Producto = require('./producto')
+    
+    let producto = await Producto.findOne({'_id': element.producto })
+    let almacen = await Almacen.findOne({'_id': element.almacen })
+
     let dispoId = element._id
-    if(dispoAlmacen.indexOf(dispoId) <= -1){
-      dispoAlmacen.push(element._id)
-      almacen = await almacen.save();
-      dispoProducto.push(element._id)
-      producto = await producto.save();
+    if(almacen){
+      let dispoAlmacen = almacen.disponibilidades; 
+      if(dispoAlmacen.indexOf(dispoId) <= -1){
+        dispoAlmacen.push(element._id)
+        almacen = await almacen.save();
+      }
     }
+    
+    if(producto){
+      let dispoProducto = producto.disponibilidades; 
+      if(dispoProducto.indexOf(dispoId) <= -1){
+        dispoProducto.push(element._id)
+        producto = await producto.save();
+      }
+    }
+
+    next()
 } catch (error) {
-
+  console.log(error.toString())
 }
 
 }
 
-async function removeLinkedDocuments(element) {
+async function removeLinkedDocuments(element, next) {
     try {
     // doc will be the removed Person document
 
-    let almacen = await Almacen.findOne({_id: element.almacen })
-    let producto = await Producto.findOne({_id: element.producto })
+    let almacen = await Almacen.findOne({'_id': element.almacen })
+    let producto = await Producto.findOne({'_id': element.producto })
     let disponibilidad = ellement._id
     let disponibilidades = almacen.disponibilidades;
     let pLength = disponibilidads.length;
@@ -76,6 +95,7 @@ async function removeLinkedDocuments(element) {
       }
     }
    await producto.save();
+    next()
 } catch (error) {
 
 }
@@ -105,6 +125,7 @@ module.exports.deleteDisponibilidad = async function (id) {
 
 module.exports.addDisponibilidad = async function (newDisponibilidad) {
   try {
+
     let disponibilidad = await newDisponibilidad.save()
 /*     .populate({ path: 'almacen', select: 'disponibilidades' });
     .populate({ path: 'producto', select: 'disponibilidades' }); */
@@ -115,13 +136,13 @@ module.exports.addDisponibilidad = async function (newDisponibilidad) {
     producto.disponibilidad.push(disponibilidad._id)
     producto = producto.save();
  *///    disponibilidad = disponibilidad.save();
-    console.log(disponibilidad)
     let response = {
       status: true,
       values: disponibilidad
     }
     return response;
   } catch (error) { 
+  console.log(error.toString())
     let response = {
     status: false,
     msg: error.toString().replace("Error: ", "")

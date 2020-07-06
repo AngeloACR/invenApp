@@ -8,7 +8,7 @@ authRouter.post('/', async (req, res) => {
         const password = req.body.password;
         let sess = req.session;
         let auth = await User.authUser(username, password);
-        
+        console.log(auth);
         if (auth.status) {
           sess.isLogged = auth.auth;
           sess.jwToken = auth.token;

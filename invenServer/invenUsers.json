@@ -1,5 +1,4 @@
 {
-    "_id": 1,
     "name": "Super Admin Decolux",
     "username": "invenAdmin",
     "mail": "decoluxve@gmail.com",
@@ -7,7 +6,6 @@
     "type": "SuperAdmin"
 }
 {
-    "_id": 2,
     "name": "Vendedor 1",
     "username": "vendedor",
     "mail": "vendedor@gmail.com",
@@ -15,7 +13,6 @@
     "type": "Vendedor"
 }
 {
-    "_id": 3,
     "name": "Vendedor 2",
     "username": "vendedor2",
     "mail": "vendedor2@gmail.com",
@@ -23,7 +20,6 @@
     "type": "Vendedor"
 }
 {
-    "_id": 4,
     "name": "Administrador 1",
     "username": "admin",
     "mail": "admin@gmail.com",
@@ -31,7 +27,6 @@
     "type": "Admin"
 }
 {
-    "_id": 5,
     "name": "Administrador 2",
     "username": "admin2",
     "mail": "admin2@gmail.com",

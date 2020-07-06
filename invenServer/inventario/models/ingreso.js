@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
-const Producto = require('./producto');
-const Almacen = require('./almacen');
 
-const ingresoSchema = mongoose.Schema({
+const ingresoSchema = new mongoose.Schema({
   productosIngresados: [{
     producto: {
     type: Schema.Types.ObjectId,
@@ -38,61 +36,42 @@ const ingresoSchema = mongoose.Schema({
 
 async function ingresoDeleted(element){
   try{
+      
+
+      const Producto = require('./producto');
+      const Almacen = require('./almacen');
+      const Disponibilidad = require('./disponibilidad');
+
       let productosIngresados = element.productosIngresados;
       let almacenId = element.almacen;
+      let ingresoId = element._id;
+      let piLength = productosIngresados.length;
 
-      console.log(productosIngresados)
-      let almacen = await Almacen.findOne({_id: { $in: almacenId }})
-      .populate('disponibilidades');
-      console.log('2')
+      for (let i = 0; i < piLength; i++) {
+        let productoId = productosIngresados[i].producto;
+          let qty = productosIngresados[i].qty;
 
-      let dispoAlmacen = almacen.disponibilidades;      
-      console.log('3')
-      productosIngresados.forEach(async (productoPedido) => {
-        let productoId = productoPedido.producto;
-        let producto = await Producto.findOne({_id: { $in: productoId }})
-        .populate('disponibilidades');
-        let dispoProducto = producto.disponibilidades;      
-/*           let aLength = dispoAlmacen.length;
-
-          let disponibilidad;
-          for (let i=0; i < aLength; i++) {
-              if (dispoAlmacen[i].producto === productoId) {
-                  disponibilidad = dispoAlmacen[i];
-                  break;
-              }
-            }
- */
-
-          let aLength = dispoProducto.length;
-
-          let disponibilidad;
-          for (let i=0; i < aLength; i++) {
-              if (dispoProducto[i].producto === productoId) {
-                  disponibilidad = dispoProducto[i];
-                  break;
-              }
-            }
-
-
-          let qtyTotal = producto.qtyTotal;
-          let qtyDisponible = disponibilidad.qtyDisponible;
-          let ingresoQty = element.qty;
+        let queryA = {'producto': productoId}
+        let disponibilidad = await Disponibilidad.findOne(queryA)
+        
+        let dLength = disponibilidad.dispoAlmacen.length;
+        for (let j = 0; j < dLength; j++) {
+          if( almacenId == disponibilidad.dispoAlmacen[j].almacen.toString()){
+            disponibilidad.dispoAlmacen[j].qty -= qty;
+            break;
+          }
           
-            qtyDisponible -=  qty;
-            qtyTotal -=  qty;        
-            
-            let ingresos = disponibilidad.ingresos;
-            let ingresoId = element._id
-            let pLength = ingreso.length;
-            for( var i = 0; i < pLength; i++){ 
-              if ( ingresos[i] === ingresoId) { 
-                ingresos.splice(i, ingresoId); 
-              }
-            }
+        }
 
-            disponibilidad = await disponibilidad.save()
-      });
+          disponibilidad.qtyDisponible -=  qty;
+          for( let j = 0; j < disponibilidad.ingresos.length; j++){ 
+            if ( disponibilidad.ingresos[j] == ingresoId) { 
+              disponibilidad.ingresos.splice(j, 1);
+            }
+          }
+          disponibilidad = await disponibilidad.save();
+      }
+      next()
       
       
 
@@ -105,54 +84,40 @@ async function ingresoDeleted(element){
 async function alterDisponibilidad(element){
   try{
   
+      const Producto = require('./producto');
+      const Almacen = require('./almacen');
+      const Disponibilidad = require('./disponibilidad');
+
       let productosIngresados = element.productosIngresados;
       let almacenId = element.almacen;
+      let ingresoId = element._id;
+      let piLength = productosIngresados.length;
 
-      console.log(element)
+      for (let i = 0; i < piLength; i++) {
+        let productoId = productosIngresados[i].producto;
+          let qty = productosIngresados[i].qty;
 
-      let almacen = await Almacen.findOne({"_id": almacenId })
-      .populate('disponibilidades');
-
-      let dispoAlmacen = almacen.disponibilidades;      
-      productosIngresados.forEach( async (productoPedido) => {
-        let productoId = productoPedido.producto;
-        let producto = await Producto.findOne({"_id": productoId })
-        .populate('disponibilidades');
-        console.log(producto)
-        let dispoProducto = producto.disponibilidades;      
-/*           let aLength = dispoAlmacen.length;
-
-          let disponibilidad;
-          for (let i=0; i < aLength; i++) {
-              if (dispoAlmacen[i].producto === productoId) {
-                  disponibilidad = dispoAlmacen[i];
-                  break;
-              }
-            }
- */
-
-          let aLength = dispoProducto.length;
-
-          let disponibilidad;
-          for (let i=0; i < aLength; i++) {
-            console.log('here')
-              if (dispoProducto[i].almacen == almacenId) {
-                  disponibilidad = dispoProducto[i];
-                  break;
-              }
-            }
-
-
-          let qtyTotal = producto.qtyTotal;
-          let qtyDisponible = disponibilidad.qtyDisponible;
-          let ingresoQty = element.qty;
+        let queryA = {'producto': productoId}
+        let disponibilidad = await Disponibilidad.findOne(queryA)
+        
+        let dLength = disponibilidad.dispoAlmacen.length;
+        for (let j = 0; j < dLength; j++) {
+          if( almacenId == disponibilidad.dispoAlmacen[j].almacen.toString()){
+            console.log('here');
+            console.log(disponibilidad.dispoAlmacen[j].qty)
+            disponibilidad.dispoAlmacen[j].qty += qty;
+            console.log(disponibilidad.dispoAlmacen[j].qty)
+            break;
+          }
           
-            qtyDisponible +=  qty;
-            qtyTotal +=  qty;        
-      });
-      
+        }
 
-      disponibilidad = await disponibilidad.save()
+          disponibilidad.qtyDisponible +=  qty;
+          disponibilidad.ingresos.push(ingresoId);
+          disponibilidad = await disponibilidad.save();
+      }
+      next()
+
 } catch (error) {
 
 }
@@ -166,6 +131,7 @@ module.exports.deleteIngreso = async function (id) {
     try {
         const query = { "_id": id };
         let deleteRes =  await this.findOneAndRemove(query);
+        deleteRes = deleteRes.remove();
         let response = {
           status: true,
           values: deleteRes
@@ -182,17 +148,7 @@ module.exports.deleteIngreso = async function (id) {
 
 module.exports.addIngreso = async function (newIngreso) {
   try {
-    let ingreso = await newIngreso.save()
-/*     .populate({ path: 'almacen', select: 'ingresos' });
-    .populate({ path: 'producto', select: 'ingresos' }); */
-
-/*     let almacen = ingreso.almacen;
-    almacen.ingreso.push(ingreso._id)
-    almacen = almacen.save();
-    producto.ingreso.push(ingreso._id)
-    producto = producto.save();
- *///    ingreso = ingreso.save();
-    console.log(ingreso)
+    let ingreso = await newIngreso.save();
     let response = {
       status: true,
       values: ingreso
