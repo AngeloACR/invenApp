@@ -58,8 +58,8 @@ module.exports.addProveedor = async function (newProveedor) {
       status: true,
       values: proveedor
     }
-    }
     return response;
+    }
   } catch (error) { 
     let response = {
       status: false,

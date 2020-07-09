@@ -21,6 +21,7 @@ export class ListaProveedoresComponent implements OnInit {
   values: string[];
 
   constructor(
+    private auth: AuthService,
     private dbHandler: DbHandlerService,
     private router: Router,
     private fb: FormBuilder
@@ -49,20 +50,57 @@ export class ListaProveedoresComponent implements OnInit {
     this.name = name;
   }
 
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
+  isVendedor: boolean;
 
   deleteItem(event, item) {
     var myEnd = this.endpoint;
+    let type = this.auth.getType();
+    this.isAdmin = (type === 'Admin');
+		this.isVendedor = (type === 'Vendedor');
+		this.isSuperAdmin = (type === 'SuperAdmin');
+    
+    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
+    console.log(this.isSuperAdmin)
+    console.log(this.isAdmin)
+    if(!(this.isAdmin || this.isSuperAdmin)){
+          this.closeConfirm();
+          let errorMsg = 'Usuario no autorizado';
+          this.openError(errorMsg)
+    } else{
 
-    this.dbHandler.deleteSomething(item._id, myEnd)
-      .subscribe((data: any) => {   // data is already a JSON object
+      this.dbHandler.deleteSomething(item._id, myEnd)
+      .subscribe((data: any) => { 
+        this.closeConfirm();
         if(!data.status){
           let errorMsg = data.msg;
           this.openError(errorMsg)
         } else{
-
         this.dbHandler.actualizar();
         }
       });
+    }
+  }
+
+  deletedItem: any;
+  confirmDelete(event, item){
+    this.deletedItem = item;
+    this.openConfirm();
+  }
+
+  showConfirm: {};
+
+  openConfirm(){
+    this.showConfirm = {
+        confirmAct: true,
+      }
+  }
+
+  closeConfirm(){
+    this.showConfirm = {
+        confirmAct: false,
+      }
   }
 
     openUpdate(event, item) {  

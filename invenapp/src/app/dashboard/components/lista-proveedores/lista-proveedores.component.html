@@ -28,7 +28,7 @@
               style="background-color: red"
               type="button"
               class="actionButton"
-              (click)="deleteItem($event, value)"
+              (click)="confirmDelete($event, value)"
             >
               <p>ELIMINAR</p>
             </button>            
@@ -65,3 +65,23 @@
   </button>  
   
   <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+
+<div class="confirmBox" [ngClass]="showConfirm">
+  <div class="blackBox" (click)="closeConfirm()"></div>
+
+  <div class="logBox">
+      <div class="closeButton">
+          <button class="closeB" (click)="closeConfirm()">X</button>
+      </div>
+      <p class="confirmHeader">CONFIRMACIÓN</p>
+      <p class="confirmContent">Segro que quiere eliminar este elemento</p>
+<div class="confirmButtons">
+      <button type="button" class="confirm formButton" (click)="deleteItem($event, deletedItem)">
+        <p>SÍ</p>
+      </button>
+      <button type="button" class="goback formButton" (click)="closeConfirm()">
+        <p>NO</p>
+      </button>
+</div>
+
+</div>

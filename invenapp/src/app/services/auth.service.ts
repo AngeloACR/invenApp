@@ -66,14 +66,17 @@ export class AuthService {
 
   getType(){
     try{
-        let type = this.decode().type;
+      let user = this.decode();
+        let type = user.type;
+        return type;
     } catch (Error){
       return null;
     }
   }
   getId(){
     try{
-        let type = this.decode()._id;
+        let id = this.decode()._id;
+        return id;
     } catch (Error){
       return null;
     }
