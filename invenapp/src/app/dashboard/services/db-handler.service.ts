@@ -12,8 +12,8 @@ export class DbHandlerService {
   localSource = "http://localhost:3400";
   serverSource = "";
 
-  //mySource = this.localSource
-  mySource = this.serverSource;
+  mySource = this.localSource
+  //mySource = this.serverSource;
 
   constructor(
     private http: HttpClient,
@@ -157,6 +157,10 @@ export class DbHandlerService {
           {
             endpoint: '/pedidos/all',
             name: 'pedidos'
+          },
+          {
+            endpoint: '/company',
+            name: 'company'
           }
         ]        
     }else if(tipo == 'Admin'){

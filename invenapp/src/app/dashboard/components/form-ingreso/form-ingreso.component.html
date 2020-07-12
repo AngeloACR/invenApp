@@ -32,9 +32,8 @@
           <div class="formInput">
             <label for="">Estado*</label>
             <select class="lInput" name="" formControlName="estado">
-                <option value="Bloqueada">Bloqueada</option>
-                <option value="Procesada">Procesada</option>
-                <option value="Rechazada">Rechazada</option>
+                <option value="Pagado">Pagado</option>
+                <option value="Por pagar">Por pagar</option>
             </select>          
             <div class="errorTag" *ngIf="fIngreso.estado.errors?.required && (fIngreso.estado.touched || fIngreso.estado.dirty)">Por favor seleccione el estado</div>
           </div>

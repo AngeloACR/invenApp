@@ -4,6 +4,7 @@ import { DbHandlerService } from "../../services/db-handler.service";
 import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lista-proveedores',
@@ -12,13 +13,18 @@ import { forkJoin } from "rxjs";
 })
 export class ListaProveedoresComponent implements OnInit {
 
+  faTrash = faTrashAlt;
+  faEye = faEye;
+  faPdf = faFilePdf;
+  faEdit = faEdit;
+
   isEmpty: boolean;
   endpoint: string;
   name: string;
   addText: string;
-  fields: string[];
+  fields: any[];
   title: string;
-  values: string[];
+  values: any[];
 
   constructor(
     private auth: AuthService,
@@ -31,17 +37,40 @@ export class ListaProveedoresComponent implements OnInit {
 
   ngOnInit() {
     this.initComponent('/proveedores', 'Lista de Proveedores', 'Agregar Proveedor', 'proveedores')
+    this.initForm();
     this.isEmpty = true;
+     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
+     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
 
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
+    this.fields = [
+      'Id',
+      'RIF',
+      'Nombre',
+      'Correo',
+      'Dirección',
+      'Teléfono',
+      'Instagram',
+      ]
+
+    this.values = [];
+
+    auxValues.forEach(value => {
+      let aux = [
+        value._id,
+        value.rif,
+        value.name,
+        value.mail,
+        value.address,
+        value.ws,
+        value.ig,
+      ]
+      this.values.push(aux)
+    });
+
     if(this.values.length){
       this.isEmpty = false;
     }
-    this.initForm();
-
   }
-
 
   initComponent(endpoint, title, addText, name) {
     this.endpoint = endpoint;
@@ -54,7 +83,9 @@ export class ListaProveedoresComponent implements OnInit {
   isSuperAdmin: boolean;
   isVendedor: boolean;
 
-  deleteItem(event, item) {
+  deleteItem(event, index) {
+    let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let item = auxValues[index];
     var myEnd = this.endpoint;
     let type = this.auth.getType();
     this.isAdmin = (type === 'Admin');
@@ -104,7 +135,7 @@ export class ListaProveedoresComponent implements OnInit {
   }
 
     openUpdate(event, item) {  
-      this.router.navigateByUrl('/actualizar/proveedor');
+      this.router.navigateByUrl('/actualizar/proveedor/'+item);
     }
 
    agregar() {  

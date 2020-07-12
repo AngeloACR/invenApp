@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 })
 export class ActualizarComponent implements OnInit {
   id: string;
+  item: string;
+  selectedItem: any;
 
   isCliente: boolean;
   isProveedor: boolean;
@@ -29,7 +31,8 @@ export class ActualizarComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.actRoute.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params['index'];
+      this.item = params['item'];
     });
     this.router.events.subscribe(event => {
       this.actRoute.url.subscribe(value => {
@@ -52,33 +55,50 @@ export class ActualizarComponent implements OnInit {
       this.isIngreso = false;
       this.isProducto = false;
       this.isAlmacen = false;
-
-    switch (this.id) {
+      let auxValues  
+    switch (this.item) {
       case 'cliente':
         this.isCliente = true;
+        auxValues = this.dbHandler.getLocal('clientesValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'proveedor':
         this.isProveedor = true;
+        auxValues = this.dbHandler.getLocal('proveedoresValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'pedido':
         this.isPedido = true;
+        auxValues = this.dbHandler.getLocal('pedidosValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'almacen':
         this.isAlmacen = true;
+        auxValues = this.dbHandler.getLocal('almacenesValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'producto':
         this.isProducto = true;
+        auxValues = this.dbHandler.getLocal('productosValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'ingreso':
         this.isIngreso = true;
+        auxValues = this.dbHandler.getLocal('ingresosValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       case 'rol':
         this.isRol = true;
+        auxValues = this.dbHandler.getLocal('rolesValues');
+//            this.selectedItem = auxValues[this.id];
         break;
       default:
         this.isUsuario = true;
+        auxValues = this.dbHandler.getLocal('usersValues');
+//            this.selectedItem = auxValues[this.id];
         break;
     }
+            this.selectedItem = auxValues[this.id];
   }
 
     onData(event){

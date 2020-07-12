@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { DatePipe } from '@angular/common';
 import { FileValueAccessor } from './directives/fileControl'
 import { FileValidator } from './directives/fileValidator'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -35,7 +36,8 @@ registerLocaleData(localeVE, 'es-VE');
     ReactiveFormsModule,
     HttpClientModule,
     DashboardModule,
-    SharedModule
+    SharedModule,
+    FontAwesomeModule
   ],
   entryComponents: [
   ],

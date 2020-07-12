@@ -4,6 +4,7 @@ import { DbHandlerService } from "../../services/db-handler.service";
 import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lista-producto',
@@ -12,13 +13,18 @@ import { forkJoin } from "rxjs";
 })
 export class ListaProductoComponent implements OnInit {
 
+  faTrash = faTrashAlt;
+  faPdf = faFilePdf;
+  faEye = faEye;
+  faEdit = faEdit;
+
   isEmpty: boolean;
   endpoint: string;
   name: string;
   title: string;
   addText: string;
-  fields: string[];
-  values: string[];
+  fields: any[];
+  values: any[];
 
   constructor(
     private auth: AuthService,
@@ -31,17 +37,34 @@ export class ListaProductoComponent implements OnInit {
 
   ngOnInit() {
     this.initComponent('/productos', 'Lista de Productos', 'Agregar Producto', 'productos')
+    this.initForm();
     this.isEmpty = true;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
+     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
+     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+
+    this.fields = [
+      'Id',
+      'Código',
+      'Nombre',
+      'Marca',
+      ]
+
+    this.values = [];
+
+    auxValues.forEach(value => {
+      let aux = [
+        value._id,
+        value.code,
+        value.name,
+        value.brand,
+      ]
+      this.values.push(aux)
+    });
 
     if(this.values.length){
       this.isEmpty = false;
     }
-    this.initForm();
-
   }
-
 
   initComponent(endpoint, title, addText, name) {
     this.endpoint = endpoint;
@@ -54,7 +77,9 @@ export class ListaProductoComponent implements OnInit {
   isSuperAdmin: boolean;
   isVendedor: boolean;
 
-  deleteItem(event, item) {
+  deleteItem(event, index) {
+    let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let item = auxValues[index];
     var myEnd = this.endpoint;
     let type = this.auth.getType();
     this.isAdmin = (type === 'Admin');
@@ -104,7 +129,7 @@ export class ListaProductoComponent implements OnInit {
   }
 
     openUpdate(event, item) {  
-      this.router.navigateByUrl('/actualizar/producto');
+      this.router.navigateByUrl('/actualizar/producto/'+item);
     }
 
    agregar() {  

@@ -64,7 +64,6 @@
     border-style: solid;
     border-width: 3px;
     border-color: #0084b6;
-    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -284,9 +283,6 @@
   font-weight: bold;
 }
 
-.contentRow div {
-  width: 200px;
-}
 
 .contentRow {
   white-space: nowrap;
@@ -295,7 +291,9 @@
 }
 
 .contentRow div {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     flex-shrink: 0;
     text-align: center;
     color: #0084b6;
@@ -309,15 +307,40 @@
     font-weight: bold;
     width: 200px;
   }
+
+  .contentRow div p{
+    width: 100%;
+    margin: 0;
+  }
   
   
   .actionBox {
     display: flex !important;
     flex-direction: row;
-    justify-content: center;
-    align-content: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
   }
   
+.actionButton {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+  height: 30px;
+  width: 42%;
+  color: black;
+  margin-right: 5px;
+  cursor: pointer;
+} 
+
+.faIcon{
+  width: 25%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
 
 .actionButton:active {
   background-color: white;
@@ -330,7 +353,7 @@
 .actionButton p {
   color: white !important;
   margin: 0;
-  font-size: 8px !important;
+  font-size: 10px !important;
   border: none !important;
   background-color: transparent !important;
   font-weight: bold;

@@ -4,6 +4,7 @@ import { DbHandlerService } from "../../services/db-handler.service";
 import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lista-pedido',
@@ -12,16 +13,21 @@ import { forkJoin } from "rxjs";
 })
 export class ListaPedidoComponent implements OnInit {
 
+  faTrash = faTrashAlt;
+  faPdf = faFilePdf;
+  faEye = faEye;
+  faEdit = faEdit;
+
   isEmpty: boolean;
   endpoint: string;
   name: string;
   title: string;
   addText: string;
-  fields: string[];
-  values: string[];
+  fields: any[];
+  values: any[];
 
   constructor(
-    
+    private auth: AuthService,
     private dbHandler: DbHandlerService,
     private router: Router,
     private fb: FormBuilder
@@ -31,17 +37,38 @@ export class ListaPedidoComponent implements OnInit {
 
   ngOnInit() {
     this.initComponent('/pedidos', 'Lista de Pedidos', 'Agregar Pedido', 'pedidos')
+    this.initForm();
     this.isEmpty = true;
-    this.fields = this.dbHandler.getLocal(this.name + 'Fields');
-    this.values = this.dbHandler.getLocal(this.name + 'Values');
+     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
+     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+
+    this.fields = [
+      'Id',
+      'Fecha',
+      'Cliente',
+      'Vendedor',
+      'Estado',
+      'Observaciones',
+      ]
+
+    this.values = [];
+
+    auxValues.forEach(value => {
+      let aux = [
+        value._id,
+        value.fecha,
+        value.cliente,
+        value.vendedor,
+        value.estado,
+        value.observaciones,
+      ]
+      this.values.push(aux)
+    });
 
     if(this.values.length){
       this.isEmpty = false;
     }
-    this.initForm();
-
   }
-
 
   initComponent(endpoint, title, addText, name) {
     this.endpoint = endpoint;
@@ -50,24 +77,63 @@ export class ListaPedidoComponent implements OnInit {
     this.name = name;
   }
 
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
+  isVendedor: boolean;
 
-  deleteItem(event, item) {
+  deleteItem(event, index) {
+    let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let item = auxValues[index];
     var myEnd = this.endpoint;
+    let type = this.auth.getType();
+    this.isAdmin = (type === 'Admin');
+		this.isVendedor = (type === 'Vendedor');
+		this.isSuperAdmin = (type === 'SuperAdmin');
+    
+    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
+    console.log(this.isSuperAdmin)
+    console.log(this.isAdmin)
+    if(!(this.isAdmin || this.isSuperAdmin)){
+          this.closeConfirm();
+          let errorMsg = 'Usuario no autorizado';
+          this.openError(errorMsg)
+    } else{
 
-    this.dbHandler.deleteSomething(item._id, myEnd)
-      .subscribe((data: any) => {   // data is already a JSON object
+      this.dbHandler.deleteSomething(item._id, myEnd)
+      .subscribe((data: any) => { 
+        this.closeConfirm();
         if(!data.status){
           let errorMsg = data.msg;
           this.openError(errorMsg)
         } else{
-
         this.dbHandler.actualizar();
         }
       });
+    }
+  }
+
+  deletedItem: any;
+  confirmDelete(event, item){
+    this.deletedItem = item;
+    this.openConfirm();
+  }
+
+  showConfirm: {};
+
+  openConfirm(){
+    this.showConfirm = {
+        confirmAct: true,
+      }
+  }
+
+  closeConfirm(){
+    this.showConfirm = {
+        confirmAct: false,
+      }
   }
 
     openUpdate(event, item) {  
-      this.router.navigateByUrl('/actualizar/pedido');
+      this.router.navigateByUrl('/actualizar/pedido/'+item);
     }
 
    agregar() {  

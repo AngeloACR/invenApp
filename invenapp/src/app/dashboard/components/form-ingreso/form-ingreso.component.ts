@@ -141,7 +141,7 @@ getToday(): string {
       estado: dataAux.estado,
       almacen: dataAux.almacen,
       observaciones: dataAux.observaciones,
-      referencia: dataAux.reference,
+      referencia: dataAux.referencia,
       productosIngresados: productosIngresos,
     };
 

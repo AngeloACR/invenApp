@@ -73,6 +73,16 @@ export class AuthService {
       return null;
     }
   }
+
+  getUsername(){
+    try{
+      let user = this.decode();
+        let username = user.username;
+        return username;
+    } catch (Error){
+      return null;
+    }
+  }  
   getId(){
     try{
         let id = this.decode()._id;

@@ -34,6 +34,8 @@ import { FormUsuarioComponent } from './components/form-usuario/form-usuario.com
 import { ListaUsuarioComponent } from './components/lista-usuario/lista-usuario.component';
 import { FormRolComponent } from './components/form-rol/form-rol.component';
 import { ListaRolComponent } from './components/lista-rol/lista-rol.component';
+import { CompanyComponent } from './components/company/company.component';
+import { FormCompanyComponent } from './components/form-company/form-company.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,7 @@ import { ListaRolComponent } from './components/lista-rol/lista-rol.component';
     FormUsuarioComponent, 
     ListaUsuarioComponent, 
     FormRolComponent, 
-    ListaRolComponent
+    ListaRolComponent, CompanyComponent, FormCompanyComponent
     ],
     entryComponents: [
     FormProveedoresComponent, 

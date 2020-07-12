@@ -13,6 +13,7 @@ ingresoRouter.post('/', /*auth,*/ async (req, res) => {
 				estado: req.body.estado,
 				referencia: req.body.referencia,
 				observaciones: req.body.observaciones,
+				proveedor: req.body.proveedor,
 			};
 			let newIngreso = new Ingreso(ingreso);
 			response = await Ingreso.addIngreso(newIngreso);

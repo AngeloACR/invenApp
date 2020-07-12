@@ -228,6 +228,10 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver roles',
 				link: '/lista/rol',
 				id: 3
+			},{
+				name: 'Datos de la Compañía',
+				link: '/compañia',
+				id: 4
 			}],
 		}];
 	}

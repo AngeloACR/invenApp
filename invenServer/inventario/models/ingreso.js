@@ -30,6 +30,10 @@ const ingresoSchema = new mongoose.Schema({
   },
   referencia: {
     type: String,
+  },
+  proveedor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Almacen',
   }
 }).post('save', alterDisponibilidad)
 .post('remove', ingresoDeleted);
