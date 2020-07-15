@@ -36,6 +36,10 @@ import { FormRolComponent } from './components/form-rol/form-rol.component';
 import { ListaRolComponent } from './components/lista-rol/lista-rol.component';
 import { CompanyComponent } from './components/company/company.component';
 import { FormCompanyComponent } from './components/form-company/form-company.component';
+import { PreciosComponent } from './components/precios/precios.component';
+import { FormProformaComponent } from './components/form-proforma/form-proforma.component';
+import { ListaProformasComponent } from './components/lista-proformas/lista-proformas.component';
+import { Dot2commaPipe } from './pipes/dot2comma.pipe';
 
 @NgModule({
   declarations: [
@@ -62,7 +66,13 @@ import { FormCompanyComponent } from './components/form-company/form-company.com
     FormUsuarioComponent, 
     ListaUsuarioComponent, 
     FormRolComponent, 
-    ListaRolComponent, CompanyComponent, FormCompanyComponent
+    ListaRolComponent, 
+    CompanyComponent, 
+    FormCompanyComponent, 
+    PreciosComponent, 
+    FormProformaComponent, 
+    ListaProformasComponent, 
+    Dot2commaPipe
     ],
     entryComponents: [
     FormProveedoresComponent, 

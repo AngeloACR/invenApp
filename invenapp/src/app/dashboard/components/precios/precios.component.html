@@ -1,0 +1,39 @@
+<div class="modBox">
+
+  <div class="cardBox" *ngIf="!isEmpty">
+    <div class="listBox">
+      <div class="titleRow">
+          <p style="width: 150px;">Acciones</p>
+          <p *ngFor="let field of fields">{{ field }}</p>
+      </div>
+      <div class="contentRow" *ngFor="let value of values; let i = index">
+        <div class="actionBox" style="width: 150px;">
+          <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
+        </div>
+        <div>
+          <p>{{ value[0] }}</p>
+        </div>
+        <div *ngIf="!isUpdate[i]">
+          <p>{{ value[1]  | dot2comma }}</p>
+        </div>
+        <div *ngIf="isUpdate[i]">
+          <form class="formBox" [formGroup]="prices.controls[i]">
+            <div class="qtyField">
+                <input class="qtyInput" lang="es" step="0.01" type="number" min="0" formControlName="valor" name="valor" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <div class="cardBox" *ngIf="isEmpty">
+    <p>No hay elementos para mostrar</p>
+  </div>
+
+  <button *ngIf="isGuardar" class="buttonBox" (click)="guardarPrecios()">
+    {{ addText }}
+  </button>  
+  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+
+</div>

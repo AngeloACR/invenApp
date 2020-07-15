@@ -3,7 +3,7 @@ const productoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Producto = require('../models/producto');
 
-productoRouter.post('/', /*auth,*/ async (req, res) => {
+productoRouter.post('/', auth, async (req, res) => {
 	try {
 			const producto = {
 				name: req.body.name,
@@ -22,7 +22,7 @@ productoRouter.post('/', /*auth,*/ async (req, res) => {
 });	
 
 
-productoRouter.get('/all', /*auth,*/ async (req, res) => {
+productoRouter.get('/all', auth, async (req, res) => {
 	try {
 		let response = await Producto.getProductos();
 		/* if (response.values && response.values.length) {
@@ -37,7 +37,7 @@ productoRouter.get('/all', /*auth,*/ async (req, res) => {
 });
 
 
-productoRouter.get('/:productoId', /*auth,*/ async (req, res) => {
+productoRouter.get('/:productoId', auth, async (req, res) => {
 	try {
 		const productoId = req.params.productoId;
 		const producto = await Producto.getProducto(productoId);

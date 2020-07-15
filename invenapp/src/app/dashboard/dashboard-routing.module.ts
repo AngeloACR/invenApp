@@ -5,6 +5,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { ListaComponent } from './components/lista/lista.component';
 import { ActualizarComponent } from './components/actualizar/actualizar.component';
 import { CompanyComponent } from './components/company/company.component';
+import { PreciosComponent } from './components/precios/precios.component';
 
 import { 
   GuardService as Guard 
@@ -35,6 +36,14 @@ const routes: Routes = [
   {
     path: 'compañia', 
     component: CompanyComponent,
+    canActivate: [Guard],
+    data: {
+      role1: 'Admin'
+    }
+  },
+  {
+    path: 'precios', 
+    component: PreciosComponent,
     canActivate: [Guard],
     data: {
       role1: 'Admin'

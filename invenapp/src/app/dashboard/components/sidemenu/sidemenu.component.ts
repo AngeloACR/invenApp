@@ -101,6 +101,10 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver solicitudes de pedido',
 				link: '/lista/pedidos',
 				id: 7
+			},{
+				name: 'Lista de precios',
+				link: '/precios',
+				id: 8
 			}],
 		}];
 	}
@@ -203,6 +207,10 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver solicitudes de pedido',
 				link: '/lista/pedido',
 				id: 7
+			},{
+				name: 'Lista de precios',
+				link: '/precios',
+				id: 8
 			}],
 		},{
 			name: 'Administrador',

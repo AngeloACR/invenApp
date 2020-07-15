@@ -7,51 +7,12 @@
       </div>
       <div class="contentRow" *ngFor="let value of values; let i = index">
         <div class="actionBox" style="width: 250px;">
-          <!-- <p class="listButton"> -->
-          <!-- <button type="button" id="closeB" (click)="deleteItem($event, i)">
-            X
-          </button>
-          <img
-            id="updateB"
-            src="/assets/tuerca.png"
-            (click)="openUpdate($event, i)"
-          /> -->
+
           <fa-icon style="color: grey" class="faIcon" [icon]="faEye" size="2x" (click)="verDetalle($event, i)"></fa-icon>
           <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
           <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x" (click)="generatePdf($event, i)"></fa-icon>
           <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)"></fa-icon>
-          <!-- <button
-              style="background-color: orange"
-              type="button"
-              class="actionButton"
-              (click)="openUpdate($event, i)"
-            >
-              <p>EDITAR</p>
-            </button>
-            <button
-              style="background-color: red"
-              type="button"
-              class="actionButton"
-              (click)="confirmDelete($event, i)"
-            >
-              <p>ELIMINAR</p>
-            </button>    -->         
-            <!-- <button
-              style="background-color: green"
-              type="button"
-              class="actionButton"
-              (click)="habilitarElemento($event, i, 1)"
-            >
-              <p>HABILITAR</p>
-            </button>
-            <button
-              style="background-color: red"
-              type="button"
-              class="actionButton"
-              (click)="habilitarElemento($event, i, 0)"
-            >
-              <p>DESHABILITAR</p>
-            </button> -->
+
         </div>
         <div *ngFor="let item of value">
           <p>{{ item }}</p>

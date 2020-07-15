@@ -3,7 +3,7 @@ const ingresoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Ingreso = require('../models/ingreso');
 
-ingresoRouter.post('/', /*auth,*/ async (req, res) => {
+ingresoRouter.post('/', auth, async (req, res) => {
 	try {
 			const ingreso = {
 				proveedor: req.body.proveedor,
@@ -26,7 +26,7 @@ ingresoRouter.post('/', /*auth,*/ async (req, res) => {
 });	
 
 
-ingresoRouter.get('/all', /*auth,*/ async (req, res) => {
+ingresoRouter.get('/all', auth, async (req, res) => {
 	try {
 		let response = await Ingreso.getIngresos();
 		/* if (response.values && response.values.length) {
@@ -41,7 +41,7 @@ ingresoRouter.get('/all', /*auth,*/ async (req, res) => {
 });
 
 
-ingresoRouter.get('/:ingresoId', /*auth,*/ async (req, res) => {
+ingresoRouter.get('/:ingresoId', auth, async (req, res) => {
 	try {
 		const ingresoId = req.params.ingresoId;
 		const ingreso = await Ingreso.getIngreso(ingresoId);

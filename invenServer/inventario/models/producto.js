@@ -7,6 +7,10 @@ const productoSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Disponibilidad',
   }],
+  precio: {
+    type: Schema.Types.ObjectId,
+    ref: 'Precio',
+  },
   name: {
     type: String,
   },
@@ -16,18 +20,19 @@ const productoSchema = new mongoose.Schema({
   brand: {
     type: String,
   }
-}).post('save', createDisponibilidad)
+}).post('save', createRef)
 .post('remove', removeLinkedDocuments);
 
-async function createDisponibilidad(element, next) {
+async function createRef(element, next) {
 try{
   
       const Disponibilidad = require('./disponibilidad');
+      const Precio = require('./precio');
       const Almacen = require('./almacen');
       let productoId = element._id;
       let query = {'producto': productoId}
       let dispoAux = await Disponibilidad.findOne(query);
-
+      let precioAux = await Precio.findOne(query)
 
       if(!dispoAux){
 
@@ -52,6 +57,17 @@ try{
             newDisponibilidad =  await Disponibilidad.addDisponibilidad(newDisponibilidad);
             
           }
+
+      if(!precioAux){
+
+            const precio = {
+              producto: productoId,
+              valor: 0
+              }
+            let newPrecio = new Precio(precio);
+            newPrecio =  await Precio.addPrecio(newPrecio);
+            
+          }          
 
   next()
  } catch (error) {

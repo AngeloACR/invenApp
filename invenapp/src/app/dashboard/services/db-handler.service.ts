@@ -159,6 +159,10 @@ export class DbHandlerService {
             name: 'pedidos'
           },
           {
+            endpoint: '/precios/all',
+            name: 'precios'
+          },
+          {
             endpoint: '/company',
             name: 'company'
           }
@@ -189,6 +193,10 @@ export class DbHandlerService {
           {
             endpoint: '/pedidos/all',
             name: 'pedidos'
+          },
+          {
+            endpoint: '/precios/all',
+            name: 'precios'
           }
         ]     
     }else if(tipo == 'Vendedor'){

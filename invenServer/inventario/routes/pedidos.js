@@ -3,7 +3,7 @@ const pedidoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Pedido = require('../models/pedido');
 
-pedidoRouter.post('/', /*auth,*/ async (req, res) => {
+pedidoRouter.post('/', auth, async (req, res) => {
 	try {
 			const pedido = {
 				cliente: req.body.cliente,
@@ -23,7 +23,7 @@ pedidoRouter.post('/', /*auth,*/ async (req, res) => {
 });	
 
 
-pedidoRouter.get('/all', /*auth,*/ async (req, res) => {
+pedidoRouter.get('/all', auth, async (req, res) => {
 	try {
 		let response = await Pedido.getPedidos();
 		/* if (response.values && response.values.length) {
@@ -38,7 +38,7 @@ pedidoRouter.get('/all', /*auth,*/ async (req, res) => {
 });
 
 
-pedidoRouter.get('/:pedidoId', /*auth,*/ async (req, res) => {
+pedidoRouter.get('/:pedidoId', auth, async (req, res) => {
 	try {
 		const pedidoId = req.params.pedidoId;
 		const pedido = await Pedido.getPedido(pedidoId);
