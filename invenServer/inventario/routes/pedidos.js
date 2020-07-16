@@ -11,6 +11,7 @@ pedidoRouter.post('/', auth, async (req, res) => {
 				vendedor: req.body.vendedor,
 				fecha: req.body.fecha,
 				estado: req.body.estado,
+				condicionVenta: req.body.condicionVenta,
 				observaciones: req.body.observaciones,
 			};
 			let newPedido = new Pedido(pedido);

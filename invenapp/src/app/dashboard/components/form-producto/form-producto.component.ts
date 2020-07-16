@@ -44,6 +44,7 @@ export class FormProductoComponent implements OnInit {
       code: new FormControl("", Validators.required),
       name: new FormControl("", Validators.required),
       brand: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
     });
 
   }
@@ -63,6 +64,7 @@ export class FormProductoComponent implements OnInit {
     dataValues = {
       price: dataAux.price,
       brand: dataAux.brand,
+      description: dataAux.description,
       name: dataAux.name,
       code: dataAux.code,
     };

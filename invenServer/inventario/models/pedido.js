@@ -19,7 +19,7 @@ const pedidoSchema = new mongoose.Schema({
     qty: {
       type: Number,
     },
-    precio: {
+    montoProducto: {
       type: Number,
     }
   }],
@@ -27,6 +27,9 @@ const pedidoSchema = new mongoose.Schema({
     type: Date,
   },
   estado: {
+    type: String,
+  },
+  condicionVenta: {
     type: String,
   },
   observaciones: {
@@ -148,6 +151,7 @@ module.exports.getPedidos = async function () {
   try {
     const query = {};
     let pedidos = await this.find(query)
+    .populate('productosPedidos.producto')
     let response = {
       status: true,
       values: pedidos

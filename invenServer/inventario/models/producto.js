@@ -3,15 +3,18 @@ const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
 const productoSchema = new mongoose.Schema({
-  disponibilidades: [{
+  disponibilidad: {
     type: Schema.Types.ObjectId,
     ref: 'Disponibilidad',
-  }],
+  },
   precio: {
     type: Schema.Types.ObjectId,
     ref: 'Precio',
   },
   name: {
+    type: String,
+  },
+  description: {
     type: String,
   },
   code: {
@@ -79,40 +82,11 @@ try{
 async function removeLinkedDocuments(element, next) {
   try{
     // doc will be the removed Person document
-    let disponibilidades = element.disponibilidades
+    let disponibilidadId = element.disponibilidad
 
-      let dLength = disponibilidades.length;
-      console.log(dLength);
-      for(let i = 0; i < dLength; i++){
-        let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidad[i] }) 
-        .populate('almacen');
-        let almacen = disponibilidad.almacen;
-        let dispoAlmacen = almacen.disponibilidades;
-        let aLength = dispoAlmacen.length;
-        for( var j = 0; j < aLength; i++){ 
-          if ( dispoAlmacen[i] === disponibilidadId) { 
-            dispoAlmacen.splice(i, disponibilidadId); 
-          }
-        }
-        await Almacen.save()
-
-      }
+    let deleteRes = await Disponibilidad.findOneAndRemove({'_id': disponibilidadId }) 
     next()
-
-/*     disponibilidades.forEach(async (disponibilidadId) => {
-      let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId })    
-      .populate('almacen');
-      let almacen = disponibilidad.almacen;
-      let dispoAlmacen = almacen.disponibilidades;
-      let dLength = dispoAlmacen.length;
-      for( var i = 0; i < dLength; i++){ 
-        if ( dispoAlmacen[i] === disponibilidadId) { 
-          dispoAlmacen.splice(i, disponibilidadId); 
-        }
-      }
-      await Almacen.save()
-    });
- */} catch (error) {
+} catch (error) {
 
 }
 
@@ -169,6 +143,8 @@ module.exports.getProductos = async function () {
   try {
     const query = {};
     let productos = await this.find(query)
+    .populate('disponibilidad')
+    .populate('precio')
     let response = {
       status: true,
       values: productos

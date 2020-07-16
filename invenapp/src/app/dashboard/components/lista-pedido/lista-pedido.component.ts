@@ -5,6 +5,13 @@ import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
+import { DatePipe } from '@angular/common'
+
+
+
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-lista-pedido',
@@ -27,6 +34,7 @@ export class ListaPedidoComponent implements OnInit {
   values: any[];
 
   constructor(
+    public datepipe: DatePipe,
     private auth: AuthService,
     private dbHandler: DbHandlerService,
     private router: Router,
@@ -36,7 +44,7 @@ export class ListaPedidoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initComponent('/pedidos', 'Lista de Pedidos', 'Agregar Pedido', 'pedidos')
+    this.initComponent('/pedidos', 'Lista de Pedidos', 'Agregar Pedido', 'pedidos');
     this.initForm();
     this.isEmpty = true;
      let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
@@ -168,4 +176,298 @@ export class ListaPedidoComponent implements OnInit {
       tipo: new FormControl(""),
     })
   }
+
+  generatePdf(event, i) {
+    const documentDefinition = this.getDocumentDefinition(i);
+    pdfMake.createPdf(documentDefinition).open();
+  }
+
+  getDocHeader(company, correlativo, fecha){
+  let headerLeft =  [{
+    text: company.name,
+    style: 'name'
+  },
+  {
+    text: company.address
+  },
+  {
+    text: 'Correo : ' + company.email,
+  },
+  {
+    text: 'Teléfono : ' + company.tlf,
+  }];
+  
+  let headerRight = [
+  this.getProfilePicObject(company),
+  {
+      text: correlativo
+  },
+  {
+      text: fecha
+  }]
+
+        return {
+          columns: [
+            headerLeft,
+            headerRight
+          ]
+        }
+  }
+
+  getDocumentDefinition(i) {
+
+    let reporte = {
+      titulo: `Cotización`,
+      subtituloA: `Datos del cliente`,
+      subtituloB: `Datos del vendedor`,
+      subtituloC: `Información del pedido`,
+    }
+
+    let username = this.auth.getUsername();
+
+    let pedidos = this.dbHandler.getLocal( 'pedidosValues');
+    let productos = this.dbHandler.getLocal( 'productosValues');
+    let clientes = this.dbHandler.getLocal( 'clientesValues');
+    let vendedor;
+    let pedido = pedidos[i];
+    let users =  this.dbHandler.getLocal('usersValues');
+      for (var j = 0; j < users.length; j++) {
+        if (users[j]['_id'] === pedido.vendedor) {
+          vendedor = users[j];
+        }
+      }
+    let company = this.dbHandler.getLocal( 'companyValues')[0];
+
+    let cliente = clientes[i]
+
+    let id = pedido._id;
+     let fecha =this.datepipe.transform(pedido.fecha, 'yyyy-MM-dd');
+    let observaciones = pedido.observaciones;
+    let productosPedidos = pedido.productosPedidos;
+
+    let fields=[
+      'Item',
+      'Código',
+      'Descripción',
+      'Cantidad',
+      'Precio de venta',
+    ]
+
+    let values = [];
+    let item = 1;
+    productosPedidos.forEach(productoPedido => {
+      let qty = productoPedido.qty;
+      let precio = productoPedido.montoProducto;
+      
+      let aux = [
+        i,
+        productoPedido.producto.code,
+        productoPedido.producto.description,
+        qty,
+        precio
+      ]
+      values.push(aux);
+      item++;
+    });
+    let correlativo = '';
+
+    return {
+      content: [
+        this.getDocHeader(company, correlativo, fecha),
+        {
+          text: reporte.titulo,
+          bold: true,
+          fontSize: 20,
+          alignment: 'center',
+          margin: [0, 0, 0, 20]
+        },
+        {
+          text: reporte.subtituloA,
+          style: 'header'
+        },
+        this.getClienteObject(cliente),
+        {
+          text: reporte.subtituloB,
+          style: 'header'
+        },
+        this.getVendedorObject(vendedor, pedido.condicionVenta),
+        {
+          text: reporte.subtituloC,
+          style: 'header'
+        },
+        this.getValuesObject(fields, values),
+        {
+          text: 'Observaciones',
+          style: 'header'
+        },
+        {
+          text: observaciones
+        },
+        {
+          text: 'Firmas',
+          style: 'sign'
+        },
+        {
+          columns : [
+              { qr: id, fit : 100 },
+              {
+              text: `Procesado por`,
+              alignment: 'right',
+              }
+          ]
+        }
+      ],
+      info: {
+        title: reporte.titulo,
+        author: username,
+        subject: 'REPORTE',
+        keywords: 'REPORTE, CONTROL'
+      },
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 20, 0, 10],
+            decoration: 'underline'
+          },
+          name: {
+            fontSize: 16,
+            bold: true
+          },
+          jobTitle: {
+            fontSize: 14,
+            bold: true,
+            italics: true
+          },
+          sign: {
+            margin: [0, 50, 0, 10],
+            alignment: 'right',
+            italics: true
+          },
+          tableHeader: {
+            bold: true,
+          }
+        }
+    };
+  }
+
+  getValuesObject(fields, values) {
+
+    let titleRow = [];
+    let widths = []
+    let titleContent = []
+    let wLength = fields.length;
+    for (let i = 0; i < wLength; i++) {
+      widths.push('*');
+      
+    }
+    fields.forEach(field => {
+      let aux = {
+        text: field,
+        style: "tableHeader"
+      }
+      titleRow.push(aux);
+    });
+
+      let aux = []
+    values.forEach(value => {
+      value.forEach(item => {
+        let auxb = {
+          text: item,
+          style: "tableContent"
+        }
+        aux.push(auxb);
+        
+      });
+      titleContent.push(aux);
+    });
+    return {
+      table: {
+        widths: widths,
+        body: [
+          titleRow,
+          ...titleContent,
+        ]
+      }
+    };
+  }
+
+  getProfilePicObject(company) {
+    if (company.logo) {
+      return {
+        image: company.logo ,
+        width: 75,
+        alignment : 'right'
+      };
+    }
+    return null;
+  }
+
+getClienteObject(cliente) {
+
+
+      let block =
+        [{
+          columns: [
+            [{
+              text: `Nombre: ${cliente.name}`,
+              style: 'jobTitle'
+            },
+            {
+              text: `Teléfono: ${cliente.ws}`,
+            },
+            {
+              text: `Correo: ${cliente.mail}`,
+            }],
+            [{
+              text: `Rif: ${cliente.rif}`,
+              alignment: 'right',
+              style: 'jobTitle'
+            },{
+            text: `Dirección: ${cliente.address}`,
+            alignment: 'right'
+            }
+            ]
+          ]
+        }]
+
+    return {
+      table: {
+        widths: ['*'],
+        body: [
+          block
+        ]
+      }
+    };
+  }
+
+getVendedorObject(vendedor, condicion) {
+
+      let block =
+        [{
+          columns: [
+            [{
+              text: `Nombre: ${vendedor.name}`,
+              style: 'jobTitle'
+            }],
+            [{
+              text: `Condición de venta: ${condicion}`,
+              alignment: 'right',
+              style: 'jobTitle'
+            }]
+          ]
+        }]
+
+    return {
+      table: {
+        widths: ['*'],
+        body: [
+          block
+        ]
+      }
+    };
+  }
+
+
+
 }

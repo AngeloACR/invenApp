@@ -1,4 +1,8 @@
 
+  <button class="buttonBox" (click)="agregar()">
+    {{ addText }}
+  </button>  
+  
   <div class="cardBox" *ngIf="!isEmpty">
     <div class="listBox">
       <div class="titleRow">
@@ -25,10 +29,6 @@
     <p>No hay elementos para mostrar</p>
   </div>
 
-  <button class="buttonBox" (click)="agregar()">
-    {{ addText }}
-  </button>  
-  
   <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
 
 <div class="confirmBox" [ngClass]="showConfirm">

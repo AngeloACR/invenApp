@@ -73,6 +73,10 @@ export class PreciosComponent implements OnInit {
       this.values.push(aux)
     }); */
 
+    if(this.productos.length){
+      this.isEmpty = false;
+    }
+
     this.precios.forEach(precio => {
       let aux = [
         precio.producto.name,
@@ -89,10 +93,6 @@ export class PreciosComponent implements OnInit {
       this.prices.push(price);
       this.isUpdate.push(false);
     });
-
-    if(this.values.length){
-      this.isEmpty = false;
-    }
   }
 
   initComponent(endpoint, title, addText, name) {

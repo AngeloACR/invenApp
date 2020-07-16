@@ -3,10 +3,10 @@ const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
 const disponibilidadSchema = new mongoose.Schema({
-  producto: [{
+  producto: {
     type: Schema.Types.ObjectId,
     ref: 'Producto',
-  }],
+  },
   dispoAlmacen: [{
     almacen: {
       type: Schema.Types.ObjectId,
@@ -57,12 +57,9 @@ async function elementAdded(element, next) {
     }
     
     if(producto){
-      let dispoProducto = producto.disponibilidades; 
-      if(dispoProducto.indexOf(dispoId) <= -1){
-        dispoProducto.push(element._id)
+      producto.disponibilidad = element._id
         producto = await producto.save();
       }
-    }
 
     next()
 } catch (error) {
@@ -76,8 +73,7 @@ async function removeLinkedDocuments(element, next) {
     // doc will be the removed Person document
 
     let almacen = await Almacen.findOne({'_id': element.almacen })
-    let producto = await Producto.findOne({'_id': element.producto })
-    let disponibilidad = ellement._id
+    let disponibilidad = element._id
     let disponibilidades = almacen.disponibilidades;
     let pLength = disponibilidads.length;
     for( var i = 0; i < pLength; i++){ 
@@ -87,14 +83,6 @@ async function removeLinkedDocuments(element, next) {
     }
     await almacen.save();
 
-    disponibilidades = producto.disponibilidades;
-    pLength = disponibilidads.length;
-    for( var i = 0; i < pLength; i++){ 
-      if ( disponibilidads[i] === disponibilidad) { 
-        disponibilidads.splice(i, disponibilidad); 
-      }
-    }
-   await producto.save();
     next()
 } catch (error) {
 

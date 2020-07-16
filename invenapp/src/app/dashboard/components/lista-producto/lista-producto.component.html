@@ -1,4 +1,7 @@
-
+  <button class="buttonBox" (click)="agregar()">
+    {{ addText }}
+  </button>  
+  
   <div class="cardBox" *ngIf="!isEmpty">
     <div class="listBox">
       <div class="titleRow">
@@ -20,40 +23,22 @@
           <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
           <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x" (click)="generatePdf($event, i)"></fa-icon>
           <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)"></fa-icon>
-          <!-- <button
-              style="background-color: orange"
-              type="button"
-              class="actionButton"
-              (click)="openUpdate($event, i)"
-            >
-              <p>EDITAR</p>
-            </button>
-            <button
-              style="background-color: red"
-              type="button"
-              class="actionButton"
-              (click)="confirmDelete($event, i)"
-            >
-              <p>ELIMINAR</p>
-            </button>    -->         
-          
-            <!-- <button
-              style="background-color: green"
-              type="button"
-              class="actionButton"
-              (click)="habilitarElemento($event, i, 1)"
-            >
-              <p>HABILITAR</p>
-            </button>
-            <button
-              style="background-color: red"
-              type="button"
-              class="actionButton"
-              (click)="habilitarElemento($event, i, 0)"
-            >
-              <p>DESHABILITAR</p>
-            </button> -->
+
         </div>
+        <div *ngFor="let item of value">
+          <p>{{ item }}</p>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <div class="cardBox" *ngIf="isDetalle">
+    <div class="listBox">
+      <div class="titleRow">
+          <p *ngFor="let field of fields2">{{ field }}</p>
+      </div>    
+      <div class="contentRow" *ngFor="let value of values2; let i = index">
+
         <div *ngFor="let item of value">
           <p>{{ item }}</p>
         </div>
@@ -65,9 +50,7 @@
     <p>No hay elementos para mostrar</p>
   </div>
 
-  <button class="buttonBox" (click)="agregar()">
-    {{ addText }}
-  </button>  
+
   
   <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
 

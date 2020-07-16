@@ -9,6 +9,7 @@ productoRouter.post('/', auth, async (req, res) => {
 				name: req.body.name,
 				code: req.body.code,
 				brand: req.body.brand,
+				description: req.body.description,
 				qtyTotal: 0,
 			};	
 			let newProducto = new Producto(producto);

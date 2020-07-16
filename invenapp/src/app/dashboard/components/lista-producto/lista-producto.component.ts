@@ -47,16 +47,19 @@ export class ListaProductoComponent implements OnInit {
       'Código',
       'Nombre',
       'Marca',
+      'Cantidad disponible',
+      'Cantidad bloqueada',
       ]
 
     this.values = [];
-
     auxValues.forEach(value => {
       let aux = [
         value._id,
         value.code,
         value.name,
         value.brand,
+        value.disponibilidad.qtyDisponible,
+        value.disponibilidad.qtyBloqueada
       ]
       this.values.push(aux)
     });
@@ -64,6 +67,7 @@ export class ListaProductoComponent implements OnInit {
     if(this.values.length){
       this.isEmpty = false;
     }
+    this.isDetalle=false;
   }
 
   initComponent(endpoint, title, addText, name) {
@@ -127,6 +131,42 @@ export class ListaProductoComponent implements OnInit {
         confirmAct: false,
       }
   }
+
+  isDetalle: boolean;
+
+  fields2: any[];
+  values2: any[];
+
+  verDetalle(event, i){
+        this.fields2 = [
+      'Almacen',
+      'Cantidad'
+      ]
+
+    let almacenes = this.dbHandler.getLocal('almacenesValues');
+    let productos = this.dbHandler.getLocal('productosValues');
+    let producto = productos[i];
+    let disponibilidad = producto.disponibilidad
+    let dispoAlmacen = disponibilidad.dispoAlmacen
+    this.values2 = [];
+
+    almacenes.forEach(almacen => {
+      let almacenCode;
+      let qty
+      dispoAlmacen.forEach(item => {
+        if(almacen._id == item.almacen){
+          almacenCode = almacen.code;
+          qty = item.qty;
+        }
+      });
+      let aux = [
+        almacenCode,
+        qty
+      ]
+      this.values2.push(aux)
+    });
+    this.isDetalle = true;
+  }  
 
     openUpdate(event, item) {  
       this.router.navigateByUrl('/actualizar/producto/'+item);

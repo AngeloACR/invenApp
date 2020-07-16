@@ -31,6 +31,11 @@
             </div>
           <div class="errorTag" *ngIf="fProducto.almacen.errors?.required && (fProducto.almacen.touched || fProducto.almacen.dirty)">Por favor ingrese la ubicación del producto</div>
  -->      </div>
+           <div class="formInput">
+            <label for="">Descripción</label>
+            <textarea class="" rows="6" type="text" formControlName="description" name=""></textarea>
+          </div>
+
   <button type="submit" class="formButton">
     <p>Registrar producto</p>
   </button>

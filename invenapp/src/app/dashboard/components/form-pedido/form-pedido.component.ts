@@ -29,6 +29,7 @@ export class FormPedidoComponent implements OnInit {
   clientes: any;
   vendedores: any;
   productos: any;
+  precios: any;
 
 
 
@@ -75,6 +76,7 @@ export class FormPedidoComponent implements OnInit {
   getValues(){
     this.clientes =  this.dbHandler.getLocal('clientesValues');
     this.productos =  this.dbHandler.getLocal('productosValues');
+    this.precios =  this.dbHandler.getLocal('preciosValues');
     this.vendedores = [];
     let users =  this.dbHandler.getLocal('usersValues');
       for (var i = 0; i < users.length; i++) {
@@ -95,6 +97,7 @@ export class FormPedidoComponent implements OnInit {
       fecha: new FormControl("", Validators.required),
       estado: new FormControl("", Validators.required),
       observaciones: new FormControl("", Validators.required),
+      condicionVenta: new FormControl("", Validators.required),
       productos: this.productosPedidos,
     });
 
@@ -105,8 +108,7 @@ export class FormPedidoComponent implements OnInit {
   addProducto() {
     const productoPedido = new FormGroup({
       producto: new FormControl("", Validators.required),
-      qty: new FormControl("", Validators.required),
-      price: new FormControl(""),
+      qty: new FormControl("", Validators.required)
     });
 
     this.productosPedidos.push(productoPedido);
@@ -133,17 +135,27 @@ getToday(): string {
     let endpoint;
 
     let productosPedidos = []
+    let montoTotal = 0;
       var productosPedidosControls = this.productosPedidos.controls;
        for (let control of productosPedidosControls) {
         if (control instanceof FormGroup) {
+          let precio;
           let producto = control.controls['producto'].value;
           let qty = control.controls['qty'].value;
-          let price = control.controls['price'].value;
+          //Buscar precio del producto
+          this.precios.forEach(prec => {
+            if(prec.producto == producto._id){
+              precio = prec.valor;
+              return;
+            }
+          });
+          let montoProducto = precio*qty
           let productoPedido = {
             producto,
             qty,
-            price,
+            montoProducto
           }
+          montoTotal += montoProducto;
         productosPedidos.push(productoPedido);
         };
         } 
@@ -153,8 +165,9 @@ getToday(): string {
       vendedor: dataAux.vendedor,
       fecha: dataAux.fecha,
       estado: dataAux.estado,
+      condicionVenta: dataAux.condicionVenta,
       observaciones: dataAux.observaciones,
-      referencia: dataAux.reference,
+      montoTotal: montoTotal,
       productosPedidos: productosPedidos,
     };
 
