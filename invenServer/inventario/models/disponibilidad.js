@@ -37,7 +37,6 @@ const disponibilidadSchema = new mongoose.Schema({
   }
 })
 .post('save', elementAdded)
-.post('remove', removeLinkedDocuments)
 
 async function elementAdded(element, next) {
     try {
@@ -68,20 +67,25 @@ async function elementAdded(element, next) {
 
 }
 
-async function removeLinkedDocuments(element, next) {
+const Disponibilidad = module.exports = mongoose.model("Disponibilidad", disponibilidadSchema);
+
+module.exports.removeLinkedDocuments = async function (element) {
     try {
     // doc will be the removed Person document
-
-    let almacen = await Almacen.findOne({'_id': element.almacen })
-    let disponibilidad = element._id
-    let disponibilidades = almacen.disponibilidades;
-    let pLength = disponibilidads.length;
-    for( var i = 0; i < pLength; i++){ 
-      if ( disponibilidads[i] === disponibilidad) { 
-        disponibilidads.splice(i, disponibilidad); 
+      const Almacen = require('./almacen');
+    let dispoAlmacen = element.dispoAlmacen
+    dispoAlmacen.forEach(item => {
+      let almacen = await Almacen.findOne({'_id': item.almacen })
+      let disponibilidad = element._id
+      let disponibilidades = almacen.disponibilidades;
+      let pLength = disponibilidads.length;
+      for( var i = 0; i < pLength; i++){ 
+        if ( disponibilidades[i] == disponibilidad) { 
+          disponibilidades.splice(i, disponibilidad); 
+        }
       }
-    }
-    await almacen.save();
+      await almacen.save();
+    });
 
     next()
 } catch (error) {
@@ -90,13 +94,14 @@ async function removeLinkedDocuments(element, next) {
 
 }
 
-const Disponibilidad = module.exports = mongoose.model("Disponibilidad", disponibilidadSchema);
 
 
 module.exports.deleteDisponibilidad = async function (id) {
     try {
         const query = { "_id": id };
-        let deleteRes =  await this.findOneAndRemove(query);
+        let disponibilidad =  await this.findOne(query);
+        await this.removeLinkedDocuments(disponibilidad);
+        disponibilidad.remove();
         let response = {
           status: true,
           values: deleteRes

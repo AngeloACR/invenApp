@@ -144,7 +144,7 @@ getToday(): string {
           let qty = control.controls['qty'].value;
           //Buscar precio del producto
           this.precios.forEach(prec => {
-            if(prec.producto == producto._id){
+            if(prec.producto == producto){
               precio = prec.valor;
               return;
             }

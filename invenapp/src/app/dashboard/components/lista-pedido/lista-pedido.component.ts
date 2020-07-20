@@ -182,7 +182,7 @@ export class ListaPedidoComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).open();
   }
 
-  getDocHeader(company, correlativo, fecha){
+  getDocHeader(company, correlativo, fecha, vendedor, condicionVenta){
   let headerLeft =  [{
     text: company.name,
     style: 'name'
@@ -191,7 +191,7 @@ export class ListaPedidoComponent implements OnInit {
     text: company.address
   },
   {
-    text: 'Correo : ' + company.email,
+    text: 'Correo : ' + company.mail,
   },
   {
     text: 'Teléfono : ' + company.tlf,
@@ -199,12 +199,14 @@ export class ListaPedidoComponent implements OnInit {
   
   let headerRight = [
   this.getProfilePicObject(company),
+  ...this.getVendedorObject(vendedor, condicionVenta),
   {
       text: correlativo
   },
   {
       text: fecha
-  }]
+  },
+  ]
 
         return {
           columns: [
@@ -260,7 +262,7 @@ export class ListaPedidoComponent implements OnInit {
       let precio = productoPedido.montoProducto;
       
       let aux = [
-        i,
+        item,
         productoPedido.producto.code,
         productoPedido.producto.description,
         qty,
@@ -273,7 +275,7 @@ export class ListaPedidoComponent implements OnInit {
 
     return {
       content: [
-        this.getDocHeader(company, correlativo, fecha),
+        this.getDocHeader(company, correlativo, fecha, vendedor, pedido.condicionVenta),
         {
           text: reporte.titulo,
           bold: true,
@@ -290,7 +292,6 @@ export class ListaPedidoComponent implements OnInit {
           text: reporte.subtituloB,
           style: 'header'
         },
-        this.getVendedorObject(vendedor, pedido.condicionVenta),
         {
           text: reporte.subtituloC,
           style: 'header'
@@ -443,7 +444,15 @@ getClienteObject(cliente) {
 
 getVendedorObject(vendedor, condicion) {
 
-      let block =
+
+  return [{
+      text: 'Vendedor : ' + vendedor.name,
+    },
+    {
+      text: 'Condición de venta : ' + condicion,
+    }];
+
+/*       let block =
         [{
           columns: [
             [{
@@ -456,9 +465,9 @@ getVendedorObject(vendedor, condicion) {
               style: 'jobTitle'
             }]
           ]
-        }]
+        }] */
 
-    return {
+/*     return {
       table: {
         widths: ['*'],
         body: [
@@ -466,7 +475,7 @@ getVendedorObject(vendedor, condicion) {
         ]
       }
     };
-  }
+ */  }
 
 
 

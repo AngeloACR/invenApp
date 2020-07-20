@@ -11,6 +11,7 @@ pedidoRouter.post('/', auth, async (req, res) => {
 				vendedor: req.body.vendedor,
 				fecha: req.body.fecha,
 				estado: req.body.estado,
+				montoTotal: req.body.montoTotal,
 				condicionVenta: req.body.condicionVenta,
 				observaciones: req.body.observaciones,
 			};

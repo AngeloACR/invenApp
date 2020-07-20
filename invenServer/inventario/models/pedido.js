@@ -26,6 +26,9 @@ const pedidoSchema = new mongoose.Schema({
   fecha: {
     type: Date,
   },
+    montoTotal: {
+      type: Number,
+    }
   estado: {
     type: String,
   },

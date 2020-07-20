@@ -24,7 +24,6 @@ const productoSchema = new mongoose.Schema({
     type: String,
   }
 }).post('save', createRef)
-.post('remove', removeLinkedDocuments);
 
 async function createRef(element, next) {
 try{
@@ -79,26 +78,45 @@ try{
 
 }
 
-async function removeLinkedDocuments(element, next) {
-  try{
-    // doc will be the removed Person document
-    let disponibilidadId = element.disponibilidad
-
-    let deleteRes = await Disponibilidad.findOneAndRemove({'_id': disponibilidadId }) 
-    next()
-} catch (error) {
-
-}
-
-}
-
 const Producto = module.exports = mongoose.model("Producto", productoSchema);
+
+module.exports.removeLinkedDocuments = async function (element) {
+  try{
+    
+      const Disponibilidad = require('./disponibilidad');
+      const Precio = require('./precio');
+    console.log(disponibilidad);
+    console.log(precio);
+    let disponibilidadId = element.disponibilidad
+    let precioId = element.precio
+
+    let deleteRes = await Disponibilidad.deleteDisponibilidad(disponibilidadId)
+    console.log(deleteRes)
+    deleteRes = await Precio.deletePrecio(precioId)
+    console.log(deleteRes)
+
+/*     let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId }) 
+    let deleteRes = disponibilidad.remove()
+    let precio = await Precio.findOne({'_id': precioId }) 
+    deleteRes = precio.remove()
+    console.log(deleteRes)
+ */} catch (error) {
+
+}
+
+}
+
 
 
 module.exports.deleteProducto = async function (id) {
     try {
         const query = { "_id": id };
-        let deleteRes =  await this.findOneAndRemove(query);
+        let producto =  await this.findOne(query);
+        console.log('here')
+        await this.removeLinkedDocuments(producto)
+        console.log('here2')
+        let deleteRes = await producto.remove();
+
         let response = {
           status: true,
           values: deleteRes
