@@ -191,6 +191,9 @@ export class ListaPedidoComponent implements OnInit {
     text: company.address
   },
   {
+    text: company.rif
+  },
+  {
     text: 'Correo : ' + company.mail,
   },
   {
@@ -201,10 +204,12 @@ export class ListaPedidoComponent implements OnInit {
   this.getProfilePicObject(company),
   ...this.getVendedorObject(vendedor, condicionVenta),
   {
-      text: correlativo
+      text: correlativo,
+          alignment: 'right',
   },
   {
-      text: fecha
+      text: fecha,
+          alignment: 'right',
   },
   ]
 
@@ -221,14 +226,14 @@ export class ListaPedidoComponent implements OnInit {
     let reporte = {
       titulo: `Cotización`,
       subtituloA: `Datos del cliente`,
-      subtituloB: `Datos del vendedor`,
-      subtituloC: `Información del pedido`,
+      subtituloB: `Información del pedido`,
     }
 
     let username = this.auth.getUsername();
 
     let pedidos = this.dbHandler.getLocal( 'pedidosValues');
     let productos = this.dbHandler.getLocal( 'productosValues');
+    let precios = this.dbHandler.getLocal( 'preciosValues');
     let clientes = this.dbHandler.getLocal( 'clientesValues');
     let vendedor;
     let pedido = pedidos[i];
@@ -246,27 +251,38 @@ export class ListaPedidoComponent implements OnInit {
      let fecha =this.datepipe.transform(pedido.fecha, 'yyyy-MM-dd');
     let observaciones = pedido.observaciones;
     let productosPedidos = pedido.productosPedidos;
+    let montoTotal = pedido.montoTotal;
 
     let fields=[
       'Item',
       'Código',
       'Descripción',
       'Cantidad',
-      'Precio de venta',
+      'Precio unitario',
+      'Subtotal',
     ]
 
     let values = [];
     let item = 1;
     productosPedidos.forEach(productoPedido => {
+      let precioId = productoPedido.producto.precio;
       let qty = productoPedido.qty;
-      let precio = productoPedido.montoProducto;
+      let precio;
+      precios.forEach(prec => {
+        if(prec._id == precioId){
+          precio = prec.valor;
+          return;
+        }
+      }); 
+      let subtotal = productoPedido.montoProducto;
       
       let aux = [
         item,
         productoPedido.producto.code,
         productoPedido.producto.description,
         qty,
-        precio
+        precio,
+        subtotal
       ]
       values.push(aux);
       item++;
@@ -292,11 +308,12 @@ export class ListaPedidoComponent implements OnInit {
           text: reporte.subtituloB,
           style: 'header'
         },
-        {
-          text: reporte.subtituloC,
-          style: 'header'
-        },
         this.getValuesObject(fields, values),
+        {
+          text: `Monto total: ${montoTotal}`,
+          alignment: 'right',
+          style: 'name',
+        },
         {
           text: 'Observaciones',
           style: 'header'
@@ -310,7 +327,7 @@ export class ListaPedidoComponent implements OnInit {
         },
         {
           columns : [
-              { qr: id, fit : 100 },
+              { qr: `${company.name}, tlf: ${company.tlf}`, fit : 100 },
               {
               text: `Procesado por`,
               alignment: 'right',
@@ -447,9 +464,11 @@ getVendedorObject(vendedor, condicion) {
 
   return [{
       text: 'Vendedor : ' + vendedor.name,
+          alignment: 'right',
     },
     {
       text: 'Condición de venta : ' + condicion,
+          alignment: 'right',
     }];
 
 /*       let block =

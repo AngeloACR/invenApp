@@ -111,6 +111,7 @@ export class FormCompanyComponent implements OnInit {
       rif: dataAux.rif,
       mail: dataAux.mail,
       address: dataAux.address,
+      id: this.company._id,
     };
     endpoint = "/company";
     error = this.catchUserErrors();

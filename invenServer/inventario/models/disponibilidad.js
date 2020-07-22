@@ -36,13 +36,13 @@ const disponibilidadSchema = new mongoose.Schema({
     type: Number,
   }
 })
-.post('save', elementAdded)
+//.post('save', elementAdded)
 
-async function elementAdded(element, next) {
+async function elementAdded(element) {
     try {
+    
     const Almacen = require('./almacen');
     const Producto = require('./producto')
-    
     let producto = await Producto.findOne({'_id': element.producto })
     let almacen = await Almacen.findOne({'_id': element.almacen })
 
@@ -59,8 +59,6 @@ async function elementAdded(element, next) {
       producto.disponibilidad = element._id
         producto = await producto.save();
       }
-
-    next()
 } catch (error) {
   console.log(error.toString())
 }
@@ -72,13 +70,14 @@ const Disponibilidad = module.exports = mongoose.model("Disponibilidad", disponi
 module.exports.removeLinkedDocuments = async function (element) {
     try {
     // doc will be the removed Person document
-      const Almacen = require('./almacen');
+
+    const Almacen = require('./almacen');
     let dispoAlmacen = element.dispoAlmacen
-    dispoAlmacen.forEach(item => {
+    dispoAlmacen.forEach(async (item) => {
       let almacen = await Almacen.findOne({'_id': item.almacen })
       let disponibilidad = element._id
       let disponibilidades = almacen.disponibilidades;
-      let pLength = disponibilidads.length;
+      let pLength = disponibilidades.length;
       for( var i = 0; i < pLength; i++){ 
         if ( disponibilidades[i] == disponibilidad) { 
           disponibilidades.splice(i, disponibilidad); 
@@ -87,7 +86,6 @@ module.exports.removeLinkedDocuments = async function (element) {
       await almacen.save();
     });
 
-    next()
 } catch (error) {
 
 }
@@ -101,7 +99,7 @@ module.exports.deleteDisponibilidad = async function (id) {
         const query = { "_id": id };
         let disponibilidad =  await this.findOne(query);
         await this.removeLinkedDocuments(disponibilidad);
-        disponibilidad.remove();
+        let deleteRes = disponibilidad.remove();
         let response = {
           status: true,
           values: deleteRes
@@ -120,6 +118,7 @@ module.exports.addDisponibilidad = async function (newDisponibilidad) {
   try {
 
     let disponibilidad = await newDisponibilidad.save()
+    await elementAdded(disponibilidad);
 /*     .populate({ path: 'almacen', select: 'disponibilidades' });
     .populate({ path: 'producto', select: 'disponibilidades' }); */
 

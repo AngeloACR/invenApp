@@ -11,10 +11,10 @@ const precioSchema = new mongoose.Schema({
     type: Number,
   }
 })
-.post('save', elementAdded)
+//.post('save', elementAdded)
 
 
-async function elementAdded(element, next) {
+async function elementAdded(element) {
     try {
     const Producto = require('./producto')
     
@@ -25,8 +25,6 @@ async function elementAdded(element, next) {
       producto.precio = element._id
         producto = await producto.save();
       }
-
-    next()
 } catch (error) {
   console.log(error.toString())
 }
@@ -40,7 +38,7 @@ module.exports.deletePrecio = async function (id) {
         const query = { "_id": id };
 
         let precio =  await this.findOne(query);
-        precio.remove();
+                let deleteRes = precio.remove();
                 let response = {
           status: true,
           values: deleteRes
@@ -66,6 +64,7 @@ module.exports.addPrecio = async function (newPrecio) {
     }
     
     precio = await newPrecio.save()
+    await elementAdded(precio);
 
     let response = {
       status: true,

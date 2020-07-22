@@ -50,7 +50,7 @@ companyRouter.put('/', auth, async (req, res, next) => {
 		};
 
 		let companyId = req.body.id
-
+		console.log(companyId);
 		let response = await Company.updateCompany(company, companyId);
 		res.status(200).json(response);
 	}

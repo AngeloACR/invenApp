@@ -23,19 +23,21 @@ const productoSchema = new mongoose.Schema({
   brand: {
     type: String,
   }
-}).post('save', createRef)
+})
+//.post('save', createRef)
 
-async function createRef(element, next) {
+const Producto = module.exports = mongoose.model("Producto", productoSchema);
+
+module.exports.createRef = async function (element) {
 try{
-  
-      const Disponibilidad = require('./disponibilidad');
-      const Precio = require('./precio');
-      const Almacen = require('./almacen');
+
+    const Disponibilidad = require('./disponibilidad');
+    const Precio = require('./precio');
+    const Almacen = require('./almacen');
       let productoId = element._id;
       let query = {'producto': productoId}
       let dispoAux = await Disponibilidad.findOne(query);
       let precioAux = await Precio.findOne(query)
-
       if(!dispoAux){
 
         let dispoAlmacen = [];
@@ -69,24 +71,20 @@ try{
             let newPrecio = new Precio(precio);
             newPrecio =  await Precio.addPrecio(newPrecio);
             
-          }          
-
-  next()
+          }
  } catch (error) {
    console.log(error.toString())
 }
 
 }
 
-const Producto = module.exports = mongoose.model("Producto", productoSchema);
 
 module.exports.removeLinkedDocuments = async function (element) {
   try{
     
       const Disponibilidad = require('./disponibilidad');
       const Precio = require('./precio');
-    console.log(disponibilidad);
-    console.log(precio);
+
     let disponibilidadId = element.disponibilidad
     let precioId = element.precio
 
@@ -95,14 +93,9 @@ module.exports.removeLinkedDocuments = async function (element) {
     deleteRes = await Precio.deletePrecio(precioId)
     console.log(deleteRes)
 
-/*     let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId }) 
-    let deleteRes = disponibilidad.remove()
-    let precio = await Precio.findOne({'_id': precioId }) 
-    deleteRes = precio.remove()
-    console.log(deleteRes)
- */} catch (error) {
-
-}
+  } catch (error) {
+   console.log(error.toString())
+  }
 
 }
 
@@ -135,13 +128,12 @@ module.exports.addProducto = async function (newProducto) {
   try {
 
     const query = {'code': newProducto.code};
-
     let producto = await this.findOne(query)
     if(producto){
       throw new Error('Código de producto ya registrado');
     }
-    
     producto = await newProducto.save()
+    await this.createRef(producto);
 
     let response = {
       status: true,

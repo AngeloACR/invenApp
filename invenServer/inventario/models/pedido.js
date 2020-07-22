@@ -28,7 +28,7 @@ const pedidoSchema = new mongoose.Schema({
   },
     montoTotal: {
       type: Number,
-    }
+    },
   estado: {
     type: String,
   },
