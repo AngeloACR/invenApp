@@ -15,54 +15,46 @@ const precioSchema = new mongoose.Schema({
 
 
 async function elementAdded(element) {
-    try {
-    const Producto = require('./producto')
-    
-    let producto = await Producto.findOne({'_id': element.producto })
+  try {
 
-    let precioId = element._id
-    if(producto){
-      producto.precio = element._id
-        producto = await producto.save();
-      }
-} catch (error) {
-  console.log(error.toString())
-}
+  } catch (error) {
+    console.log(error.toString())
+  }
 
 }
 const Precio = module.exports = mongoose.model("Precio", precioSchema);
 
 
 module.exports.deletePrecio = async function (id) {
-    try {
-        const query = { "_id": id };
+  try {
+    const query = { "_id": id };
 
-        let precio =  await this.findOne(query);
-                let deleteRes = precio.remove();
-                let response = {
-          status: true,
-          values: deleteRes
-        }
-    return response;
-    } catch (error) {
-               let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+    let precio = await this.findOne(query);
+    let deleteRes = precio.remove();
+    let response = {
+      status: true,
+      values: deleteRes
     }
+    return response;
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }
 
 module.exports.addPrecio = async function (newPrecio) {
   try {
 
-    const query = {'producto': newPrecio.producto};
+    const query = { 'producto': newPrecio.producto };
 
     let precio = await this.findOne(query)
-    if(precio){
+    if (precio) {
       throw new Error('Precio ya registrado');
     }
-    
+
     precio = await newPrecio.save()
     await elementAdded(precio);
 
@@ -71,20 +63,20 @@ module.exports.addPrecio = async function (newPrecio) {
       values: precio
     }
     return response;
-  } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
     }
     return response
-  } 
+  }
 }
 
 module.exports.getPrecios = async function () {
   try {
     const query = {};
     let precios = await this.find(query)
-    .populate('producto');
+      .populate('producto');
     let response = {
       status: true,
       values: precios
@@ -96,36 +88,36 @@ module.exports.getPrecio = async function (id) {
   try {
     const query = { '_id': id };
     let precio = await this.findOne(query)
-  let response = {
+    let response = {
       status: true,
       values: precio
     }
     return response;
-  } catch (error) { 
-            let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response 
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
     }
+    return response
+  }
 }
 module.exports.updatePrecio = async function (data) {
-    try {
-        const query = { '_id': data.id }
-        let precio = await this.findOne(query);
-        precio.valor = data.valor;
-        precio = await precio.save();
-        let response = {
-            status: true,
-            values: precio
-        }
-        return response
-
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { '_id': data.id }
+    let precio = await this.findOne(query);
+    precio.valor = data.valor;
+    precio = await precio.save();
+    let response = {
+      status: true,
+      values: precio
     }
+    return response
+
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }

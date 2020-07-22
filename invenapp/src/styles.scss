@@ -16,10 +16,6 @@
   flex-wrap: wrap;
 }
 
-.addBox form {
-  width: 100%;
-}
-
 .cardBox {
   display: flex;
   flex-direction: column;
@@ -168,23 +164,6 @@
   border: none;
 }
 
-.addBox {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50%;
-  height: 0;
-  max-height: 80vh;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
 .formAct {
     height: auto;
 }
@@ -306,21 +285,21 @@
     white-space: normal;
     font-weight: bold;
     width: 200px;
-  }
+}
 
-  .contentRow div p{
-    width: 100%;
-    margin: 0;
-  }
-  
-  
-  .actionBox {
-    display: flex !important;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-  }
+.contentRow div p{
+  width: 100%;
+  margin: 0;
+}
+
+
+.actionBox {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
   
 .actionButton {
   display: inline-flex;
@@ -340,10 +319,6 @@
   margin-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
-}
-
-.actionButton:active {
-  background-color: white;
 }
 
 .actionButton:active {
@@ -427,7 +402,7 @@
 }
 
 
-/*CONFIRMATION BOX*/
+/***************************CONFIRMATION BOX***************************/
 
 .confirmHeader{
     width: 100%;

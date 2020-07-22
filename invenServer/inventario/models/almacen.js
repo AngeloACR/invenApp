@@ -20,174 +20,141 @@ const almacenSchema = new mongoose.Schema({
   address: {
     type: String,
   },
-}).post('save', createDisponibilidad)
-.post('remove', removeLinkedDocuments);
-
-
-async function createDisponibilidad(element, next) {
-  try{
-    const Disponibilidad = require('./disponibilidad');
-    const Producto = require('./producto');
-
-      let almacenId = element._id;
-      let productos = await Producto.find({});
-      let pLength = productos.length;
-      
-      for(let i = 0; i < pLength; i++){
-        let productoId = productos[i]._id;
-        let query = {
-          'producto': productoId
-        }
-        let isInDispo = false
-        let dispoAux = await Disponibilidad.findOne(query);
-        let dLength = dispoAux.dispoAlmacen.length;
-        for (let j = 0; j < dLength; j++) {
-          let almacen = dispoAux.dispoAlmacen[j].almacen;
-          if(almacen == almacenId){
-            isInDispo = true;
-            break;
-          }
-        }
-        if(!isInDispo){
-          let aux = {
-            almacen: almacenId,
-            qty: 0,
-          } 
-          dispoAux.dispoAlmacen.push(aux);
-          await dispoAux.save();
-        }
-
-      } 
-     next();
-} catch (error) {
-console.log(error.toString())
-}
-
-}
-
-async function removeLinkedDocuments(element, next) {
-  try{
-    // doc will be the removed Person document
-    let disponibilidades = element.disponibilidades
-    disponibilidades.forEach(async (disponibilidadId) => {
-      let disponibilidad = await Disponibilidad.findOne({'_id': disponibilidadId })    
-      .populate('producto');
-      let producto = disponibilidad.producto;
-      let dispoProducto = producto.disponibilidades;
-      let dLength = dispoProducto.length;
-      for( var i = 0; i < dLength; i++){ 
-        if ( dispoProducto[i] === disponibilidadId) { 
-          dispoProducto.splice(i, disponibilidadId); 
-        }
-      }
-
-    });
-    next()
-} catch (error) {
-
-}
-
-}
+})/* .post('save', createDisponibilidad)
+.post('remove', removeLinkedDocuments); */
 
 const Almacen = module.exports = mongoose.model("Almacen", almacenSchema);
 
+module.exports.addDisponibilidad = async function (element) {
+  try {
+    const Disponibilidad = require('./disponibilidad');
+    await Disponibilidad.addAlmacen(element._id);
+    let disponibilidades = await Disponibilidad.find({});
+    let aux = []
+    disponibilidades.forEach(disponibilidad => {
+      aux.push(disponibilidad._id)
+    });
+    return aux;
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
+
+module.exports.removeDisponibilidad = async function (element) {
+  try {
+    const Disponibilidad = require('./disponibilidad');
+    await Disponibilidad.removeAlmacen(element._id);
+
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
+
 
 module.exports.deleteAlmacen = async function (id) {
-    try {
-        const query = { "_id": id };
-        let deleteRes =  await this.findOneAndRemove(query);
-        let response = {
-          status: true,
-          values: deleteRes
-        }
+  try {
+    const query = { "_id": id };
+    let almacen = await this.findOne(query);
+    await this.removeDisponibilidad(almacen);
+    let deleteRes = almacen.remove();
+    let response = {
+      status: true,
+      values: deleteRes
+    }
     return response;
-    } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
     }
     return response
-  } 
+  }
 }
 
 module.exports.addAlmacen = async function (newAlmacen) {
   try {
-    const query = {'code': newAlmacen.code};
+    const query = { 'code': newAlmacen.code };
     let almacen = await this.findOne(query)
-    if(almacen){
+    if (almacen) {
       throw new Error('Código de almacen ya registrado');
     }
-    
+
+    let disponibilidades = await this.addDisponibilidad(newAlmacen)
+    newAlmacen.disponibilidades = disponibilidades;
+
     almacen = await newAlmacen.save();
     let response = {
       status: true,
       values: almacen
     }
     return response;
-  } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
     }
     return response
-  } 
+  }
 }
 
 module.exports.getAlmacenes = async function () {
   try {
     const query = {};
     let almacens = await this.find(query)
+      .populate('disponibilidades')
     let response = {
       status: true,
       values: almacens
     }
     return response;
-  } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
     }
     return response
-  } 
+  }
 }
 module.exports.getAlmacen = async function (id) {
   try {
     const query = { '_id': id };
     let almacen = await this.findOne(query)
-  .populate({ path: 'userId', select: 'username mail type name' })
-  let response = {
+      .populate({ path: 'userId', select: 'username mail type name' })
+    let response = {
       status: true,
       values: almacen
     }
     return response;
-  } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
     }
     return response
-  } 
+  }
 }
 module.exports.updateAlmacen = async function (data) {
-    try {
-        const query = { 'userId': data.id }
-        let almacen = await this.findOne(query);
-        almacen.code = data.code;
-        almacen.state = data.state;
-        almacen.city = data.city;
-        almacen.address = data.adress;
-        almacen = await almacen.save();
-        let response = {
-            status: true,
-            values: almacen
-        }
-        return response
-
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { 'userId': data.id }
+    let almacen = await this.findOne(query);
+    almacen.code = data.code;
+    almacen.state = data.state;
+    almacen.city = data.city;
+    almacen.address = data.adress;
+    almacen = await almacen.save();
+    let response = {
+      status: true,
+      values: almacen
     }
+    return response
+
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }

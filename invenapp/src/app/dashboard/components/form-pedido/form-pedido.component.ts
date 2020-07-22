@@ -101,6 +101,10 @@ export class FormPedidoComponent implements OnInit {
       productos: this.productosPedidos,
     });
 
+    if(this.editMode){
+      
+    }
+
     this.addProducto();
 
   }
