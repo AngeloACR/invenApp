@@ -244,11 +244,18 @@ export class ListaPedidoComponent implements OnInit {
     for (var j = 0; j < users.length; j++) {
       if (users[j]["_id"] === pedido.vendedor) {
         vendedor = users[j];
+        break;
       }
     }
     let company = this.dbHandler.getLocal("companyValues")[0];
     let logo = await this.fileHandler.imgTobase64("/assets/logo.png");
-    let cliente = clientes[i];
+    let cliente;
+    for (var j = 0; j < clientes.length; j++) {
+      if (clientes[j]["_id"] == pedido.cliente) {
+        cliente = clientes[j];
+        break;
+      }
+    }
 
     let id = pedido._id;
     let fecha = this.datepipe.transform(pedido.fecha, "yyyy-MM-dd");
@@ -395,8 +402,8 @@ export class ListaPedidoComponent implements OnInit {
       titleRow.push(aux);
     });
 
-    let aux = [];
     values.forEach(value => {
+      let aux = [];
       value.forEach(item => {
         let auxb = {
           text: item,

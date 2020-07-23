@@ -1,17 +1,22 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray  } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
 @Component({
-  selector: 'app-form-pedido',
-  templateUrl: './form-pedido.component.html',
-  styleUrls: ['./form-pedido.component.scss']
+  selector: "app-form-pedido",
+  templateUrl: "./form-pedido.component.html",
+  styleUrls: ["./form-pedido.component.scss"]
 })
 export class FormPedidoComponent implements OnInit {
-
   @Input()
   editMode: number;
   @Input()
@@ -30,8 +35,6 @@ export class FormPedidoComponent implements OnInit {
   vendedores: any;
   productos: any;
   precios: any;
-
-
 
   @Output()
   onData = new EventEmitter<any>();
@@ -54,43 +57,39 @@ export class FormPedidoComponent implements OnInit {
     this.getValues();
     this.initForm();
     let type = this.auth.getType();
+    this.registroPedido.controls["estado"].setValue("Bloqueada");
+    this.registroPedido.controls["estado"].disable();
     switch (type) {
-      case 'Vendedor':
-          this.vendedor = this.auth.getId();
-          this.registroPedido.controls['vendedor'].setValue(this.vendedor);
-          this.registroPedido.controls['vendedor'].disable();
-          this.registroPedido.controls['estado'].setValue('Bloqueada');
-          this.registroPedido.controls['estado'].disable();
+      case "Vendedor":
+        this.vendedor = this.auth.getId();
+        this.registroPedido.controls["vendedor"].setValue(this.vendedor);
+        this.registroPedido.controls["vendedor"].disable();
         break;
-      case 'Admin':
+      case "Admin":
         break;
-    
+
       default:
         break;
     }
-        this.showError = {
-        errorAct: false
-      }
+    this.showError = {
+      errorAct: false
+    };
   }
 
-  getValues(){
-    this.clientes =  this.dbHandler.getLocal('clientesValues');
-    this.productos =  this.dbHandler.getLocal('productosValues');
-    this.precios =  this.dbHandler.getLocal('preciosValues');
+  getValues() {
+    this.clientes = this.dbHandler.getLocal("clientesValues");
+    this.productos = this.dbHandler.getLocal("productosValues");
+    this.precios = this.dbHandler.getLocal("preciosValues");
     this.vendedores = [];
-    let users =  this.dbHandler.getLocal('usersValues');
-      for (var i = 0; i < users.length; i++) {
-        if (users[i]['type'] === 'Vendedor') {
-          this.vendedores.push(users[i]);
-        }
+    let users = this.dbHandler.getLocal("usersValues");
+    for (var i = 0; i < users.length; i++) {
+      if (users[i]["type"] === "Vendedor") {
+        this.vendedores.push(users[i]);
       }
-      console.log(this.clientes)
-      console.log(this.vendedores)
-      console.log(this.productos)
+    }
   }
 
   initForm() {
-
     this.registroPedido = new FormGroup({
       cliente: new FormControl("", Validators.required),
       vendedor: new FormControl("", Validators.required),
@@ -98,15 +97,13 @@ export class FormPedidoComponent implements OnInit {
       estado: new FormControl("", Validators.required),
       observaciones: new FormControl("", Validators.required),
       condicionVenta: new FormControl("", Validators.required),
-      productos: this.productosPedidos,
+      productos: this.productosPedidos
     });
 
-    if(this.editMode){
-      
+    if (this.editMode) {
     }
 
     this.addProducto();
-
   }
 
   addProducto() {
@@ -119,17 +116,16 @@ export class FormPedidoComponent implements OnInit {
   }
 
   removeProduct(event, index) {
-    this.productosPedidos.removeAt(index);  
+    this.productosPedidos.removeAt(index);
   }
 
-  get fPedido() { 
+  get fPedido() {
     return this.registroPedido.controls;
   }
 
-
-getToday(): string {
-   return new Date().toISOString().split('T')[0]
-}
+  getToday(): string {
+    return new Date().toISOString().split("T")[0];
+  }
 
   endRegistro() {
     var dataAux = this.registroPedido.value;
@@ -138,31 +134,34 @@ getToday(): string {
     let refreshList;
     let endpoint;
 
-    let productosPedidos = []
+    let productosPedidos = [];
     let montoTotal = 0;
-      var productosPedidosControls = this.productosPedidos.controls;
-       for (let control of productosPedidosControls) {
-        if (control instanceof FormGroup) {
-          let precio;
-          let producto = control.controls['producto'].value;
-          let qty = control.controls['qty'].value;
-          //Buscar precio del producto
-          this.precios.forEach(prec => {
-            if(prec.producto._id == producto){
-              precio = prec.valor;
-              return;
-            }
-          });
-          let montoProducto = precio*qty
-          let productoPedido = {
-            producto,
-            qty,
-            montoProducto
+    var productosPedidosControls = this.productosPedidos.controls;
+    for (let control of productosPedidosControls) {
+      if (control instanceof FormGroup) {
+        let precio;
+        let producto = control.controls["producto"].value;
+        let qty = control.controls["qty"].value;
+        //Buscar precio del producto
+        this.precios.forEach(prec => {
+          if (prec.producto._id == producto) {
+            precio = prec.valor;
+            return;
           }
-          montoTotal += montoProducto;
-        productosPedidos.push(productoPedido);
+        });
+        let montoProducto = precio * qty;
+        montoTotal += montoProducto;
+        let montoProductoAux = montoProducto.toFixed(2);
+        let productoPedido = {
+          producto,
+          qty,
+          montoProductoAux
         };
-        } 
+        productosPedidos.push(productoPedido);
+      }
+    }
+
+    let montoTotalAux = montoTotal.toFixed(2);
 
     dataValues = {
       cliente: dataAux.cliente,
@@ -171,36 +170,36 @@ getToday(): string {
       estado: dataAux.estado,
       condicionVenta: dataAux.condicionVenta,
       observaciones: dataAux.observaciones,
-      montoTotal: montoTotal,
-      productosPedidos: productosPedidos,
+      montoTotal: montoTotalAux,
+      productosPedidos: productosPedidos
     };
-
-
 
     endpoint = "/pedidos";
     error = this.catchUserErrors();
-    if(error){
-      let errorMsg = 'Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo'
-      this.openError(errorMsg)
-    } else{
-
-      this.dbHandler.createSomething(dataValues, endpoint).subscribe((data: any) => {
-        // data is already a JSON object
-        if(!data.status){
-          let errorMsg = data.msg;
-          this.openError(errorMsg)
-        } else{
-          this.onData.emit(data);
-        }
-      });
-    }  
+    if (error) {
+      let errorMsg =
+        "Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo";
+      this.openError(errorMsg);
+    } else {
+      this.dbHandler
+        .createSomething(dataValues, endpoint)
+        .subscribe((data: any) => {
+          // data is already a JSON object
+          if (!data.status) {
+            let errorMsg = data.msg;
+            this.openError(errorMsg);
+          } else {
+            this.onData.emit(data);
+          }
+        });
+    }
   }
 
-  openError(msg){
+  openError(msg) {
     this.errorMsg = msg;
     this.showError = {
-        errorAct: true
-      }
+      errorAct: true
+    };
   }
 
   closeError() {
@@ -213,10 +212,11 @@ getToday(): string {
     this.registroPedido.reset();
   }
 
-  catchUserErrors(){
-    let aux1 = this.fPedido.fecha.errors ? this.fPedido.fecha.errors.required : false;
+  catchUserErrors() {
+    let aux1 = this.fPedido.fecha.errors
+      ? this.fPedido.fecha.errors.required
+      : false;
     let error = aux1;
-    return error
+    return error;
   }
-
 }
