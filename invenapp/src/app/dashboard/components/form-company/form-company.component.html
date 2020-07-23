@@ -1,39 +1,47 @@
 <div class="cardBox">
     <form class="formBox" [formGroup]="registroCompany">
-    <div class="formContent">
-        <div class="formInput">
-            <label for="">Nombre*</label>
-            <input class="lInput" type="text" formControlName="name" name="name" />
+        <div class="formContent">
+            <div class="formInput">
+                <label for="">Nombre*</label>
+                <input class="lInput" type="text" formControlName="name" name="name" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fCompany.name.errors?.required && (fCompany.name.touched || fCompany.name.dirty)">Por favor
+                ingrese el nombre de la compañía</div>
+            <div class="formInput">
+                <label for="">RIF*</label>
+                <input class="lInput" type="text" formControlName="rif" name="rif" />
+            </div>
+            <div class="errorTag" *ngIf="fCompany.rif.errors?.required && (fCompany.rif.touched || fCompany.rif.dirty)">
+                Por favor ingrese el rif de la compañía</div>
+            <div class="formInput">
+                <label for="">Dirección*</label>
+                <input class="lInput" type="text" formControlName="address" name="address" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fCompany.address.errors?.required && (fCompany.address.touched || fCompany.address.dirty)">Por
+                favor ingrese la dirección de la compañía</div>
+            <div class="formInput">
+                <label for="">Correo*</label>
+                <input class="lInput" type="text" formControlName="mail" name="mail" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fCompany.mail.errors?.required && (fCompany.mail.touched || fCompany.mail.dirty)">Por favor
+                ingrese un correo</div>
+            <div class="formInput">
+                <label for="">Teléfono*</label>
+                <input class="lInput" type="text" formControlName="tlf" name="tlf" />
+            </div>
+            <div class="errorTag" *ngIf="fCompany.tlf.errors?.required && (fCompany.tlf.touched || fCompany.tlf.dirty)">
+                Por favor ingrese un número telefónico</div>
         </div>
-            <div class="errorTag" *ngIf="fCompany.name.errors?.required && (fCompany.name.touched || fCompany.name.dirty)">Por favor ingrese el nombre de la compañía</div>
-        <div class="formInput">
-            <label for="">RIF*</label>
-            <input class="lInput" type="text" formControlName="rif" name="rif" />
-        </div>
-            <div class="errorTag" *ngIf="fCompany.rif.errors?.required && (fCompany.rif.touched || fCompany.rif.dirty)">Por favor ingrese el rif de la compañía</div>
-        <div class="formInput">
-            <label for="">Dirección*</label>
-            <input class="lInput" type="text" formControlName="address" name="address" />
-        </div>
-            <div class="errorTag" *ngIf="fCompany.address.errors?.required && (fCompany.address.touched || fCompany.address.dirty)">Por favor ingrese la dirección de la compañía</div>
-        <div class="formInput">
-            <label for="">Correo*</label>
-            <input class="lInput" type="text" formControlName="mail" name="mail" />
-        </div>
-            <div class="errorTag" *ngIf="fCompany.mail.errors?.required && (fCompany.mail.touched || fCompany.mail.dirty)">Por favor ingrese un correo</div>
-        <div class="formInput">
-            <label for="">Teléfono*</label>
-            <input class="lInput" type="text" formControlName="tlf" name="tlf" />
-        </div>
-            <div class="errorTag" *ngIf="fCompany.tlf.errors?.required && (fCompany.tlf.touched || fCompany.tlf.dirty)">Por favor ingrese un número telefónico</div>
-    </div>
-    <button type="submit" *ngIf="!editMode" class="formButton" (click)="endRegistro()">
-        <p>Registrar compañía</p>
-    </button>
-    <button type="submit" *ngIf="editMode" class="formButton" (click)="endUpdate()">
-        <p>Actualizar compañía</p>
-    </button>
+        <button type="submit" *ngIf="!editMode" class="formButton" (click)="endRegistro()">
+            <p>Registrar compañía</p>
+        </button>
+        <button type="submit" *ngIf="editMode" class="formButton" (click)="endUpdate()">
+            <p>Actualizar compañía</p>
+        </button>
     </form>
 </div>
 
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

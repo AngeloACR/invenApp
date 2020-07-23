@@ -1,60 +1,58 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { BlankComponent } from './components/blank/blank.component';
-import { RegistroComponent } from './components/registro/registro.component';
-import { ListaComponent } from './components/lista/lista.component';
-import { ActualizarComponent } from './components/actualizar/actualizar.component';
-import { CompanyComponent } from './components/company/company.component';
-import { PreciosComponent } from './components/precios/precios.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { BlankComponent } from "./components/blank/blank.component";
+import { RegistroComponent } from "./components/registro/registro.component";
+import { ListaComponent } from "./components/lista/lista.component";
+import { ActualizarComponent } from "./components/actualizar/actualizar.component";
+import { CompanyComponent } from "./components/company/company.component";
+import { PreciosComponent } from "./components/precios/precios.component";
 
-import { 
-  GuardService as Guard 
-} from '../services/guard.service';
+import { GuardService as Guard } from "../services/guard.service";
 
 const routes: Routes = [
   {
-    path: '', 
+    path: "",
     component: BlankComponent,
-    canActivate: [Guard],  
+    canActivate: [Guard]
   },
   {
-    path: 'registro/:id', 
+    path: "registro/:id",
     component: RegistroComponent,
     canActivate: [Guard],
     data: {
-      role1: 'Admin'
+      role1: "Admin"
     }
   },
   {
-    path: 'lista/:id', 
+    path: "lista/:id",
     component: ListaComponent,
     canActivate: [Guard],
     data: {
-      role1: 'Admin'
+      role1: "Admin"
     }
   },
   {
-    path: 'compañia', 
+    path: "compañia",
     component: CompanyComponent,
     canActivate: [Guard],
     data: {
-      role1: 'Admin'
+      role1: "Admin"
     }
   },
   {
-    path: 'precios', 
+    path: "precios",
     component: PreciosComponent,
     canActivate: [Guard],
     data: {
-      role1: 'Admin'
+      role1: "Admin"
     }
   },
   {
-    path: 'actualizar/:item/:id', 
+    path: "actualizar/:item/:id",
     component: ActualizarComponent,
     canActivate: [Guard],
     data: {
-      role1: 'Admin'
+      role1: "Admin"
     }
   }
 ];
@@ -63,10 +61,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class DashboardRoutingModule {
-
-  constructor(
-  ) {
-
-	}
-
- }
+  constructor() {}
+}

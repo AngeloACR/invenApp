@@ -65,7 +65,6 @@ module.exports.createRef = async function (element) {
       let newDisponibilidad = new Disponibilidad(disponibilidad);
       response = await Disponibilidad.addDisponibilidad(newDisponibilidad);
       if (response.status) {
-        console.log(response);
         disponibilidadId = response.values._id;
       } else {
         throw new Error(response.msg)
@@ -108,9 +107,7 @@ module.exports.removeLinkedDocuments = async function (element) {
     let precioId = element.precio
 
     let deleteRes = await Disponibilidad.deleteDisponibilidad(disponibilidadId)
-    console.log(deleteRes)
     deleteRes = await Precio.deletePrecio(precioId)
-    console.log(deleteRes)
 
   } catch (error) {
     console.log(error.toString())
@@ -124,9 +121,7 @@ module.exports.deleteProducto = async function (id) {
   try {
     const query = { "_id": id };
     let producto = await this.findOne(query);
-    console.log('here')
     await this.removeLinkedDocuments(producto)
-    console.log('here2')
     let deleteRes = await producto.remove();
 
     let response = {
@@ -152,10 +147,8 @@ module.exports.addProducto = async function (newProducto) {
       throw new Error('Código de producto ya registrado');
     }
     let ref = await this.createRef(newProducto);
-    console.log(ref);
     newProducto.disponibilidad = ref.disponibilidad;
     newProducto.precio = ref.precio;
-    console.log(newProducto);
 
     producto = await newProducto.save();
 

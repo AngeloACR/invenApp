@@ -5,23 +5,23 @@ const Cliente = require('../models/cliente');
 
 clienteRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
-			const cliente = {
-				name: req.body.name,
-				address: req.body.address,
-				ws: req.body.ws,
-				ig: req.body.ig,
-				mail: req.body.mail,
-				rif: req.body.rif,
-			};	
-			let newCliente = new Cliente(cliente);
-			
-			response = await Cliente.addCliente(newCliente);
+		const cliente = {
+			name: req.body.name,
+			address: req.body.address,
+			ws: req.body.ws,
+			ig: req.body.ig,
+			mail: req.body.mail,
+			rif: req.body.rif,
+		};
+		let newCliente = new Cliente(cliente);
+
+		response = await Cliente.addCliente(newCliente);
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 clienteRouter.get('/all', /*auth,*/ async (req, res) => {

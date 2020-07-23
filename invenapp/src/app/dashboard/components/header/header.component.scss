@@ -1,43 +1,53 @@
-.bigHeadBox{
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	/*max-height: 25vh;*/
-	width: 100%;
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center top;
+.bigHeadBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  /*max-height: 25vh;*/
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
 }
 
-.hImg{
-	width: 100%;
-	height: 100%;
-	display: block;
+.faIcon {
+  width: auto;
+  margin-left: 23px;
 }
 
-.smallHeadBox{	
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	margin: 0 auto;
-	width: 100%;
-	height: 100%;
-	background:#607d8b;
-	color: white;
-	font-weight: bold;
+.headerImg {
+  width: 160px;
+  margin-left: 15px;
 }
 
-.wTag{
-	display: inline-block;
-	position: relative;
-	margin: 0;
-	top: 50%;
-	transform: translateY(-50%);
-	margin-left: 42px;
+.hImg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-.aTag{
-	cursor: pointer;
-	margin-right: 10px;
+.smallHeadBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: #607d8b;
+  color: white;
+  font-weight: bold;
+}
+
+.wTag {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 42px;
+}
+
+.aTag {
+  cursor: pointer;
+  margin-right: 10px;
 }

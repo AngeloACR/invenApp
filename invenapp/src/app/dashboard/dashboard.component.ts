@@ -1,42 +1,36 @@
-import { Component, OnInit  } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Router, NavigationEnd } from "@angular/router";
 
 @Component({
-  selector: 'dashboard-root',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: "dashboard-root",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-
-  aMenu: {}; 
+  aMenu: {};
 
   menuOn: boolean;
 
-  constructor(
-    private router: Router    
-  ) {
+  constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.ngOnInit();
       }
-	  });
+    });
   }
 
   ngOnInit() {
-
     this.menuOn = true;
     this.aMenu = {
       aMenu: this.menuOn
-    }
+    };
   }
 
-  tMenu(menu: any){
-
+  tMenu() {
     this.menuOn = !this.menuOn;
     this.aMenu = {
       aMenu: this.menuOn
-    }
+    };
   }
-
 }

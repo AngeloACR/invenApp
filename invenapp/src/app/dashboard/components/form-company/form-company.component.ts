@@ -73,7 +73,7 @@ export class FormCompanyComponent implements OnInit {
     let endpoint;
 
     dataValues = {
-      name: dataAux.address,
+      name: dataAux.name,
       tlf: dataAux.tlf,
       rif: dataAux.rif,
       mail: dataAux.mail,

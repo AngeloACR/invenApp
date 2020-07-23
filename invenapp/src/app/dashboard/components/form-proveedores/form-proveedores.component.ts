@@ -1,17 +1,21 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
 @Component({
-  selector: 'app-form-proveedores',
-  templateUrl: './form-proveedores.component.html',
-  styleUrls: ['./form-proveedores.component.scss']
+  selector: "app-form-proveedores",
+  templateUrl: "./form-proveedores.component.html",
+  styleUrls: ["./form-proveedores.component.scss"]
 })
 export class FormProveedoresComponent implements OnInit {
-
   @Input()
   editMode: number;
   @Input()
@@ -32,12 +36,11 @@ export class FormProveedoresComponent implements OnInit {
     private router: Router
   ) {}
 
-
   ngOnInit() {
     this.initForm();
-        this.showError = {
-        errorAct: false
-      }
+    this.showError = {
+      errorAct: false
+    };
   }
 
   initForm() {
@@ -47,12 +50,11 @@ export class FormProveedoresComponent implements OnInit {
       name: new FormControl("", Validators.required),
       rif: new FormControl("", Validators.required),
       address: new FormControl("", Validators.required),
-      ig: new FormControl(""),
+      ig: new FormControl("")
     });
   }
 
-
-  get fProveedor() { 
+  get fProveedor() {
     return this.registroProve.controls;
   }
 
@@ -69,32 +71,34 @@ export class FormProveedoresComponent implements OnInit {
       mail: dataAux.mail,
       address: dataAux.address,
       rif: dataAux.rif,
-      ig: dataAux.ig,
+      ig: dataAux.ig
     };
     endpoint = "/proveedores";
     error = this.catchUserErrors();
-    if(error){
-      let errorMsg = 'Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo'
-      this.openError(errorMsg)
-    } else{
-
-      this.dbHandler.createSomething(dataValues, endpoint).subscribe((data: any) => {
-        // data is already a JSON object
-        if(!data.status){
-          let errorMsg = data.msg;
-          this.openError(errorMsg)
-        } else{
-          this.onData.emit(data);
-        }
-      });
-    }  
+    if (error) {
+      let errorMsg =
+        "Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo";
+      this.openError(errorMsg);
+    } else {
+      this.dbHandler
+        .createSomething(dataValues, endpoint)
+        .subscribe((data: any) => {
+          // data is already a JSON object
+          if (!data.status) {
+            let errorMsg = data.msg;
+            this.openError(errorMsg);
+          } else {
+            this.onData.emit(data);
+          }
+        });
+    }
   }
 
-  openError(msg){
+  openError(msg) {
     this.errorMsg = msg;
     this.showError = {
-        errorAct: true
-      }
+      errorAct: true
+    };
   }
 
   closeError() {
@@ -107,15 +111,23 @@ export class FormProveedoresComponent implements OnInit {
     this.registroProve.reset();
   }
 
-  catchUserErrors(){
-    let aux1 = this.fProveedor.name.errors ? this.fProveedor.name.errors.required : false;
-    let aux2 = this.fProveedor.mail.errors ? this.fProveedor.mail.errors.required : false;
-    let aux3 = this.fProveedor.address.errors ? this.fProveedor.address.errors.required : false;
-    let aux4 = this.fProveedor.ws.errors ? this.fProveedor.ws.errors.required : false;
-    let aux5 = this.fProveedor.rif.errors ? this.fProveedor.rif.errors.required : false;
+  catchUserErrors() {
+    let aux1 = this.fProveedor.name.errors
+      ? this.fProveedor.name.errors.required
+      : false;
+    let aux2 = this.fProveedor.mail.errors
+      ? this.fProveedor.mail.errors.required
+      : false;
+    let aux3 = this.fProveedor.address.errors
+      ? this.fProveedor.address.errors.required
+      : false;
+    let aux4 = this.fProveedor.ws.errors
+      ? this.fProveedor.ws.errors.required
+      : false;
+    let aux5 = this.fProveedor.rif.errors
+      ? this.fProveedor.rif.errors.required
+      : false;
     let error = aux1 || aux2 || aux3 || aux4 || aux5;
-    return error
+    return error;
   }
-
-
 }

@@ -24,7 +24,7 @@ const landingApp = landingServer.init(landingFolder, landingPort);
  landingApp.get('/', (req, res) => {
 	res.send('We are having some troubles, please come back in a while!');
 });
- 
+
 //Pointing to angular app
 landingApp.get('/*', (req, res) => {
 	var fileToSend = path.join(__dirname, landingPath);

@@ -5,20 +5,20 @@ const Almacen = require('../models/almacen');
 
 almacenRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
-			const almacen = {
-				state: req.body.state,
-				code: req.body.code,
-				city: req.body.city,
-				address: req.body.address,
-			};	
-			let newAlmacen = new Almacen(almacen);
-			response = await Almacen.addAlmacen(newAlmacen);
+		const almacen = {
+			state: req.body.state,
+			code: req.body.code,
+			city: req.body.city,
+			address: req.body.address,
+		};
+		let newAlmacen = new Almacen(almacen);
+		response = await Almacen.addAlmacen(newAlmacen);
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 almacenRouter.get('/all', /*auth,*/ async (req, res) => {

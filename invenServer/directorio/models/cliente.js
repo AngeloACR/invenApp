@@ -27,21 +27,21 @@ const Cliente = module.exports = mongoose.model("Cliente", clienteSchema);
 
 
 module.exports.deleteCliente = async function (id) {
-    try {
-        const query = { "_id": id };         
-        let deleteRes =  await this.findOneAndRemove(query);
-        let response = {
-          status: true,
-          values: deleteRes
-        }
-    return response;
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { "_id": id };
+    let deleteRes = await this.findOneAndRemove(query);
+    let response = {
+      status: true,
+      values: deleteRes
     }
+    return response;
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }
 
 
@@ -50,20 +50,20 @@ module.exports.addCliente = async function (newCliente) {
   try {
     const query = { 'rif': newCliente.rif };
     let cliente = await this.findOne(query)
-    if(cliente){
+    if (cliente) {
       throw new Error('Rif de cliente ya registrado')
-    }else{
+    } else {
       cliente = await newCliente.save();
       let response = {
         status: true,
         values: cliente
       }
-    return response;
+      return response;
     }
-  } catch (error) { 
+  } catch (error) {
     let response = {
-        status: false,
-        msg: error.toString().replace("Error: ", "")
+      status: false,
+      msg: error.toString().replace("Error: ", "")
     }
     return response
   }
@@ -84,7 +84,7 @@ module.exports.getCliente = async function (id) {
   try {
     const query = { '_id': id };
     let cliente = await this.findOne(query)
-  let response = {
+    let response = {
       status: true,
       values: cliente
     }
@@ -92,27 +92,27 @@ module.exports.getCliente = async function (id) {
   } catch (error) { throw error; }
 }
 module.exports.updateCliente = async function (data) {
-    try {
-        const query = { '_id': data.id }
-        let cliente = await this.findOne(query)
-        cliente.name = data.name;
-        cliente.address = data.address;
-        cliente.ws = data.ws;
-        cliente.ig = data.ig;
-        cliente.mail = data.mail;
-        cliente.rif = data.rif;
-        cliente = await cliente.save();
-        let response = {
-            status: true,
-            values: cliente
-        }
-        return response
-
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { '_id': data.id }
+    let cliente = await this.findOne(query)
+    cliente.name = data.name;
+    cliente.address = data.address;
+    cliente.ws = data.ws;
+    cliente.ig = data.ig;
+    cliente.mail = data.mail;
+    cliente.rif = data.rif;
+    cliente = await cliente.save();
+    let response = {
+      status: true,
+      values: cliente
     }
+    return response
+
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }

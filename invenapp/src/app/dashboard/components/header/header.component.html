@@ -1,5 +1,7 @@
 <div class="smallHeadBox">
-	<!-- <p class="wTag">{{welcome}}</p-->
-	<p class="aTag" (click)="actualizar()">Actualizar</p>
-	<p class="aTag" (click)="logout()">Salir</p>
+  <!-- <p class="wTag">{{welcome}}</p-->
+  <fa-icon style="color: white" class="faIcon" [icon]="faBars" size="2x" (click)="tMenu()"></fa-icon>
+  <img class="headerImg" src="assets/logo.png" alt="" />
+  <p class="aTag" style="margin-left: auto" (click)="actualizar()">Actualizar</p>
+  <p class="aTag" (click)="logout()">Salir</p>
 </div>

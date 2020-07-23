@@ -23,9 +23,10 @@ const correlativos = require('./general/routes/correlativos');
 const proveedores = require('./directorio/routes/proveedores');
 const mails = require('./users/routes/mails');
 const auth = require('./users/routes/auth');
+const roles= require('./users/routes/roles');
 const company = require('./general/routes/company');
 
-module.exports.init = function(folder, thePath, port) {
+module.exports.init = function (folder, thePath, port) {
     app.set('port', (port));
 
     // Middlewares initialization
@@ -67,6 +68,7 @@ module.exports.init = function(folder, thePath, port) {
     //Adding routes
 
     app.use('/users', users);
+    app.use('/roles', roles);
     app.use('/vendedores', vendedores);
     app.use('/administradores', administradores);
     app.use('/clientes', clientes);

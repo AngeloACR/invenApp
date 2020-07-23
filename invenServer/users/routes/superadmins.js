@@ -15,7 +15,7 @@ superAdminRouter.post('/', /*auth,*/ async (req, res) => {
 		};
 		let newUser = new User(user)
 		let userResponse = await User.addUser(newUser);
-		if(userResponse.status){
+		if (userResponse.status) {
 			const patient = {
 				userId: userResponse.values._id,
 			};
@@ -23,11 +23,11 @@ superAdminRouter.post('/', /*auth,*/ async (req, res) => {
 			let superSuperAdminResponse = await SuperAdmin.addSuperAdmin(newSuperAdmin);
 		}
 		res.status(200).json(userResponse);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 superAdminRouter.get('/all', auth, async (req, res) => {

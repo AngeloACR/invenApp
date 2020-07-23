@@ -1,44 +1,50 @@
 <div class="cardBox">
-    <form class="formBox" [formGroup]="registroProducto" (ngSubmit)="endRegistro()">
-  <div class="formContent">
+  <form class="formBox" [formGroup]="registroProducto" (ngSubmit)="endRegistro()">
+    <div class="formContent">
       <div class="formInput">
-          <label for="">Código*</label>
-          <input class="lInput" type="text" formControlName="code" name="code" />
+        <label for="">Código*</label>
+        <input class="lInput" type="text" formControlName="code" name="code" />
       </div>
-          <div class="errorTag" *ngIf="fProducto.code.errors?.required && (fProducto.code.touched || fProducto.code.dirty)">Por favor ingrese el código del producto</div>
+      <div class="errorTag" *ngIf="fProducto.code.errors?.required && (fProducto.code.touched || fProducto.code.dirty)">
+        Por favor ingrese el código del producto</div>
       <div class="formInput">
-          <label for="">Nombre*</label>
-          <input class="lInput" type="text" formControlName="name" name="name" />
+        <label for="">Nombre*</label>
+        <input class="lInput" type="text" formControlName="name" name="name" />
       </div>
-          <div class="errorTag" *ngIf="fProducto.name.errors?.required && (fProducto.name.touched || fProducto.name.dirty)">Por favor ingrese el nombre del producto</div>
-<!--       <div class="formInput">
+      <div class="errorTag" *ngIf="fProducto.name.errors?.required && (fProducto.name.touched || fProducto.name.dirty)">
+        Por favor ingrese el nombre del producto</div>
+      <!--       <div class="formInput">
           <label for="">Proveedor*</label>
         <select class="lInput" name="" formControlName="proveedor">
                 <option *ngFor="let value of proveedores.values" value="value._id">{{value.name}}</option>
             </select>
       </div>
           <div class="errorTag" *ngIf="fProducto.proveedor.errors?.required && (fProducto.proveedor.touched || fProducto.proveedor.dirty)">Por favor ingrese el proveedor del producto</div>
- -->      <div class="formInput">
-          <label for="">Marca*</label>
-          <input class="lInput" type="text" formControlName="brand" name="brand" />
+ -->
+      <div class="formInput">
+        <label for="">Marca*</label>
+        <input class="lInput" type="text" formControlName="brand" name="brand" />
       </div>
-          <div class="errorTag" *ngIf="fProducto.brand.errors?.required && (fProducto.brand.touched || fProducto.brand.dirty)">Por favor ingrese la marca del producto</div>
-<!--       <div class="formInput">
+      <div class="errorTag"
+        *ngIf="fProducto.brand.errors?.required && (fProducto.brand.touched || fProducto.brand.dirty)">Por favor ingrese
+        la marca del producto</div>
+      <!--       <div class="formInput">
           <label for="">Almacén*</label>
             <select class="lInput" name="" formControlName="almacen">
                 <option *ngFor="let value of almacenes.values" value="value._id">{{value.code}}</option>
             </select>
             </div>
           <div class="errorTag" *ngIf="fProducto.almacen.errors?.required && (fProducto.almacen.touched || fProducto.almacen.dirty)">Por favor ingrese la ubicación del producto</div>
- -->      </div>
-           <div class="formInput">
-            <label for="">Descripción</label>
-            <textarea class="lInput" rows="6" type="text" formControlName="description" name=""></textarea>
-          </div>
+ -->
+    </div>
+    <div class="formInput">
+      <label for="">Descripción</label>
+      <textarea class="lInput" rows="6" type="text" formControlName="description" name=""></textarea>
+    </div>
 
-  <button type="submit" class="formButton">
-    <p>Registrar producto</p>
-  </button>
-</form>
-  </div>
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+    <button type="submit" class="formButton">
+      <p>Registrar producto</p>
+    </button>
+  </form>
+</div>
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

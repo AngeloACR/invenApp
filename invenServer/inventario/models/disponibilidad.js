@@ -32,16 +32,131 @@ const disponibilidadSchema = new mongoose.Schema({
     type: Number,
   }
 })
-//.post('save', elementAdded)
 
 const Disponibilidad = module.exports = mongoose.model("Disponibilidad", disponibilidadSchema);
+
+module.exports.agregarProductos = async function (productosIngresados, almacenId, ingresoId) {
+  try {
+
+
+    productosIngresados.forEach(async (ingreso) => {
+
+      let productoId = ingreso.producto;
+      let qty = ingreso.qty;
+
+      let queryA = { 'producto': productoId }
+      let disponibilidad = await this.findOne(queryA)
+
+      disponibilidad.qtyDisponible += qty;
+      disponibilidad.dispoAlmacen.forEach(dispoAlmacen => {
+        if (dispoAlmacen.almacen.toString() == almacenId) {
+          dispoAlmacen.qty += qty;
+          return;
+        }
+      });
+      disponibilidad.ingresos.push(ingresoId);
+      disponibilidad = await disponibilidad.save();
+    });
+
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
+
+module.exports.removeIngreso = async function (productosIngresados, almacenId, ingresoId) {
+  try {
+    const Disponibilidad = require('./disponibilidad');
+
+    productosIngresados.forEach(async (productoIngresado) => {
+
+      let productoId = productoIngresado.producto;
+      let qty = productoIngresado.qty;
+
+      let queryA = { 'producto': productoId }
+      let disponibilidad = await this.findOne(queryA)
+      disponibilidad.dispoAlmacen.forEach(dispoAlmacen => {
+        if (dispoAlmacen.almacen.toString() == almacenId) {
+          dispoAlmacen.qty -= qty;
+          return;
+        }
+      });
+      disponibilidad.qtyDisponible -= qty
+      let i = 0;
+      disponibilidad.ingresos.forEach(ingreso => {
+        if (ingreso.toString() == ingresoId) {
+          disponibilidad.ingresos.splice(i, 1)
+          return;
+        }
+        i++
+      });
+      disponibilidad = await disponibilidad.save();
+    });
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
+
+module.exports.bloquearProductos = async function (productosPedidos, pedidoId) {
+  try {
+
+
+    productosPedidos.forEach(async (pedido) => {
+
+      let productoId = pedido.producto;
+      let qty = pedido.qty;
+
+      let queryA = { 'producto': productoId }
+      let disponibilidad = await this.findOne(queryA)
+
+      disponibilidad.qtyDisponible -= qty;
+      disponibilidad.qtyBloqueada += qty;
+      disponibilidad.pedidos.push(pedidoId);
+      disponibilidad = await disponibilidad.save();
+    });
+
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
+
+module.exports.removePedido = async function (productosPedidos, pedidoId) {
+  try {
+    const Disponibilidad = require('./disponibilidad');
+
+    productosPedidos.forEach(async (productoPedido) => {
+
+      let productoId = productoPedido.producto;
+      let qty = productoPedido.qty;
+
+      let queryA = { 'producto': productoId }
+      let disponibilidad = await this.findOne(queryA)
+
+      disponibilidad.qtyDisponible += qty;
+      disponibilidad.qtyBloqueada -= qty;
+      let i = 0;
+      disponibilidad.pedidos.forEach(pedido => {
+        if (pedido.toString() == pedidoId) {
+          disponibilidad.pedidos.splice(i, 1)
+          return;
+        }
+        i++
+      });
+      disponibilidad = await disponibilidad.save();
+    });
+  } catch (error) {
+    console.log(error.toString())
+  }
+
+}
 
 module.exports.addAlmacen = async function (id) {
   try {
     //    let almacen = await Almacen.findOne({ '_id': element.almacen })
 
     let disponibilidades = await this.find({});
-
     disponibilidades.forEach(async (disponibilidad) => {
       let dispoAlmacen = {
         almacen: id,

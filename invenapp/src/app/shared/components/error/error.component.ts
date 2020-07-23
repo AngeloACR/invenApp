@@ -1,22 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  selector: "app-error",
+  templateUrl: "./error.component.html",
+  styleUrls: ["./error.component.css"]
 })
 export class ErrorComponent implements OnInit {
+  @Input() msg: string;
+  @Output() closeError = new EventEmitter<string>();
 
-@Input() msg: string;
-@Output() closeError = new EventEmitter<string>();
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  close() {
+    this.closeError.emit("Cerrando error");
   }
-
-  close(){
-    this.closeError.emit('Cerrando error')
-  }
-
 }

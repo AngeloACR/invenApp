@@ -55,7 +55,7 @@ correlativoRouter.put('/', auth, async (req, res, next) => {
 
 // Get Correlativo
 correlativoRouter.get('/', auth, async (req, res, next) => {
-	try{
+	try {
 		let response = await Correlativo.getCorrelativo();
 		res.status(200).json(response);
 	}

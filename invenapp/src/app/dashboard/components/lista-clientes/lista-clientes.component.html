@@ -1,18 +1,17 @@
+<button class="buttonBox" (click)="agregar()">
+  {{ addText }}
+</button>
 
-  <button class="buttonBox" (click)="agregar()">
-    {{ addText }}
-  </button>  
-  
-  <div class="cardBox" *ngIf="!isEmpty">
-    <div class="listBox">
-      <div class="titleRow">
-          <p style="width: 250px;">Acciones</p>
-          <p *ngFor="let field of fields">{{ field }}</p>
-      </div>
-      <div class="contentRow" *ngFor="let value of values; let i = index">
-        <div class="actionBox" style="width: 250px;">
-          <!-- <p class="listButton"> -->
-          <!-- <button type="button" id="closeB" (click)="deleteItem($event, i)">
+<div class="cardBox" *ngIf="!isEmpty">
+  <div class="listBox">
+    <div class="titleRow">
+      <p style="width: 250px;">Acciones</p>
+      <p *ngFor="let field of fields">{{ field }}</p>
+    </div>
+    <div class="contentRow" *ngFor="let value of values; let i = index">
+      <div class="actionBox" style="width: 250px;">
+        <!-- <p class="listButton"> -->
+        <!-- <button type="button" id="closeB" (click)="deleteItem($event, i)">
             X
           </button>
           <img
@@ -20,11 +19,13 @@
             src="/assets/tuerca.png"
             (click)="openUpdate($event, i)"
           /> -->
-          <fa-icon style="color: grey" class="faIcon" [icon]="faEye" size="2x" (click)="verDetalle($event, i)"></fa-icon>
-          <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
-          <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x" (click)="generatePdf($event, i)"></fa-icon>
-          <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)"></fa-icon>
-          <!-- <button
+        <fa-icon style="color: grey" class="faIcon" [icon]="faEye" size="2x" (click)="verDetalle($event, i)"></fa-icon>
+        <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
+        <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x"
+          (click)="generatePdf($event, i)"></fa-icon>
+        <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)">
+        </fa-icon>
+        <!-- <button
               style="background-color: orange"
               type="button"
               class="actionButton"
@@ -39,9 +40,9 @@
               (click)="confirmDelete($event, i)"
             >
               <p>ELIMINAR</p>
-            </button>    -->         
-         
-            <!-- <button
+            </button>    -->
+
+        <!-- <button
               style="background-color: green"
               type="button"
               class="actionButton"
@@ -57,37 +58,37 @@
             >
               <p>DESHABILITAR</p>
             </button> -->
-        </div>
-        <div *ngFor="let item of value">
-          <p>{{ item }}</p>
-        </div>
+      </div>
+      <div *ngFor="let item of value">
+        <p>{{ item }}</p>
       </div>
     </div>
-  </div>  
-
-  <div class="cardBox" *ngIf="isEmpty">
-    <p>No hay elementos para mostrar</p>
   </div>
+</div>
 
-  
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+<div class="cardBox" *ngIf="isEmpty">
+  <p>No hay elementos para mostrar</p>
+</div>
+
+
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
 
 <div class="confirmBox" [ngClass]="showConfirm">
   <div class="blackBox" (click)="closeConfirm()"></div>
 
   <div class="logBox">
-      <div class="closeButton">
-          <button class="closeB" (click)="closeConfirm()">X</button>
-      </div>
-      <p class="confirmHeader">CONFIRMACIÓN</p>
-      <p class="confirmContent">Segro que quiere eliminar este elemento</p>
-<div class="confirmButtons">
+    <div class="closeButton">
+      <button class="closeB" (click)="closeConfirm()">X</button>
+    </div>
+    <p class="confirmHeader">CONFIRMACIÓN</p>
+    <p class="confirmContent">Segro que quiere eliminar este elemento</p>
+    <div class="confirmButtons">
       <button type="button" class="confirm formButton" (click)="deleteItem($event, deletedItem)">
         <p>SÍ</p>
       </button>
       <button type="button" class="goback formButton" (click)="closeConfirm()">
         <p>NO</p>
       </button>
-</div>
+    </div>
 
-</div>
+  </div>

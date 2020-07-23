@@ -1,18 +1,21 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
-
 @Component({
-  selector: 'app-form-clientes',
-  templateUrl: './form-clientes.component.html',
-  styleUrls: ['./form-clientes.component.scss']
+  selector: "app-form-clientes",
+  templateUrl: "./form-clientes.component.html",
+  styleUrls: ["./form-clientes.component.scss"]
 })
 export class FormClientesComponent implements OnInit {
-
   @Input()
   editMode: number;
   @Input()
@@ -35,9 +38,9 @@ export class FormClientesComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-        this.showError = {
-        errorAct: false
-      }
+    this.showError = {
+      errorAct: false
+    };
   }
 
   initForm() {
@@ -47,13 +50,11 @@ export class FormClientesComponent implements OnInit {
       name: new FormControl("", Validators.required),
       address: new FormControl("", Validators.required),
       rif: new FormControl("", Validators.required),
-      ig: new FormControl(""),
+      ig: new FormControl("")
     });
-
   }
 
-
-  get fCliente() { 
+  get fCliente() {
     return this.registroCliente.controls;
   }
 
@@ -63,39 +64,41 @@ export class FormClientesComponent implements OnInit {
     let error;
     let refreshList;
     let endpoint;
-    console.log('here')
+    console.log("here");
     dataValues = {
       name: dataAux.name,
       ws: dataAux.ws,
       mail: dataAux.mail,
       address: dataAux.address,
       ig: dataAux.ig,
-      rif: dataAux.rif,
+      rif: dataAux.rif
     };
     endpoint = "/clientes";
     error = this.catchUserErrors();
-    if(error){
-      let errorMsg = 'Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo'
-      this.openError(errorMsg)
-    } else{
-
-      this.dbHandler.createSomething(dataValues, endpoint).subscribe((data: any) => {
-        // data is already a JSON object
-        if(!data.status){
-          let errorMsg = data.msg;
-          this.openError(errorMsg)
-        } else{
-          this.onData.emit(data);
-        }
-      });
-    }  
+    if (error) {
+      let errorMsg =
+        "Algunos campos son inválidos. Por favor, revise el formulario e intente de nuevo";
+      this.openError(errorMsg);
+    } else {
+      this.dbHandler
+        .createSomething(dataValues, endpoint)
+        .subscribe((data: any) => {
+          // data is already a JSON object
+          if (!data.status) {
+            let errorMsg = data.msg;
+            this.openError(errorMsg);
+          } else {
+            this.onData.emit(data);
+          }
+        });
+    }
   }
 
-  openError(msg){
+  openError(msg) {
     this.errorMsg = msg;
     this.showError = {
-        errorAct: true
-      }
+      errorAct: true
+    };
   }
 
   closeError() {
@@ -108,15 +111,23 @@ export class FormClientesComponent implements OnInit {
     this.registroCliente.reset();
   }
 
-  catchUserErrors(){
-    let aux1 = this.fCliente.name.errors ? this.fCliente.name.errors.required : false;
-    let aux2 = this.fCliente.mail.errors ? this.fCliente.mail.errors.required : false;
-    let aux3 = this.fCliente.address.errors ? this.fCliente.address.errors.required : false;
-    let aux4 = this.fCliente.ws.errors ? this.fCliente.ws.errors.required : false;
-    let aux5 = this.fCliente.rif.errors ? this.fCliente.rif.errors.minlength : false;
+  catchUserErrors() {
+    let aux1 = this.fCliente.name.errors
+      ? this.fCliente.name.errors.required
+      : false;
+    let aux2 = this.fCliente.mail.errors
+      ? this.fCliente.mail.errors.required
+      : false;
+    let aux3 = this.fCliente.address.errors
+      ? this.fCliente.address.errors.required
+      : false;
+    let aux4 = this.fCliente.ws.errors
+      ? this.fCliente.ws.errors.required
+      : false;
+    let aux5 = this.fCliente.rif.errors
+      ? this.fCliente.rif.errors.minlength
+      : false;
     let error = aux1 || aux2 || aux3 || aux4 || aux5;
-    return error
+    return error;
   }
-
-
 }

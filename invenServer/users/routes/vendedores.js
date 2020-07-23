@@ -15,19 +15,19 @@ vendedorRouter.post('/', /*auth,*/ async (req, res) => {
 		};
 		let newUser = new User(user)
 		let response = await User.addUser(newUser);
-		if(response.status){
+		if (response.status) {
 			const vendedor = {
 				userId: response.values._id,
-			};	
+			};
 			let newVendedor = new Vendedor(vendedor);
 			response = await Vendedor.addVendedor(newVendedor);
 		}
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 vendedorRouter.get('/all', /*auth,*/ async (req, res) => {

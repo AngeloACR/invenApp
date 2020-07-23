@@ -1,10 +1,10 @@
 module.exports = {
 
-// DATABASES ADDRESSES
+	// DATABASES ADDRESSES
 	prodDB: "mongodb://localhost:27017/inven",
 	testDB: "mongodb://localhost:27017/inven",
-	
-// SECRETS FOR ENCRYPTION
+
+	// SECRETS FOR ENCRYPTION
 	authSecret: 'Shall I let you pass, or Shall I not?',
 	vSecret: 'Becoming an outstanding InVen User',
 	cSecret: 'My incredible InVen Session',

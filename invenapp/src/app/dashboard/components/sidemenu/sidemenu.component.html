@@ -9,9 +9,10 @@
             <ul class="navList">
                 <div class="lBox" [ngClass]="item.class" *ngFor="let child of item.childs;">
                     <li [id]=" child.id " class="navChild ">
-                        <a [routerLinkActive]="[ 'active'] " [routerLinkActiveOptions]="{exact:true} " [routerLink]="child.link ">
-              {{child.name}}
-            </a>
+                        <a [routerLinkActive]="[ 'active'] " [routerLinkActiveOptions]="{exact:true} "
+                            [routerLink]="child.link ">
+                            {{child.name}}
+                        </a>
                     </li>
                 </div>
             </ul>

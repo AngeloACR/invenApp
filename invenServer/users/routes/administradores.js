@@ -15,7 +15,7 @@ adminRouter.post('/', /*auth,*/ async (req, res) => {
 		};
 		let newUser = new User(user);
 		let response = await User.addUser(newUser);
-		if(response.status){
+		if (response.status) {
 			const admin = {
 				userId: response.values._id,
 			};

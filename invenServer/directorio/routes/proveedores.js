@@ -5,22 +5,22 @@ const Proveedor = require('../models/proveedor');
 
 proveedorRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
-			const proveedor = {
-				name: req.body.name,
-				address: req.body.address,
-				ws: req.body.ws,
-				ig: req.body.ig,
-				mail: req.body.mail,
-				rif: req.body.rif,
-			};
-			let newProveedor = new Proveedor(proveedor);
-			response = await Proveedor.addProveedor(newProveedor);
+		const proveedor = {
+			name: req.body.name,
+			address: req.body.address,
+			ws: req.body.ws,
+			ig: req.body.ig,
+			mail: req.body.mail,
+			rif: req.body.rif,
+		};
+		let newProveedor = new Proveedor(proveedor);
+		response = await Proveedor.addProveedor(newProveedor);
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 proveedorRouter.get('/all', /*auth,*/ async (req, res) => {

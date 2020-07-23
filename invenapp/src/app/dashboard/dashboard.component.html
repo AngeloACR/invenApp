@@ -1,13 +1,10 @@
 <div class="appBox">
-  <div class="menuBox" [ngClass]="aMenu">
-    <div class="menuHeader">
-      <img src="assets/logo.png" alt="" />
-    </div>
-    <app-sidemenu></app-sidemenu>
+  <div class="headerBox">
+    <app-header (menu)="tMenu()"></app-header>
   </div>
   <div class="panelBox">
-    <div class="headerBox">
-      <app-header></app-header>
+    <div class="menuBox" [ngClass]="aMenu">
+      <app-sidemenu></app-sidemenu>
     </div>
     <div class="contentBox">
       <router-outlet></router-outlet>

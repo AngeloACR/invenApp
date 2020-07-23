@@ -5,19 +5,19 @@ const Precio = require('../models/precio');
 
 precioRouter.post('/', auth, async (req, res) => {
 	try {
-			const precio = {
-				producto: req.body.producto,
-				valor:  req.body.valor
-			};	
-			let newPrecio = new Precio(precio);
-			response = await Precio.addPrecio(newPrecio);
+		const precio = {
+			producto: req.body.producto,
+			valor: req.body.valor
+		};
+		let newPrecio = new Precio(precio);
+		response = await Precio.addPrecio(newPrecio);
 
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 precioRouter.get('/all', auth, async (req, res) => {

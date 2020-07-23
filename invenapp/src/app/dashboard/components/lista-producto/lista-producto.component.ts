@@ -1,18 +1,27 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
-import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrashAlt,
+  faFilePdf,
+  faEdit,
+  faEye
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-lista-producto',
-  templateUrl: './lista-producto.component.html',
-  styleUrls: ['./lista-producto.component.scss']
+  selector: "app-lista-producto",
+  templateUrl: "./lista-producto.component.html",
+  styleUrls: ["./lista-producto.component.scss"]
 })
 export class ListaProductoComponent implements OnInit {
-
   faTrash = faTrashAlt;
   faPdf = faFilePdf;
   faEye = faEye;
@@ -31,25 +40,28 @@ export class ListaProductoComponent implements OnInit {
     private dbHandler: DbHandlerService,
     private router: Router,
     private fb: FormBuilder
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
-    this.initComponent('/productos', 'Lista de Productos', 'Agregar Producto', 'productos')
+    this.initComponent(
+      "/productos",
+      "Lista de Productos",
+      "Agregar Producto",
+      "productos"
+    );
     this.initForm();
     this.isEmpty = true;
-     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
-     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let auxfields = this.dbHandler.getLocal(this.name + "Fields");
+    let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
     this.fields = [
-      'Id',
-      'Código',
-      'Nombre',
-      'Marca',
-      'Cantidad disponible',
-      'Cantidad bloqueada',
-      ]
+      "Id",
+      "Código",
+      "Nombre",
+      "Marca",
+      "Cantidad disponible",
+      "Cantidad bloqueada"
+    ];
 
     this.values = [];
     auxValues.forEach(value => {
@@ -60,14 +72,14 @@ export class ListaProductoComponent implements OnInit {
         value.brand,
         value.disponibilidad.qtyDisponible,
         value.disponibilidad.qtyBloqueada
-      ]
-      this.values.push(aux)
+      ];
+      this.values.push(aux);
     });
 
-    if(this.values.length){
+    if (this.values.length) {
       this.isEmpty = false;
     }
-    this.isDetalle=false;
+    this.isDetalle = false;
   }
 
   initComponent(endpoint, title, addText, name) {
@@ -82,54 +94,52 @@ export class ListaProductoComponent implements OnInit {
   isVendedor: boolean;
 
   deleteItem(event, index) {
-    let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let auxValues = this.dbHandler.getLocal(this.name + "Values");
     let item = auxValues[index];
     var myEnd = this.endpoint;
     let type = this.auth.getType();
-    this.isAdmin = (type === 'Admin');
-		this.isVendedor = (type === 'Vendedor');
-		this.isSuperAdmin = (type === 'SuperAdmin');
-    
-    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
-    console.log(this.isSuperAdmin)
-    console.log(this.isAdmin)
-    if(!(this.isAdmin || this.isSuperAdmin)){
-          this.closeConfirm();
-          let errorMsg = 'Usuario no autorizado';
-          this.openError(errorMsg)
-    } else{
+    this.isAdmin = type === "Admin";
+    this.isVendedor = type === "Vendedor";
+    this.isSuperAdmin = type === "SuperAdmin";
 
-      this.dbHandler.deleteSomething(item._id, myEnd)
-      .subscribe((data: any) => { 
+    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
+    console.log(this.isSuperAdmin);
+    console.log(this.isAdmin);
+    if (!(this.isAdmin || this.isSuperAdmin)) {
+      this.closeConfirm();
+      let errorMsg = "Usuario no autorizado";
+      this.openError(errorMsg);
+    } else {
+      this.dbHandler.deleteSomething(item._id, myEnd).subscribe((data: any) => {
         this.closeConfirm();
-        if(!data.status){
+        if (!data.status) {
           let errorMsg = data.msg;
-          this.openError(errorMsg)
-        } else{
-        this.dbHandler.actualizar();
+          this.openError(errorMsg);
+        } else {
+          this.dbHandler.actualizar();
         }
       });
     }
   }
 
   deletedItem: any;
-  confirmDelete(event, item){
+  confirmDelete(event, item) {
     this.deletedItem = item;
     this.openConfirm();
   }
 
   showConfirm: {};
 
-  openConfirm(){
+  openConfirm() {
     this.showConfirm = {
-        confirmAct: true,
-      }
+      confirmAct: true
+    };
   }
 
-  closeConfirm(){
+  closeConfirm() {
     this.showConfirm = {
-        confirmAct: false,
-      }
+      confirmAct: false
+    };
   }
 
   isDetalle: boolean;
@@ -137,58 +147,49 @@ export class ListaProductoComponent implements OnInit {
   fields2: any[];
   values2: any[];
 
-  verDetalle(event, i){
-        this.fields2 = [
-      'Almacen',
-      'Cantidad'
-      ]
+  verDetalle(event, i) {
+    this.fields2 = ["Almacen", "Cantidad"];
 
-    let almacenes = this.dbHandler.getLocal('almacenesValues');
-    let productos = this.dbHandler.getLocal('productosValues');
+    let almacenes = this.dbHandler.getLocal("almacenesValues");
+    let productos = this.dbHandler.getLocal("productosValues");
     let producto = productos[i];
-    let disponibilidad = producto.disponibilidad
-    let dispoAlmacen = disponibilidad.dispoAlmacen
+    let disponibilidad = producto.disponibilidad;
+    let dispoAlmacen = disponibilidad.dispoAlmacen;
     this.values2 = [];
 
     almacenes.forEach(almacen => {
       let almacenCode;
-      let qty
+      let qty;
       dispoAlmacen.forEach(item => {
-        if(almacen._id == item.almacen){
+        if (almacen._id == item.almacen) {
           almacenCode = almacen.code;
           qty = item.qty;
         }
       });
-      let aux = [
-        almacenCode,
-        qty
-      ]
-      this.values2.push(aux)
+      let aux = [almacenCode, qty];
+      this.values2.push(aux);
     });
     this.isDetalle = true;
-  }  
+  }
 
-    openUpdate(event, item) {  
-      this.router.navigateByUrl('/actualizar/producto/'+item);
-    }
+  openUpdate(event, item) {
+    this.router.navigateByUrl("/actualizar/producto/" + item);
+  }
 
-   agregar() {  
-      this.router.navigateByUrl('/registro/producto');
-    }
+  agregar() {
+    this.router.navigateByUrl("/registro/producto");
+  }
 
-
-    habilitarElemento(event, elemento, isHabilitar){
-      
-    }
+  habilitarElemento(event, elemento, isHabilitar) {}
 
   showError: {};
   errorMsg: string;
 
-  openError(msg){
+  openError(msg) {
     this.errorMsg = msg;
     this.showError = {
-        errorAct: true
-      }
+      errorAct: true
+    };
   }
 
   closeError() {
@@ -199,9 +200,9 @@ export class ListaProductoComponent implements OnInit {
 
   filterForm: FormGroup;
 
-  initForm(){
+  initForm() {
     this.filterForm = new FormGroup({
-      tipo: new FormControl(""),
-    })
+      tipo: new FormControl("")
+    });
   }
 }

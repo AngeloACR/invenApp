@@ -1,16 +1,17 @@
 <div class="cardBox">
-    <form class="formBox" [formGroup]="registroRol" (ngSubmit)="endRegistro()">
+  <form class="formBox" [formGroup]="registroRol" (ngSubmit)="endRegistro()">
     <div class="formContent">
       <div class="formInput">
-          <label for="">Nombre*</label>
-          <input class="lInput" type="text" formControlName="name" name="name" />
-      </div>    
+        <label for="">Nombre*</label>
+        <input class="lInput" type="text" formControlName="name" name="name" />
+      </div>
     </div>
-          <div class="errorTag" *ngIf="fRol.name.errors?.required && (fRol.name.touched || fRol.name.dirty)">Por favor ingrese nombre del rol</div>
+    <div class="errorTag" *ngIf="fRol.name.errors?.required && (fRol.name.touched || fRol.name.dirty)">Por favor ingrese
+      nombre del rol</div>
     <button type="submit" class="formButton">
       <p>Registrar rol</p>
     </button>
-    </form>
+  </form>
 </div>
 
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

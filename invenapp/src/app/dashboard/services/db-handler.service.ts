@@ -99,8 +99,8 @@ export class DbHandlerService {
       let dataFields = Object.keys(info["values"][0]);
       var j = 0;
       dataFields.forEach(field => {
-          field = field[0].toUpperCase() + field.slice(1);
-          fields.push(field);
+        field = field[0].toUpperCase() + field.slice(1);
+        fields.push(field);
         j++;
       });
       /* info["values"].forEach(value => {
@@ -115,7 +115,7 @@ export class DbHandlerService {
         });
         values.push(vAux);
       }); */
-      values = info['values'];
+      values = info["values"];
       this.setLocal(name + "Fields", fields);
       this.setLocal(name + "Values", values);
     } else {
@@ -128,97 +128,99 @@ export class DbHandlerService {
     let user = this.auth.decode();
     let tipo = user.type;
     let refreshList;
-    if(tipo == 'SuperAdmin'){
-
-        refreshList = [{
-            endpoint: '/users/all',
-            name: 'users'
-          },
-          {
-            endpoint: '/clientes/all',
-            name: 'clientes'
-          },
-          {
-            endpoint: '/proveedores/all',
-            name: 'proveedores'
-          },
-          {
-            endpoint: '/productos/all',
-            name: 'productos'
-          },
-          {
-            endpoint: '/almacenes/all',
-            name: 'almacenes'
-          },
-          {
-            endpoint: '/ingresos/all',
-            name: 'ingresos'
-          },
-          {
-            endpoint: '/pedidos/all',
-            name: 'pedidos'
-          },
-          {
-            endpoint: '/precios/all',
-            name: 'precios'
-          },
-          {
-            endpoint: '/company',
-            name: 'company'
-          }
-        ]        
-    }else if(tipo == 'Admin'){
-
-       
-        refreshList = [{
-            endpoint: '/clientes/all',
-            name: 'clientes'
-          },
-          {
-            endpoint: '/proveedores/all',
-            name: 'proveedores'
-          },
-          {
-            endpoint: '/productos/all',
-            name: 'productos'
-          },
-          {
-            endpoint: '/almacenes/all',
-            name: 'almacenes'
-          },
-          {
-            endpoint: '/ingresos/all',
-            name: 'ingresos'
-          },
-          {
-            endpoint: '/pedidos/all',
-            name: 'pedidos'
-          },
-          {
-            endpoint: '/precios/all',
-            name: 'precios'
-          }
-        ]     
-    }else if(tipo == 'Vendedor'){
-
-        refreshList = [
-          {
-            endpoint: '/clientes/all',
-            name: 'clientes'
-          },
-          {
-            endpoint: '/productos/all',
-            name: 'productos'
-          },
-          {
-            endpoint: '/almacenes/all',
-            name: 'almacenes'
-          },
-          {
-            endpoint: '/pedidos/all',
-            name: 'pedidos'
-          }
-        ]        
+    if (tipo == "SuperAdmin") {
+      refreshList = [
+        {
+          endpoint: "/users/all",
+          name: "users"
+        },
+        {
+          endpoint: "/clientes/all",
+          name: "clientes"
+        },
+        {
+          endpoint: "/proveedores/all",
+          name: "proveedores"
+        },
+        {
+          endpoint: "/productos/all",
+          name: "productos"
+        },
+        {
+          endpoint: "/almacenes/all",
+          name: "almacenes"
+        },
+        {
+          endpoint: "/ingresos/all",
+          name: "ingresos"
+        },
+        {
+          endpoint: "/pedidos/all",
+          name: "pedidos"
+        },
+        {
+          endpoint: "/precios/all",
+          name: "precios"
+        },
+        {
+          endpoint: "/roles/all",
+          name: "roles"
+        },
+        {
+          endpoint: "/company",
+          name: "company"
+        }
+      ];
+    } else if (tipo == "Admin") {
+      refreshList = [
+        {
+          endpoint: "/clientes/all",
+          name: "clientes"
+        },
+        {
+          endpoint: "/proveedores/all",
+          name: "proveedores"
+        },
+        {
+          endpoint: "/productos/all",
+          name: "productos"
+        },
+        {
+          endpoint: "/almacenes/all",
+          name: "almacenes"
+        },
+        {
+          endpoint: "/ingresos/all",
+          name: "ingresos"
+        },
+        {
+          endpoint: "/pedidos/all",
+          name: "pedidos"
+        },
+        {
+          endpoint: "/precios/all",
+          name: "precios"
+        }
+      ];
+    } else if (tipo == "Vendedor") {
+      refreshList = [
+        {
+          endpoint: "/clientes/all",
+          name: "clientes"
+        },
+        {
+          endpoint: "/productos/all",
+          name: "productos"
+        },
+        {
+          endpoint: "/almacenes/all",
+          name: "almacenes"
+        },
+        {
+          endpoint: "/pedidos/all",
+          name: "pedidos"
+        }
+      ];
     }
     let dataArray = [];
     refreshList.forEach(element => {

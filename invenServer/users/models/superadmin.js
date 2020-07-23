@@ -10,15 +10,15 @@ const superAdminSchema = mongoose.Schema({
     ref: 'User',
   }
 })
-.post('remove', removeLinkedDocuments);
+  .post('remove', removeLinkedDocuments);
 
 async function removeLinkedDocuments(element) {
- try{
+  try {
     // doc will be the removed Person document
-    await User.remove({_id: element.userId })
-} catch (error) {
+    await User.remove({ _id: element.userId })
+  } catch (error) {
 
-}
+  }
 
 }
 const SuperAdmin = module.exports = mongoose.model("SuperAdmin", superAdminSchema);
@@ -73,21 +73,21 @@ module.exports.addMH = async function (pId, mhId) {
 }
 
 module.exports.deleteSuperAdmin = async function (id) {
-    try {
-        const query = { "_id": id };
-        let deleteRes =  await this.findOneAndRemove(query);
-        let response = {
-          status: true,
-          values: deleteRes
-        }
-    return response;
-    } catch (error) {
-               let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { "_id": id };
+    let deleteRes = await this.findOneAndRemove(query);
+    let response = {
+      status: true,
+      values: deleteRes
     }
+    return response;
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }
 
 module.exports.getSuperAdmins = async function () {
@@ -123,30 +123,30 @@ module.exports.getSuperAdmin = async function (pId) {
 }
 
 module.exports.updateSuperAdmin = async function (data) {
-    try {
-        const query = { 'userId': data.id }
-        let superAdmin = await this.findOne(query)
-        .populate('userId');
-        superAdmin.userId.name = data.name;
-        if(username != superAdmin.userId.username){
-          let user = await this.findOne({ "username": data.username });
-          if (user) {
-              throw new Error('Nombre de usuario no disponible');
-          }
-          superAdmin.userId.username = data.username;
-        }
-        let user = await superAdmin.userId.save();
-        let response = {
-            status: true,
-            values: user
-        }
-        return response
-
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { 'userId': data.id }
+    let superAdmin = await this.findOne(query)
+      .populate('userId');
+    superAdmin.userId.name = data.name;
+    if (username != superAdmin.userId.username) {
+      let user = await this.findOne({ "username": data.username });
+      if (user) {
+        throw new Error('Nombre de usuario no disponible');
+      }
+      superAdmin.userId.username = data.username;
     }
+    let user = await superAdmin.userId.save();
+    let response = {
+      status: true,
+      values: user
+    }
+    return response
+
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }

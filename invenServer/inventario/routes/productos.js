@@ -5,22 +5,22 @@ const Producto = require('../models/producto');
 
 productoRouter.post('/', auth, async (req, res) => {
 	try {
-			const producto = {
-				name: req.body.name,
-				code: req.body.code,
-				brand: req.body.brand,
-				description: req.body.description,
-				qtyTotal: 0,
-			};	
-			let newProducto = new Producto(producto);
-			response = await Producto.addProducto(newProducto);
+		const producto = {
+			name: req.body.name,
+			code: req.body.code,
+			brand: req.body.brand,
+			description: req.body.description,
+			qtyTotal: 0,
+		};
+		let newProducto = new Producto(producto);
+		response = await Producto.addProducto(newProducto);
 
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 productoRouter.get('/all', auth, async (req, res) => {

@@ -27,40 +27,40 @@ const Proveedor = module.exports = mongoose.model("Proveedor", proveedorSchema);
 
 
 module.exports.deleteProveedor = async function (id) {
-    try {
-        const query = { "_id": id };
+  try {
+    const query = { "_id": id };
 
-         let deleteRes =  await this.findOneAndRemove(query);
+    let deleteRes = await this.findOneAndRemove(query);
 
-        let response = {
-          status: true,
-          values: deleteRes
-        }
-    return response;
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+    let response = {
+      status: true,
+      values: deleteRes
     }
+    return response;
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }
 
 module.exports.addProveedor = async function (newProveedor) {
   try {
-        const query = { 'rif': newProveedor.rif };
+    const query = { 'rif': newProveedor.rif };
     let proveedor = await this.findOne(query)
-    if(proveedor){
+    if (proveedor) {
       throw new Error('Rif de proveedor ya registrado')
-    }else{
+    } else {
       let proveedor = await newProveedor.save();
-    let response = {
-      status: true,
-      values: proveedor
+      let response = {
+        status: true,
+        values: proveedor
+      }
+      return response;
     }
-    return response;
-    }
-  } catch (error) { 
+  } catch (error) {
     let response = {
       status: false,
       msg: error.toString().replace("Error: ", "")
@@ -78,54 +78,54 @@ module.exports.getProveedores = async function () {
       values: proveedors
     }
     return response;
-  } catch (error) { 
-            let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
     }
+    return response
+  }
 }
 module.exports.getProveedor = async function (id) {
   try {
     const query = { '_id': id };
     let proveedor = await this.findOne(query)
-  let response = {
+    let response = {
       status: true,
       values: proveedor
     }
     return response;
-  } catch (error) {         
+  } catch (error) {
     let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+      status: false,
+      msg: error.toString().replace("Error: ", "")
     }
+    return response
+  }
 }
 
 module.exports.updateProveedor = async function (data) {
-    try {
-        const query = { '_id': data.id }
-        let proveedor = await this.findOne(query)
-        proveedor.name = data.name;
-        proveedor.address = data.address;
-        proveedor.ws = data.ws;
-        proveedor.ig = data.ig;
-        proveedor.mail = data.mail;
-        proveedor.rif = data.rif;
-        proveedor = await proveedor.save();
-        let response = {
-            status: true,
-            values: proveedor
-        }
-        return response
-
-    } catch (error) {
-        let response = {
-            status: false,
-            msg: error.toString().replace("Error: ", "")
-        }
-        return response
+  try {
+    const query = { '_id': data.id }
+    let proveedor = await this.findOne(query)
+    proveedor.name = data.name;
+    proveedor.address = data.address;
+    proveedor.ws = data.ws;
+    proveedor.ig = data.ig;
+    proveedor.mail = data.mail;
+    proveedor.rif = data.rif;
+    proveedor = await proveedor.save();
+    let response = {
+      status: true,
+      values: proveedor
     }
+    return response
+
+  } catch (error) {
+    let response = {
+      status: false,
+      msg: error.toString().replace("Error: ", "")
+    }
+    return response
+  }
 }

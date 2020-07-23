@@ -1,41 +1,55 @@
 <div class="cardBox">
     <form class="formBox" [formGroup]="registroProve" (ngSubmit)="endRegistro()">
-  <div class="formContent">
-      <div class="formInput">
-          <label for="">Nombre*</label>
-          <input class="lInput" type="text" formControlName="name" name="name" />
-      </div>
-          <div class="errorTag" *ngIf="fProveedor.name.errors?.required && (fProveedor.name.touched || fProveedor.name.dirty)">Por favor ingrese su nombre</div>
-      <div class="formInput">
-          <label for="">Correo Electrónico*</label>
-          <input class="lInput" type="text" formControlName="mail" name="mail" />
-      </div>
-          <div class="errorTag" *ngIf="fProveedor.mail.errors?.required && (fProveedor.mail.touched || fProveedor.mail.dirty)">Por favor ingrese su correo</div>
-          <div class="errorTag" *ngIf="fProveedor.mail.errors?.email && (fProveedor.mail.touched || fProveedor.mail.dirty)">Por favor ingrese una dirección de correo válida</div>
-     <div class="formInput">
-          <label for="">RIF*</label>
-          <input class="lInput" type="text" formControlName="rif" name="rif" />
-      </div>
-          <div class="errorTag" *ngIf="fProveedor.rif.errors?.required && (fProveedor.rif.touched || fProveedor.rif.dirty)">Por favor ingrese su nombre</div>
-      <div class="formInput">
-          <label for="">Dirección*</label>
-          <input class="lInput" type="text" formControlName="address" name="address" />
-      </div>
-          <div class="errorTag" *ngIf="fProveedor.address.errors?.required && (fProveedor.address.touched || fProveedor.address.dirty)">Por favor ingrese una dirección</div>
-      <div class="formInput">
-          <label for="">Whatsapp*</label>
-          <input class="lInput" type="text" formControlName="ws" name="ws" />
+        <div class="formContent">
+            <div class="formInput">
+                <label for="">Nombre*</label>
+                <input class="lInput" type="text" formControlName="name" name="name" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.name.errors?.required && (fProveedor.name.touched || fProveedor.name.dirty)">Por favor
+                ingrese su nombre</div>
+            <div class="formInput">
+                <label for="">Correo Electrónico*</label>
+                <input class="lInput" type="text" formControlName="mail" name="mail" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.mail.errors?.required && (fProveedor.mail.touched || fProveedor.mail.dirty)">Por favor
+                ingrese su correo</div>
+            <div class="errorTag"
+                *ngIf="fProveedor.mail.errors?.email && (fProveedor.mail.touched || fProveedor.mail.dirty)">Por favor
+                ingrese una dirección de correo válida</div>
+            <div class="formInput">
+                <label for="">RIF*</label>
+                <input class="lInput" type="text" formControlName="rif" name="rif" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.rif.errors?.required && (fProveedor.rif.touched || fProveedor.rif.dirty)">Por favor
+                ingrese su nombre</div>
+            <div class="formInput">
+                <label for="">Dirección*</label>
+                <input class="lInput" type="text" formControlName="address" name="address" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.address.errors?.required && (fProveedor.address.touched || fProveedor.address.dirty)">
+                Por favor ingrese una dirección</div>
+            <div class="formInput">
+                <label for="">Whatsapp*</label>
+                <input class="lInput" type="text" formControlName="ws" name="ws" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.ws.errors?.required && (fProveedor.ws.touched || fProveedor.ws.dirty)">Por favor
+                ingrese un número valido</div>
+            <div class="formInput">
+                <label for="">Instagram</label>
+                <input class="lInput" type="text" formControlName="ig" name="ig" />
+            </div>
+            <div class="errorTag"
+                *ngIf="fProveedor.ig.errors?.required && (fProveedor.ig.touched || fProveedor.ig.dirty)">Por favor
+                ingrese un número valido</div>
         </div>
-          <div class="errorTag" *ngIf="fProveedor.ws.errors?.required && (fProveedor.ws.touched || fProveedor.ws.dirty)">Por favor ingrese un número valido</div>
-      <div class="formInput">
-          <label for="">Instagram</label>
-          <input class="lInput" type="text" formControlName="ig" name="ig" />
-        </div>
-          <div class="errorTag" *ngIf="fProveedor.ig.errors?.required && (fProveedor.ig.touched || fProveedor.ig.dirty)">Por favor ingrese un número valido</div>
-  </div>
-  <button type="submit" class="formButton">
-    <p>Registrar proveedor</p>
-  </button>
-</form>
-  </div>
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
+        <button type="submit" class="formButton">
+            <p>Registrar proveedor</p>
+        </button>
+    </form>
+</div>
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

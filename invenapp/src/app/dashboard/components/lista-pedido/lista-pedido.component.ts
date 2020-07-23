@@ -344,7 +344,6 @@ export class ListaPedidoComponent implements OnInit {
         },
         {
           columns: [
-            { qr: `${company.name}, tlf: ${company.tlf}`, fit: 100 },
             {
               text: `Procesado por`,
               alignment: "right"

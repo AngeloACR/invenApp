@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { DbHandlerService } from '../../services/db-handler.service'
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { DbHandlerService } from "../../services/db-handler.service";
+import { FormBuilder, FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
-  selector: 'app-actualizar',
-  templateUrl: './actualizar.component.html',
-  styleUrls: ['./actualizar.component.scss']
+  selector: "app-actualizar",
+  templateUrl: "./actualizar.component.html",
+  styleUrls: ["./actualizar.component.scss"]
 })
 export class ActualizarComponent implements OnInit {
   id: string;
@@ -31,80 +31,76 @@ export class ActualizarComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.actRoute.params.subscribe(params => {
-      this.id = params['index'];
-      this.item = params['item'];
+      this.id = params["index"];
+      this.item = params["item"];
     });
     this.router.events.subscribe(event => {
       this.actRoute.url.subscribe(value => {
         let url = value[0].path;
-        if (url == 'actualizar') {
+        if (url == "actualizar") {
           if (event instanceof NavigationEnd) {
             this.ngOnInit();
           }
         }
-
       });
     });
   }
   ngOnInit() {
-      this.isProveedor = false;
-      this.isCliente = false;
-      this.isUsuario = false;
-      this.isRol = false;
-      this.isPedido = false;
-      this.isIngreso = false;
-      this.isProducto = false;
-      this.isAlmacen = false;
-      let auxValues  
+    this.isProveedor = false;
+    this.isCliente = false;
+    this.isUsuario = false;
+    this.isRol = false;
+    this.isPedido = false;
+    this.isIngreso = false;
+    this.isProducto = false;
+    this.isAlmacen = false;
+    let auxValues;
     switch (this.item) {
-      case 'cliente':
+      case "cliente":
         this.isCliente = true;
-        auxValues = this.dbHandler.getLocal('clientesValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("clientesValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'proveedor':
+      case "proveedor":
         this.isProveedor = true;
-        auxValues = this.dbHandler.getLocal('proveedoresValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("proveedoresValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'pedido':
+      case "pedido":
         this.isPedido = true;
-        auxValues = this.dbHandler.getLocal('pedidosValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("pedidosValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'almacen':
+      case "almacen":
         this.isAlmacen = true;
-        auxValues = this.dbHandler.getLocal('almacenesValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("almacenesValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'producto':
+      case "producto":
         this.isProducto = true;
-        auxValues = this.dbHandler.getLocal('productosValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("productosValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'ingreso':
+      case "ingreso":
         this.isIngreso = true;
-        auxValues = this.dbHandler.getLocal('ingresosValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("ingresosValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
-      case 'rol':
+      case "rol":
         this.isRol = true;
-        auxValues = this.dbHandler.getLocal('rolesValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("rolesValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
       default:
         this.isUsuario = true;
-        auxValues = this.dbHandler.getLocal('usersValues');
-//            this.selectedItem = auxValues[this.id];
+        auxValues = this.dbHandler.getLocal("usersValues");
+        //            this.selectedItem = auxValues[this.id];
         break;
     }
-            this.selectedItem = auxValues[this.id];
+    this.selectedItem = auxValues[this.id];
   }
 
-    onData(event){
-      this.dbHandler.actualizar();
-    }
-
-
+  onData(event) {
+    this.dbHandler.actualizar();
+  }
 }
-

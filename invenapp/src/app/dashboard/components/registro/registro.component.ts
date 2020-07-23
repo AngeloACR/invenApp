@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { DbHandlerService } from '../../services/db-handler.service'
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
-
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { DbHandlerService } from "../../services/db-handler.service";
+import { FormBuilder, FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss']
+  selector: "app-registro",
+  templateUrl: "./registro.component.html",
+  styleUrls: ["./registro.component.scss"]
 })
 export class RegistroComponent implements OnInit {
   id: string;
@@ -30,60 +29,58 @@ export class RegistroComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.actRoute.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params["id"];
     });
     this.router.events.subscribe(event => {
       this.actRoute.url.subscribe(value => {
         let url = value[0].path;
-        if (url == 'registro') {
+        if (url == "registro") {
           if (event instanceof NavigationEnd) {
             this.ngOnInit();
           }
         }
-
       });
     });
   }
   ngOnInit() {
-      this.isProveedor = false;
-      this.isCliente = false;
-      this.isUsuario = false;
-      this.isRol = false;
-      this.isPedido = false;
-      this.isIngreso = false;
-      this.isProducto = false;
-      this.isAlmacen = false;
+    this.isProveedor = false;
+    this.isCliente = false;
+    this.isUsuario = false;
+    this.isRol = false;
+    this.isPedido = false;
+    this.isIngreso = false;
+    this.isProducto = false;
+    this.isAlmacen = false;
 
     switch (this.id) {
-      case 'cliente':
+      case "cliente":
         this.isCliente = true;
         break;
-      case 'proveedor':
+      case "proveedor":
         this.isProveedor = true;
         break;
-      case 'pedido':
+      case "pedido":
         this.isPedido = true;
         break;
-      case 'almacen':
+      case "almacen":
         this.isAlmacen = true;
         break;
-      case 'producto':
+      case "producto":
         this.isProducto = true;
         break;
-      case 'ingreso':
+      case "ingreso":
         this.isIngreso = true;
         break;
-      case 'rol':
+      case "rol":
         this.isRol = true;
         break;
       default:
-      this.isUsuario = true;
+        this.isUsuario = true;
         break;
     }
   }
 
-    onData(event){
-      this.dbHandler.actualizar();
-    }
-
+  onData(event) {
+    this.dbHandler.actualizar();
+  }
 }

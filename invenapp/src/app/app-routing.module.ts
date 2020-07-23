@@ -1,16 +1,14 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { LoginComponent } from "./components/login/login.component";
 
-import { 
-  GuardService as Guard 
-} from './services/guard.service';
+import { GuardService as Guard } from "./services/guard.service";
 
 const routes: Routes = [
   {
-    path: 'login', 
+    path: "login",
     component: LoginComponent,
-    canActivate: [Guard],
+    canActivate: [Guard]
   }
 ];
 
@@ -18,4 +16,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

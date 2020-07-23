@@ -5,24 +5,24 @@ const Pedido = require('../models/pedido');
 
 pedidoRouter.post('/', auth, async (req, res) => {
 	try {
-			const pedido = {
-				cliente: req.body.cliente,
-				productosPedidos: req.body.productosPedidos,
-				vendedor: req.body.vendedor,
-				fecha: req.body.fecha,
-				estado: req.body.estado,
-				montoTotal: req.body.montoTotal,
-				condicionVenta: req.body.condicionVenta,
-				observaciones: req.body.observaciones,
-			};
-			let newPedido = new Pedido(pedido);
-			response = await Pedido.addPedido(newPedido);
+		const pedido = {
+			cliente: req.body.cliente,
+			productosPedidos: req.body.productosPedidos,
+			vendedor: req.body.vendedor,
+			fecha: req.body.fecha,
+			estado: req.body.estado,
+			montoTotal: req.body.montoTotal,
+			condicionVenta: req.body.condicionVenta,
+			observaciones: req.body.observaciones,
+		};
+		let newPedido = new Pedido(pedido);
+		response = await Pedido.addPedido(newPedido);
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 pedidoRouter.get('/all', auth, async (req, res) => {

@@ -102,15 +102,15 @@ module.exports.addUser = async function (newUser) {
 
 module.exports.updatePassword = async function (username, password) {
     try {
-            let user = await this.findOne({ "username": newUser.username });
-            user.password = await this.hashPass(password);
-            user = await newUser.save();
-            let response = {
-                status: true,
-                values: user
-            }
+        let user = await this.findOne({ "username": newUser.username });
+        user.password = await this.hashPass(password);
+        user = await newUser.save();
+        let response = {
+            status: true,
+            values: user
+        }
     }
-     catch (error) {
+    catch (error) {
         throw error;
     }
 }
@@ -126,7 +126,7 @@ module.exports.authUser = async function (username, password) {
 
         let auth = {}
         if (isMatch) {
-             let payload = {
+            let payload = {
                 _id: user._id,
                 type: user.type,
                 name: user.name,
@@ -157,30 +157,30 @@ module.exports.authUser = async function (username, password) {
 module.exports.deleteUser = async function (username) {
     try {
         const query = { "username": username };
-        let user = await this.findOne(query)         
+        let user = await this.findOne(query)
         let appointments
         switch (user.type) {
             case 'Admin':
                 user.adminId.remove();
                 appointments = user.patientId.appointmentsId
-                for(let appointment of appointments){
-                    await appointment.remove();
-                };
-                user.patientId.remove()
-                break;        
-            case 'Paciente':
-                
-                appointments = user.patientId.appointmentsId
-                for(let appointment of appointments){
+                for (let appointment of appointments) {
                     await appointment.remove();
                 };
                 user.patientId.remove()
                 break;
-        
+            case 'Paciente':
+
+                appointments = user.patientId.appointmentsId
+                for (let appointment of appointments) {
+                    await appointment.remove();
+                };
+                user.patientId.remove()
+                break;
+
             default:
 
                 appointments = user.doctorId.appointmentsId
-                for(let appointment of appointments){
+                for (let appointment of appointments) {
                     await appointment.remove();
                 };
                 user.doctorId.remove()
@@ -230,7 +230,7 @@ module.exports.getUsers = async function () { //Need tons of work
     try {
         const query = {};
         let users = await this.find(query)
-        .select('-password');
+            .select('-password');
         let response = {
             status: true,
             values: users

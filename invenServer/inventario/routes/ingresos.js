@@ -5,25 +5,25 @@ const Ingreso = require('../models/ingreso');
 
 ingresoRouter.post('/', auth, async (req, res) => {
 	try {
-			const ingreso = {
-				proveedor: req.body.proveedor,
-				almacen: req.body.almacen,
-				productosIngresados: req.body.productosIngresados,
-				fecha: req.body.fecha,
-				estado: req.body.estado,
-				referencia: req.body.referencia,
-				observaciones: req.body.observaciones,
-				proveedor: req.body.proveedor,
-			};
-			let newIngreso = new Ingreso(ingreso);
-			response = await Ingreso.addIngreso(newIngreso);
+		const ingreso = {
+			proveedor: req.body.proveedor,
+			almacen: req.body.almacen,
+			productosIngresados: req.body.productosIngresados,
+			fecha: req.body.fecha,
+			estado: req.body.estado,
+			referencia: req.body.referencia,
+			observaciones: req.body.observaciones,
+			proveedor: req.body.proveedor,
+		};
+		let newIngreso = new Ingreso(ingreso);
+		response = await Ingreso.addIngreso(newIngreso);
 
 		res.status(200).json(response);
-	}	
+	}
 	catch (e) {
 		res.status(400).json(e.toString());
-	}	
-});	
+	}
+});
 
 
 ingresoRouter.get('/all', auth, async (req, res) => {
@@ -61,7 +61,6 @@ ingresoRouter.delete('/', auth, async (req, res, next) => {
 		const item = req.query.item;
 
 		let response = await Ingreso.deleteIngreso(item);
-		console.log(response);
 		res.status(200).json(response);
 	}
 	catch (e) {

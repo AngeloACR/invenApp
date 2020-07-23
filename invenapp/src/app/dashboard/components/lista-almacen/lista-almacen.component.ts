@@ -1,18 +1,27 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
 import { DbHandlerService } from "../../services/db-handler.service";
-import { FormBuilder, FormGroup, FormControl, Validators  } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
-import { faTrashAlt, faFilePdf, faEdit, faEye } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrashAlt,
+  faFilePdf,
+  faEdit,
+  faEye
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-lista-almacen',
-  templateUrl: './lista-almacen.component.html',
-  styleUrls: ['./lista-almacen.component.scss']
+  selector: "app-lista-almacen",
+  templateUrl: "./lista-almacen.component.html",
+  styleUrls: ["./lista-almacen.component.scss"]
 })
 export class ListaAlmacenComponent implements OnInit {
-
   faEye = faEye;
   faTrash = faTrashAlt;
   faPdf = faFilePdf;
@@ -33,47 +42,38 @@ export class ListaAlmacenComponent implements OnInit {
     private dbHandler: DbHandlerService,
     private router: Router,
     private fb: FormBuilder
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
-    this.initComponent('/almacenes', 'Lista de Almacenes', 'Agregar Almacén', 'almacenes')
+    this.initComponent(
+      "/almacenes",
+      "Lista de Almacenes",
+      "Agregar Almacén",
+      "almacenes"
+    );
     this.initForm();
     this.isEmpty = true;
-     let auxfields = this.dbHandler.getLocal(this.name + 'Fields');
-     let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let auxfields = this.dbHandler.getLocal(this.name + "Fields");
+    let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
-    this.fields = [
-      'Id',
-      'Código',
-      'Estado',
-      'Ciudad',
-      'Dirección',
-      ]
+    this.fields = ["Id", "Código", "Estado", "Ciudad", "Dirección"];
 
     this.values = [];
 
     auxValues.forEach(value => {
-      let aux = [
-        value._id,
-        value.code,
-        value.state,
-        value.city,
-        value.address,
-      ]
-      this.values.push(aux)
+      let aux = [value._id, value.code, value.state, value.city, value.address];
+      this.values.push(aux);
     });
 
-    if(this.values.length){
+    if (this.values.length) {
       this.isEmpty = false;
     }
   }
 
-  initForm(){
+  initForm() {
     this.filterForm = new FormGroup({
-      tipo: new FormControl(""),
-    })
+      tipo: new FormControl("")
+    });
   }
 
   initComponent(endpoint, title, addText, name) {
@@ -88,76 +88,72 @@ export class ListaAlmacenComponent implements OnInit {
   isVendedor: boolean;
 
   deleteItem(event, index) {
-    let auxValues = this.dbHandler.getLocal(this.name + 'Values');
+    let auxValues = this.dbHandler.getLocal(this.name + "Values");
     let item = auxValues[index];
     var myEnd = this.endpoint;
     let type = this.auth.getType();
-    this.isAdmin = (type === 'Admin');
-		this.isVendedor = (type === 'Vendedor');
-		this.isSuperAdmin = (type === 'SuperAdmin');
-    
-    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
-    console.log(this.isSuperAdmin)
-    console.log(this.isAdmin)
-    if(!(this.isAdmin || this.isSuperAdmin)){
-          this.closeConfirm();
-          let errorMsg = 'Usuario no autorizado';
-          this.openError(errorMsg)
-    } else{
+    this.isAdmin = type === "Admin";
+    this.isVendedor = type === "Vendedor";
+    this.isSuperAdmin = type === "SuperAdmin";
 
-      this.dbHandler.deleteSomething(item._id, myEnd)
-      .subscribe((data: any) => { 
+    //Autorizacion basada en roles. Modificar eventualmente a basada en reglas
+    console.log(this.isSuperAdmin);
+    console.log(this.isAdmin);
+    if (!(this.isAdmin || this.isSuperAdmin)) {
+      this.closeConfirm();
+      let errorMsg = "Usuario no autorizado";
+      this.openError(errorMsg);
+    } else {
+      this.dbHandler.deleteSomething(item._id, myEnd).subscribe((data: any) => {
         this.closeConfirm();
-        if(!data.status){
+        if (!data.status) {
           let errorMsg = data.msg;
-          this.openError(errorMsg)
-        } else{
-        this.dbHandler.actualizar();
+          this.openError(errorMsg);
+        } else {
+          this.dbHandler.actualizar();
         }
       });
     }
   }
 
   deletedItem: any;
-  confirmDelete(event, item){
+  confirmDelete(event, item) {
     this.deletedItem = item;
     this.openConfirm();
   }
 
   showConfirm: {};
 
-  openConfirm(){
+  openConfirm() {
     this.showConfirm = {
-        confirmAct: true,
-      }
+      confirmAct: true
+    };
   }
 
-  closeConfirm(){
+  closeConfirm() {
     this.showConfirm = {
-        confirmAct: false,
-      }
+      confirmAct: false
+    };
   }
 
-    openUpdate(event, item) {  
-      this.router.navigateByUrl('/actualizar/almacen/'+item);
-    }
+  openUpdate(event, item) {
+    this.router.navigateByUrl("/actualizar/almacen/" + item);
+  }
 
-   agregar() {  
-      this.router.navigateByUrl('/registro/almacen');
-    }
+  agregar() {
+    this.router.navigateByUrl("/registro/almacen");
+  }
 
-    habilitarElemento(event, elemento, isHabilitar){
-      
-    }
+  habilitarElemento(event, elemento, isHabilitar) {}
 
   showError: {};
   errorMsg: string;
 
-  openError(msg){
+  openError(msg) {
     this.errorMsg = msg;
     this.showError = {
-        errorAct: true
-      }
+      errorAct: true
+    };
   }
 
   closeError() {
@@ -165,5 +161,4 @@ export class ListaAlmacenComponent implements OnInit {
       errorAct: false
     };
   }
-
 }

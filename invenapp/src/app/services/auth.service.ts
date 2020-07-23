@@ -1,106 +1,96 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
-import * as jwt_decode from 'jwt-decode';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { DatePipe } from "@angular/common";
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthService {
+  endpoint = "/auth";
 
-  endpoint = '/auth'
+  today = new Date();
 
-  today = new Date;
+  localSource = "http://localhost:3400";
 
-  localSource = 'http://localhost:3400';
+  serverSource = "";
 
-  serverSource = '';
-
-  prodSource = '';
+  prodSource = "";
 
   //mySource = this.localSource;
   mySource = this.serverSource;
 
-  constructor(
-    private http: HttpClient,
-    private datePipe: DatePipe
-  ) { }
+  constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   login(logData: any) {
-
     let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
+    headers.append("Content-Type", "application/json");
     let body = {
       username: logData.username,
       password: logData.password
-    }
-    var address = this.mySource + this.endpoint + '/';
+    };
+    var address = this.mySource + this.endpoint + "/";
     return this.http.post(address, body, { headers: headers });
-
   }
   logout() {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('token');
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("token");
     localStorage.clear();
     window.location.reload();
   }
 
   storeData(storeData: any) {
-    localStorage.setItem('token', storeData.token);
-    localStorage.setItem('loggedIn', storeData.status);
+    localStorage.setItem("token", storeData.token);
+    localStorage.setItem("loggedIn", storeData.status);
   }
 
-  resetPass(resetData: any) {
-
-  }
+  resetPass(resetData: any) {}
 
   decode() {
     try {
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem("token");
       return jwt_decode(token);
-    }
-    catch (Error) {
+    } catch (Error) {
       return null;
     }
   }
 
-  getType(){
-    try{
+  getType() {
+    try {
       let user = this.decode();
-        let type = user.type;
-        return type;
-    } catch (Error){
+      let type = user.type;
+      return type;
+    } catch (Error) {
       return null;
     }
   }
 
-  getUsername(){
-    try{
+  getUsername() {
+    try {
       let user = this.decode();
-        let username = user.username;
-        return username;
-    } catch (Error){
+      let username = user.username;
+      return username;
+    } catch (Error) {
       return null;
     }
-  }  
-  getId(){
-    try{
-        let id = this.decode()._id;
-        return id;
-    } catch (Error){
+  }
+  getId() {
+    try {
+      let id = this.decode()._id;
+      return id;
+    } catch (Error) {
       return null;
     }
   }
 
   isAuthenticated() {
-    const loggedIn = localStorage.getItem('loggedIn');
-    const isLogged = (loggedIn == 'true')
+    const loggedIn = localStorage.getItem("loggedIn");
+    const isLogged = loggedIn == "true";
     return isLogged;
   }
 
   getToken() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     return token;
   }
-
 }
