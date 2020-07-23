@@ -48,7 +48,6 @@ companyRouter.put('/', auth, async (req, res, next) => {
 			tlf: req.body.tlf,
 			rif: req.body.rif,
 		};
-
 		let companyId = req.body.id
 		console.log(companyId);
 		let response = await Company.updateCompany(company, companyId);
@@ -63,7 +62,7 @@ companyRouter.put('/', auth, async (req, res, next) => {
 
 // Get Company
 companyRouter.get('/', auth, async (req, res, next) => {
-	try{
+	try {
 		let response = await Company.getCompany();
 		res.status(200).json(response);
 	}
