@@ -6,8 +6,6 @@ const User = require('./user');
 
 const vendedorSchema = mongoose.Schema({
   userId: {
-/*     type: String,
-    ref: 'User' */
     type: Schema.Types.ObjectId,
     ref:'User'    
   }

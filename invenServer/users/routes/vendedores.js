@@ -18,10 +18,6 @@ vendedorRouter.post('/', /*auth,*/ async (req, res) => {
 		if(response.status){
 			const vendedor = {
 				userId: response.values._id,
-				speciality: req.body.speciality,
-				summary: req.body.summary,
-				experience: req.body.experience,
-				addr: req.body.addr,
 			};	
 			let newVendedor = new Vendedor(vendedor);
 			response = await Vendedor.addVendedor(newVendedor);
