@@ -15,16 +15,6 @@ localApp.listen(localPort, () => {
 	console.log('Server running at: ' + localPort);
 });
 
-
-const testPort = 6800;
-const testFolder = './public/invenapp';
-const testPath = testFolder + '/index.html';
-const testApp = testServer.init(testFolder, testPath, testPort);
-
-testApp.listen(testPort, () => {
-	console.log('Server running at: ' + testPort);
-});
-
 //const landingServer = require('./landingServer');
 /* const landingPort = 6174;
 const landingFolder = './public/invenLand';
