@@ -1,6 +1,7 @@
 const db = require('./database');
 const path = require('path');
 const localServer = require('./localServer');
+const testServer = require('./localServer');
 
 const connection = db.initConnect();
 
@@ -14,6 +15,15 @@ localApp.listen(localPort, () => {
 	console.log('Server running at: ' + localPort);
 });
 
+
+const testPort = 6800;
+const testFolder = './public/invenapp';
+const testPath = testFolder + '/index.html';
+const testApp = testServer.init(testFolder, testPath, testPort);
+
+testApp.listen(testPort, () => {
+	console.log('Server running at: ' + testPort);
+});
 
 //const landingServer = require('./landingServer');
 /* const landingPort = 6174;
