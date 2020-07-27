@@ -11,20 +11,20 @@ import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
 @Component({
-  selector: "app-form-proforma",
-  templateUrl: "./form-proforma.component.html",
-  styleUrls: ["./form-proforma.component.scss"]
+  selector: "app-form-movimiento-diario",
+  templateUrl: "./form-movimiento-diario.component.html",
+  styleUrls: ["./form-movimiento-diario.component.scss"]
 })
-export class FormProformaComponent implements OnInit {
+export class FormMovimientoDiarioComponent implements OnInit {
   @Input()
   editMode: number;
   @Input()
-  proforma: any;
+  movimientoDiario: any;
 
   @Output()
   onData = new EventEmitter<any>();
 
-  registroProforma: FormGroup;
+  registroMovimientoDiario: FormGroup;
 
   showError: {};
   errorMsg: string;
@@ -44,15 +44,15 @@ export class FormProformaComponent implements OnInit {
   }
 
   initForm() {
-    this.registroProforma = new FormGroup({});
+    this.registroMovimientoDiario = new FormGroup({});
   }
 
-  get fProforma() {
-    return this.registroProforma.controls;
+  get fMovimientoDiario() {
+    return this.registroMovimientoDiario.controls;
   }
 
   endRegistro() {
-    var dataAux = this.registroProforma.value;
+    var dataAux = this.registroMovimientoDiario.value;
     var dataValues;
     let error;
     let refreshList;
@@ -66,7 +66,7 @@ export class FormProformaComponent implements OnInit {
       ig: dataAux.ig,
       rif: dataAux.rif
     };
-    endpoint = "/proformas";
+    endpoint = "/movimientos";
     error = this.catchUserErrors();
     if (error) {
       let errorMsg =
@@ -101,24 +101,24 @@ export class FormProformaComponent implements OnInit {
   }
 
   resetForms() {
-    this.registroProforma.reset();
+    this.registroMovimientoDiario.reset();
   }
 
   catchUserErrors() {
-    let aux1 = this.fProforma.name.errors
-      ? this.fProforma.name.errors.required
+    let aux1 = this.fMovimientoDiario.name.errors
+      ? this.fMovimientoDiario.name.errors.required
       : false;
-    let aux2 = this.fProforma.mail.errors
-      ? this.fProforma.mail.errors.required
+    let aux2 = this.fMovimientoDiario.mail.errors
+      ? this.fMovimientoDiario.mail.errors.required
       : false;
-    let aux3 = this.fProforma.address.errors
-      ? this.fProforma.address.errors.required
+    let aux3 = this.fMovimientoDiario.address.errors
+      ? this.fMovimientoDiario.address.errors.required
       : false;
-    let aux4 = this.fProforma.ws.errors
-      ? this.fProforma.ws.errors.required
+    let aux4 = this.fMovimientoDiario.ws.errors
+      ? this.fMovimientoDiario.ws.errors.required
       : false;
-    let aux5 = this.fProforma.rif.errors
-      ? this.fProforma.rif.errors.minlength
+    let aux5 = this.fMovimientoDiario.rif.errors
+      ? this.fMovimientoDiario.rif.errors.minlength
       : false;
     let error = aux1 || aux2 || aux3 || aux4 || aux5;
     return error;

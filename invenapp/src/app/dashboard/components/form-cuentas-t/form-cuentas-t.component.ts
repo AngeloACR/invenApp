@@ -11,20 +11,20 @@ import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
 @Component({
-  selector: "app-form-proforma",
-  templateUrl: "./form-proforma.component.html",
-  styleUrls: ["./form-proforma.component.scss"]
+  selector: "app-form-cuentas-t",
+  templateUrl: "./form-cuentas-t.component.html",
+  styleUrls: ["./form-cuentas-t.component.scss"]
 })
-export class FormProformaComponent implements OnInit {
+export class FormCuentasTComponent implements OnInit {
   @Input()
   editMode: number;
   @Input()
-  proforma: any;
+  cuentaT: any;
 
   @Output()
   onData = new EventEmitter<any>();
 
-  registroProforma: FormGroup;
+  registroCuentast: FormGroup;
 
   showError: {};
   errorMsg: string;
@@ -44,15 +44,15 @@ export class FormProformaComponent implements OnInit {
   }
 
   initForm() {
-    this.registroProforma = new FormGroup({});
+    this.registroCuentast = new FormGroup({});
   }
 
-  get fProforma() {
-    return this.registroProforma.controls;
+  get fCuentast() {
+    return this.registroCuentast.controls;
   }
 
   endRegistro() {
-    var dataAux = this.registroProforma.value;
+    var dataAux = this.registroCuentast.value;
     var dataValues;
     let error;
     let refreshList;
@@ -66,7 +66,7 @@ export class FormProformaComponent implements OnInit {
       ig: dataAux.ig,
       rif: dataAux.rif
     };
-    endpoint = "/proformas";
+    endpoint = "/cuentast";
     error = this.catchUserErrors();
     if (error) {
       let errorMsg =
@@ -101,24 +101,24 @@ export class FormProformaComponent implements OnInit {
   }
 
   resetForms() {
-    this.registroProforma.reset();
+    this.registroCuentast.reset();
   }
 
   catchUserErrors() {
-    let aux1 = this.fProforma.name.errors
-      ? this.fProforma.name.errors.required
+    let aux1 = this.fCuentast.name.errors
+      ? this.fCuentast.name.errors.required
       : false;
-    let aux2 = this.fProforma.mail.errors
-      ? this.fProforma.mail.errors.required
+    let aux2 = this.fCuentast.mail.errors
+      ? this.fCuentast.mail.errors.required
       : false;
-    let aux3 = this.fProforma.address.errors
-      ? this.fProforma.address.errors.required
+    let aux3 = this.fCuentast.address.errors
+      ? this.fCuentast.address.errors.required
       : false;
-    let aux4 = this.fProforma.ws.errors
-      ? this.fProforma.ws.errors.required
+    let aux4 = this.fCuentast.ws.errors
+      ? this.fCuentast.ws.errors.required
       : false;
-    let aux5 = this.fProforma.rif.errors
-      ? this.fProforma.rif.errors.minlength
+    let aux5 = this.fCuentast.rif.errors
+      ? this.fCuentast.rif.errors.minlength
       : false;
     let error = aux1 || aux2 || aux3 || aux4 || aux5;
     return error;

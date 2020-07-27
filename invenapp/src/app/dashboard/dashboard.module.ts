@@ -11,10 +11,19 @@ import { SharedModule } from "../shared/shared.module";
 import { DbHandlerService } from "./services/db-handler.service";
 
 import { DashboardComponent } from "./dashboard.component";
+import { BlankComponent } from "./containers/blank/blank.component";
+import { RegistroComponent } from "./containers/registro/registro.component";
+import { ListaComponent } from "./containers/lista/lista.component";
+import { ActualizarComponent } from "./containers/actualizar/actualizar.component";
+import { CompanyComponent } from "./containers/company/company.component";
+import { PreciosComponent } from "./containers/precios/precios.component";
+import { FlujodecajaComponent } from "./containers/flujodecaja/flujodecaja.component";
+import { ProyeccionesComponent } from "./containers/proyecciones/proyecciones.component";
+import { EstadoDeResultadosComponent } from "./containers/estado-de-resultados/estado-de-resultados.component";
+import { DisponibilidadBancariaComponent } from "./containers/disponibilidad-bancaria/disponibilidad-bancaria.component";
+
 import { HeaderComponent } from "./components/header/header.component";
 import { SidemenuComponent } from "./components/sidemenu/sidemenu.component";
-import { BlankComponent } from "./components/blank/blank.component";
-
 import { FormClientesComponent } from "./components/form-clientes/form-clientes.component";
 import { FormProveedoresComponent } from "./components/form-proveedores/form-proveedores.component";
 import { FormAlmacenComponent } from "./components/form-almacen/form-almacen.component";
@@ -27,18 +36,24 @@ import { ListaAlmacenComponent } from "./components/lista-almacen/lista-almacen.
 import { ListaIngresoComponent } from "./components/lista-ingreso/lista-ingreso.component";
 import { ListaPedidoComponent } from "./components/lista-pedido/lista-pedido.component";
 import { ListaProductoComponent } from "./components/lista-producto/lista-producto.component";
-import { RegistroComponent } from "./components/registro/registro.component";
-import { ListaComponent } from "./components/lista/lista.component";
-import { ActualizarComponent } from "./components/actualizar/actualizar.component";
 import { FormUsuarioComponent } from "./components/form-usuario/form-usuario.component";
 import { ListaUsuarioComponent } from "./components/lista-usuario/lista-usuario.component";
 import { FormRolComponent } from "./components/form-rol/form-rol.component";
 import { ListaRolComponent } from "./components/lista-rol/lista-rol.component";
-import { CompanyComponent } from "./components/company/company.component";
 import { FormCompanyComponent } from "./components/form-company/form-company.component";
-import { PreciosComponent } from "./components/precios/precios.component";
 import { FormProformaComponent } from "./components/form-proforma/form-proforma.component";
 import { ListaProformasComponent } from "./components/lista-proformas/lista-proformas.component";
+import { FormBancoComponent } from "./components/form-banco/form-banco.component";
+import { ListaBancoComponent } from "./components/lista-banco/lista-banco.component";
+import { FormEgresoComponent } from "./components/form-egreso/form-egreso.component";
+import { ListaEgresoComponent } from "./components/lista-egreso/lista-egreso.component";
+import { FormCuentasTComponent } from "./components/form-cuentas-t/form-cuentas-t.component";
+import { ListaCuentasTComponent } from "./components/lista-cuentas-t/lista-cuentas-t.component";
+import { FormMovimientoDiarioComponent } from "./components/form-movimiento-diario/form-movimiento-diario.component";
+import { ListaMovimientoDiarioComponent } from "./components/lista-movimiento-diario/lista-movimiento-diario.component";
+import { ListaCuentasPorCobrarComponent } from "./components/lista-cuentas-por-cobrar/lista-cuentas-por-cobrar.component";
+import { ListaCuentasPorPagarComponent } from "./components/lista-cuentas-por-pagar/lista-cuentas-por-pagar.component";
+
 import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
 
 @NgModule({
@@ -48,7 +63,17 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     SidemenuComponent,
     HeaderComponent,
     BlankComponent,
+    RegistroComponent,
+    ListaComponent,
+    ActualizarComponent,
+    CompanyComponent,
+    PreciosComponent,
+    DisponibilidadBancariaComponent,
+    FlujodecajaComponent,
+    ProyeccionesComponent,
+    EstadoDeResultadosComponent,
 
+    Dot2commaPipe,
     FormProveedoresComponent,
     FormAlmacenComponent,
     FormIngresoComponent,
@@ -60,19 +85,23 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     ListaIngresoComponent,
     ListaPedidoComponent,
     ListaProductoComponent,
-    RegistroComponent,
-    ListaComponent,
-    ActualizarComponent,
     FormUsuarioComponent,
     ListaUsuarioComponent,
     FormRolComponent,
     ListaRolComponent,
-    CompanyComponent,
     FormCompanyComponent,
-    PreciosComponent,
     FormProformaComponent,
     ListaProformasComponent,
-    Dot2commaPipe
+    FormBancoComponent,
+    ListaBancoComponent,
+    FormEgresoComponent,
+    ListaEgresoComponent,
+    FormCuentasTComponent,
+    ListaCuentasTComponent,
+    FormMovimientoDiarioComponent,
+    ListaMovimientoDiarioComponent,
+    ListaCuentasPorCobrarComponent,
+    ListaCuentasPorPagarComponent
   ],
   entryComponents: [
     FormProveedoresComponent,
@@ -80,12 +109,30 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     FormIngresoComponent,
     FormPedidoComponent,
     FormProductoComponent,
+    FormUsuarioComponent,
+    FormRolComponent,
+    FormCompanyComponent,
+    FormProformaComponent,
+    FormBancoComponent,
+    FormEgresoComponent,
+    FormCuentasTComponent,
+    FormMovimientoDiarioComponent,
+
     ListaClientesComponent,
     ListaProveedoresComponent,
     ListaAlmacenComponent,
     ListaIngresoComponent,
     ListaPedidoComponent,
-    ListaProductoComponent
+    ListaProductoComponent,
+    ListaUsuarioComponent,
+    ListaRolComponent,
+    ListaProformasComponent,
+    ListaBancoComponent,
+    ListaEgresoComponent,
+    ListaCuentasTComponent,
+    ListaMovimientoDiarioComponent,
+    ListaCuentasPorCobrarComponent,
+    ListaCuentasPorPagarComponent
   ],
   imports: [
     CommonModule,

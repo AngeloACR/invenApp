@@ -4,11 +4,11 @@ import { DbHandlerService } from "../../services/db-handler.service";
 import { FormBuilder, FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
-  selector: "app-lista",
-  templateUrl: "./lista.component.html",
-  styleUrls: ["./lista.component.scss"]
+  selector: "app-registro",
+  templateUrl: "./registro.component.html",
+  styleUrls: ["./registro.component.scss"]
 })
-export class ListaComponent implements OnInit {
+export class RegistroComponent implements OnInit {
   id: string;
 
   isCliente: boolean;
@@ -19,6 +19,13 @@ export class ListaComponent implements OnInit {
   isPedido: boolean;
   isUsuario: boolean;
   isRol: boolean;
+  isBanco: boolean;
+  isMovimientoDiario: boolean;
+  isEgreso: boolean;
+  isCuentaT: boolean;
+  isProforma: boolean;
+
+  editMode = 0;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -32,7 +39,7 @@ export class ListaComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.actRoute.url.subscribe(value => {
         let url = value[0].path;
-        if (url == "lista") {
+        if (url == "registro") {
           if (event instanceof NavigationEnd) {
             this.ngOnInit();
           }
@@ -49,6 +56,11 @@ export class ListaComponent implements OnInit {
     this.isIngreso = false;
     this.isProducto = false;
     this.isAlmacen = false;
+    this.isBanco = false;
+    this.isEgreso = false;
+    this.isProforma = false;
+    this.isMovimientoDiario = false;
+    this.isCuentaT = false;
 
     switch (this.id) {
       case "cliente":
@@ -72,9 +84,29 @@ export class ListaComponent implements OnInit {
       case "rol":
         this.isRol = true;
         break;
+      case "banco":
+        this.isBanco = true;
+        break;
+      case "movimientodiario":
+        this.isMovimientoDiario = true;
+        break;
+      case "cuentat":
+        this.isCuentaT = true;
+        break;
+      case "egreso":
+        this.isEgreso = true;
+        break;
+      case "proforma":
+        this.isProforma = true;
+        break;
+
       default:
         this.isUsuario = true;
         break;
     }
+  }
+
+  onData(event) {
+    this.dbHandler.actualizar();
   }
 }

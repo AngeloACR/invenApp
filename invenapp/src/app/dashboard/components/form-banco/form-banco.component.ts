@@ -11,20 +11,20 @@ import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 
 @Component({
-  selector: "app-form-proforma",
-  templateUrl: "./form-proforma.component.html",
-  styleUrls: ["./form-proforma.component.scss"]
+  selector: "app-form-banco",
+  templateUrl: "./form-banco.component.html",
+  styleUrls: ["./form-banco.component.scss"]
 })
-export class FormProformaComponent implements OnInit {
+export class FormBancoComponent implements OnInit {
   @Input()
   editMode: number;
   @Input()
-  proforma: any;
+  banco: any;
 
   @Output()
   onData = new EventEmitter<any>();
 
-  registroProforma: FormGroup;
+  registroBanco: FormGroup;
 
   showError: {};
   errorMsg: string;
@@ -44,15 +44,15 @@ export class FormProformaComponent implements OnInit {
   }
 
   initForm() {
-    this.registroProforma = new FormGroup({});
+    this.registroBanco = new FormGroup({});
   }
 
-  get fProforma() {
-    return this.registroProforma.controls;
+  get fBanco() {
+    return this.registroBanco.controls;
   }
 
   endRegistro() {
-    var dataAux = this.registroProforma.value;
+    var dataAux = this.registroBanco.value;
     var dataValues;
     let error;
     let refreshList;
@@ -66,7 +66,7 @@ export class FormProformaComponent implements OnInit {
       ig: dataAux.ig,
       rif: dataAux.rif
     };
-    endpoint = "/proformas";
+    endpoint = "/bancos";
     error = this.catchUserErrors();
     if (error) {
       let errorMsg =
@@ -101,24 +101,22 @@ export class FormProformaComponent implements OnInit {
   }
 
   resetForms() {
-    this.registroProforma.reset();
+    this.registroBanco.reset();
   }
 
   catchUserErrors() {
-    let aux1 = this.fProforma.name.errors
-      ? this.fProforma.name.errors.required
+    let aux1 = this.fBanco.name.errors
+      ? this.fBanco.name.errors.required
       : false;
-    let aux2 = this.fProforma.mail.errors
-      ? this.fProforma.mail.errors.required
+    let aux2 = this.fBanco.mail.errors
+      ? this.fBanco.mail.errors.required
       : false;
-    let aux3 = this.fProforma.address.errors
-      ? this.fProforma.address.errors.required
+    let aux3 = this.fBanco.address.errors
+      ? this.fBanco.address.errors.required
       : false;
-    let aux4 = this.fProforma.ws.errors
-      ? this.fProforma.ws.errors.required
-      : false;
-    let aux5 = this.fProforma.rif.errors
-      ? this.fProforma.rif.errors.minlength
+    let aux4 = this.fBanco.ws.errors ? this.fBanco.ws.errors.required : false;
+    let aux5 = this.fBanco.rif.errors
+      ? this.fBanco.rif.errors.minlength
       : false;
     let error = aux1 || aux2 || aux3 || aux4 || aux5;
     return error;

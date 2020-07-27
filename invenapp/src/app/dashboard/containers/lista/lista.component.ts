@@ -4,11 +4,11 @@ import { DbHandlerService } from "../../services/db-handler.service";
 import { FormBuilder, FormGroup, FormControl, FormArray } from "@angular/forms";
 
 @Component({
-  selector: "app-registro",
-  templateUrl: "./registro.component.html",
-  styleUrls: ["./registro.component.scss"]
+  selector: "app-lista",
+  templateUrl: "./lista.component.html",
+  styleUrls: ["./lista.component.scss"]
 })
-export class RegistroComponent implements OnInit {
+export class ListaComponent implements OnInit {
   id: string;
 
   isCliente: boolean;
@@ -19,8 +19,13 @@ export class RegistroComponent implements OnInit {
   isPedido: boolean;
   isUsuario: boolean;
   isRol: boolean;
-
-  editMode = 0;
+  isBanco: boolean;
+  isMovimientoDiario: boolean;
+  isEgreso: boolean;
+  isCuentasT: boolean;
+  isProforma: boolean;
+  isCuentasPorPagar: boolean;
+  isCuentasPorCobrar: boolean;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -34,7 +39,7 @@ export class RegistroComponent implements OnInit {
     this.router.events.subscribe(event => {
       this.actRoute.url.subscribe(value => {
         let url = value[0].path;
-        if (url == "registro") {
+        if (url == "lista") {
           if (event instanceof NavigationEnd) {
             this.ngOnInit();
           }
@@ -51,6 +56,13 @@ export class RegistroComponent implements OnInit {
     this.isIngreso = false;
     this.isProducto = false;
     this.isAlmacen = false;
+    this.isBanco = false;
+    this.isEgreso = false;
+    this.isProforma = false;
+    this.isMovimientoDiario = false;
+    this.isCuentasT = false;
+    this.isCuentasPorCobrar = false;
+    this.isCuentasPorPagar = false;
 
     switch (this.id) {
       case "cliente":
@@ -74,13 +86,33 @@ export class RegistroComponent implements OnInit {
       case "rol":
         this.isRol = true;
         break;
+      case "banco":
+        this.isBanco = true;
+        break;
+      case "movimientodiario":
+        this.isMovimientoDiario = true;
+        break;
+      case "cuentat":
+        this.isCuentasT = true;
+        break;
+      case "egreso":
+        this.isEgreso = true;
+        break;
+      case "proforma":
+        this.isProforma = true;
+        break;
+
+      case "cuentasporcobrar":
+        this.isCuentasPorCobrar = true;
+        break;
+
+      case "cuentasporpagar":
+        this.isCuentasPorPagar = true;
+        break;
+
       default:
         this.isUsuario = true;
         break;
     }
-  }
-
-  onData(event) {
-    this.dbHandler.actualizar();
   }
 }

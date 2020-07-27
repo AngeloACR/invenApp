@@ -11,12 +11,14 @@ import { FileValidator } from "./directives/fileValidator";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { AppComponent } from "./app.component";
-import { LoginComponent } from "./components/login/login.component";
-import { ResetPassComponent } from "./components/reset-pass/reset-pass.component";
+import { LoginComponent } from "./containers/login/login.component";
+import { ResetPassComponent } from "./containers/reset-pass/reset-pass.component";
 
 import { registerLocaleData } from "@angular/common";
 import localeVE from "@angular/common/locales/es-VE";
 import { FormUsuarioComponent } from "./components/form-usuario/form-usuario.component";
+import { RegistroComponent } from './containers/registro/registro.component';
+import { RestorePassComponent } from './containers/restore-pass/restore-pass.component';
 
 registerLocaleData(localeVE, "es-VE");
 
@@ -27,7 +29,9 @@ registerLocaleData(localeVE, "es-VE");
     ResetPassComponent,
     FileValueAccessor,
     FileValidator,
-    FormUsuarioComponent
+    FormUsuarioComponent,
+    RegistroComponent,
+    RestorePassComponent
   ],
   imports: [
     BrowserModule,
