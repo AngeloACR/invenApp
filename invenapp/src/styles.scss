@@ -1,8 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+$roboto: 'Roboto', sans-serif;
+$opensan: 'Open Sans', sans-serif;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $roboto;
+}
+
 .formHeader {
   height: 12vh;
   width: 100%;
-  background: #029ced;
   color: white;
   text-align: center;
 }
@@ -28,116 +40,6 @@
   margin-bottom: 10px;
   width: 96%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.formContent {
-  display: flex;
-  width: 100%;
-  margin-top: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
-  height: auto;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.formBox {
-  width: 70%;
-  margin: auto;
-}
-
-.formButton {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: white;
-  background-color: #0084b6;
-  margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  border-style: solid;
-  border-width: 3px;
-  border-color: #0084b6;
-  cursor: pointer;
-}
-
-.formButton:hover {
-  color: #0084b6;
-  background-color: white;
-}
-
-.formButton:active {
-  color: #0084b6;
-  background-color: white;
-}
-
-.formButton p {
-  color: white;
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100%;
-  text-decoration: none !important;
-}
-
-.formButton:hover p {
-  color: #0084b6;
-}
-
-.buttonBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
-  font-size: 16px;
-  font-weight: bold;
-  height: 35px;
-  margin-bottom: 10px;
-  margin-top: 3vh;
-  background: #029ced;
-  color: white;
-  text-align: center;
-  border-radius: 3px;
-  cursor: pointer;
-  border: solid;
-  border-color: #029ced;
-  border-width: 1px;
-}
-
-.buttonBox:hover {
-  background: white;
-  color: #029ced;
-  font-weight: bold;
-}
-
-.lInput {
-  flex-basis: 100%;
-  margin-top: 5px;
-  font-size: 16px;
-  padding-left: 16px;
-  height: 33px;
-  border: none;
-  background-image: none;
-  background-color: white;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: black;
-  box-shadow: none;
-}
-
-.formInput {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 10px;
-  width: 100%;
-  align-self: center;
 }
 
 .formInput label {
@@ -195,14 +97,6 @@
 .closeButton .closeB:hover {
   background-color: red;
   color: white;
-}
-
-.errorTag {
-  font-size: 14px;
-  color: red;
-  width: 100%;
-  margin-bottom: 15px;
-  text-align: right;
 }
 
 .errorBox {
