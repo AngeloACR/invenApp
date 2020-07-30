@@ -17,8 +17,8 @@ export class AuthService {
 
   prodSource = "";
 
-  mySource = this.localSource;
-  //mySource = this.serverSource;
+  //mySource = this.localSource;
+  mySource = this.serverSource;
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
