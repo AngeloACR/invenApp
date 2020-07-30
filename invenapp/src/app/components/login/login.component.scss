@@ -23,8 +23,8 @@ $font2: 'Open Sans', sans-serif;
   background-color: $third;
 
   -webkit-box-shadow: 0px 12px 13px 5px rgba(0,0,0,0.41);
-  -moz-box-shadow: 0px 12px 13px 5px rgba(0,0,0,0.41);
-  box-shadow: 0px 12px 13px 5px rgba(0,0,0,0.41);
+  -moz-box-shadow:    0px 12px 13px 5px rgba(0,0,0,0.41);
+  box-shadow:         0px 12px 13px 5px rgba(0,0,0,0.41);
 }
 
 .logoBox {
@@ -36,6 +36,7 @@ $font2: 'Open Sans', sans-serif;
 
   & img{
     width: 100%;
+
     &.formImg {
       width: 100%;
       margin: 50px auto 0 auto;
@@ -108,6 +109,7 @@ $font2: 'Open Sans', sans-serif;
     border: none;
     color: white;
     transition: all 0.4s ease;
+    
     &:hover {
       background: $border-input;
     }
