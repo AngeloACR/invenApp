@@ -18,7 +18,7 @@ $font2: 'Open Sans', sans-serif;
 }
 
 .logBox {
-  width: 320px;
+  width: 340px;
   height: 500px;
   background-color: $third;
 
@@ -30,10 +30,10 @@ $font2: 'Open Sans', sans-serif;
 .logoBox {
   width: 80%;
   margin: auto;
-
   display: flex;
   justify-content: center;
   align-items: center;
+
   & img{
     width: 100%;
     &.formImg {
@@ -51,7 +51,7 @@ $font2: 'Open Sans', sans-serif;
   & h1 {
     color: white;
     font-weight: 100;
-    font-size: 1.6em;
+    font-size: 1.5em;
     font-family: $font2;
   }
 }
@@ -59,6 +59,7 @@ $font2: 'Open Sans', sans-serif;
 .formBox {
   width: 80%;
   margin: auto;
+
   &.formContent {
     width: 100%;
     height: auto;
@@ -99,16 +100,16 @@ $font2: 'Open Sans', sans-serif;
 .buttonBox {
   width: 100%;
   margin-top: 30px;
-
   display: flex;
   justify-content: center;
+
   & button {
-    background: $border-input;
+    background-color: #0d25aa;
     border: none;
     color: white;
     transition: all 0.4s ease;
     &:hover {
-      background-color: #0d25aa;
+      background: $border-input;
     }
   }
 }
@@ -117,9 +118,9 @@ $font2: 'Open Sans', sans-serif;
   width: 100%;
   padding: 15px;
   cursor: pointer;
+
   & p {
-    font-size: 1em;
-    font-weight: bold;
+    font-size: 1.2em;
   }
 }
 

@@ -1,11 +1,8 @@
 <div class="blackBox" (click)="close()"></div>
 
-<div class="logBox">
-  <div class="closeButton">
-    <button class="closeB" (click)="close()">X</button>
-  </div>
-  <p class="errorHeader">ERROR</p>
-  <p class="errorContent">{{msg}}</p>
+<div class="alertBox">
+  <p class="errorHeader">X</p>
+  <p class="errorContent"><strong style="font-size: 30px;">¡Error!</strong> <br><br> {{msg}}</p>
   <button type="button" class="formButton" (click)="close()">
     <p>VOLVER</p>
   </button>
