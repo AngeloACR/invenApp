@@ -5,7 +5,8 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  Validators
+  Validators,
+  FormArray
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
@@ -24,10 +25,17 @@ export class FormProformaComponent implements OnInit {
   @Output()
   onData = new EventEmitter<any>();
 
+  pedidos: any;
+
+  pedidoSelected: boolean = false;
+
+  pedido: any;
+
   registroProforma: FormGroup;
 
   showError: {};
   errorMsg: string;
+  productosAutorizados = new FormArray([]);
 
   constructor(
     private auth: AuthService,
@@ -37,6 +45,7 @@ export class FormProformaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.pedidos = this.dbHandler.getLocal("pedidosValues");
     this.initForm();
     this.showError = {
       errorAct: false
@@ -44,11 +53,47 @@ export class FormProformaComponent implements OnInit {
   }
 
   initForm() {
-    this.registroProforma = new FormGroup({});
+    this.registroProforma = new FormGroup({
+      fecha: new FormControl(""),
+      pedido: new FormControl("", Validators.required),
+      referencia: new FormControl(""),
+      recibo: new FormControl(""),
+      observaciones: new FormControl(""),
+      requiereFactura: new FormControl(""),
+      condicionVenta: new FormControl(""),
+      montoSinIva: new FormControl(""),
+      montoConIva: new FormControl(""),
+      iva: new FormControl(""),
+      productosAutorizados: this.productosAutorizados
+    });
+  }
+
+  addProducto() {
+    const productoAutorizado = new FormGroup({
+      producto: new FormControl(""),
+      qty: new FormControl(""),
+      price: new FormControl("")
+    });
+
+    this.productosAutorizados.push(productoAutorizado);
+  }
+
+  removeProduct(event, index) {
+    this.productosAutorizados.removeAt(index);
   }
 
   get fProforma() {
     return this.registroProforma.controls;
+  }
+
+  togglePedido() {
+    var dataAux = this.registroProforma.value;
+    this.pedido = dataAux.pedido;
+    let productosPedidos = this.pedido.productosPedidos;
+    productosPedidos.forEach(productoPedido => {
+      this.addProducto();
+    });
+    this.pedidoSelected = true;
   }
 
   endRegistro() {
@@ -58,14 +103,7 @@ export class FormProformaComponent implements OnInit {
     let refreshList;
     let endpoint;
     console.log("here");
-    dataValues = {
-      name: dataAux.name,
-      ws: dataAux.ws,
-      mail: dataAux.mail,
-      address: dataAux.address,
-      ig: dataAux.ig,
-      rif: dataAux.rif
-    };
+    dataValues = {};
     endpoint = "/proformas";
     error = this.catchUserErrors();
     if (error) {
@@ -105,22 +143,14 @@ export class FormProformaComponent implements OnInit {
   }
 
   catchUserErrors() {
-    let aux1 = this.fProforma.name.errors
-      ? this.fProforma.name.errors.required
+    let aux1 = this.fProforma.pedido.errors
+      ? this.fProforma.pedido.errors.required
       : false;
-    let aux2 = this.fProforma.mail.errors
-      ? this.fProforma.mail.errors.required
-      : false;
-    let aux3 = this.fProforma.address.errors
-      ? this.fProforma.address.errors.required
-      : false;
-    let aux4 = this.fProforma.ws.errors
-      ? this.fProforma.ws.errors.required
-      : false;
-    let aux5 = this.fProforma.rif.errors
-      ? this.fProforma.rif.errors.minlength
-      : false;
-    let error = aux1 || aux2 || aux3 || aux4 || aux5;
+    let error = aux1;
     return error;
+  }
+
+  getToday(): string {
+    return new Date().toISOString().split("T")[0];
   }
 }

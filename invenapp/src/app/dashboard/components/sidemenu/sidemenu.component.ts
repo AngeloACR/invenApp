@@ -91,8 +91,8 @@ export class SidemenuComponent implements OnInit {
 				id: 4
 			}]
 		},{
-			name: 'Movimiento de material',
-			link: '/movimiento/material',
+			name: 'Compras',
+			link: '/compras',
 			id: 2,
 			icon: faCalendarPlus,
 			childs: [{
@@ -113,8 +113,8 @@ export class SidemenuComponent implements OnInit {
 				id: 3
 			}],
 		},{
-			name: 'Cotizaciones',
-			link: '/cotizaciones',
+			name: 'Ventas',
+			link: '/ventas',
 			id: 3,
 			icon: faCalendarPlus,
 			childs: [{
@@ -208,7 +208,7 @@ export class SidemenuComponent implements OnInit {
 	setVendedorMenu(){
 		this.myMenu = [{
 			name: 'Directorio',
-			link: '/dir/0',
+			link: '/dir',
 			id: 0,
 			icon: faUserCog,
 			childs: [{
@@ -222,7 +222,7 @@ export class SidemenuComponent implements OnInit {
 			}],
 		},{
 			name: 'Inventario',
-			link: '/inventario/0',
+			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
 			childs: [{
@@ -231,8 +231,8 @@ export class SidemenuComponent implements OnInit {
 				id: 0
 			}],
 		},{
-			name: 'Cotizaciones',
-			link: '/inventario/0',
+			name: 'Ventas',
+			link: '/ventas',
 			id: 1,
 			icon: faCalendarPlus,
 			childs: [{
@@ -250,7 +250,7 @@ export class SidemenuComponent implements OnInit {
 	setSuperAdminMenu(){
 		this.myMenu = [{
 			name: 'Directorio',
-			link: '/dir/0',
+			link: '/dir',
 			id: 0,
 			icon: faUserCog,
 			childs: [{
@@ -272,7 +272,7 @@ export class SidemenuComponent implements OnInit {
 			}],
 		},{
 			name: 'Inventario',
-			link: '/inventario/0',
+			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
 			childs: [{
@@ -297,8 +297,8 @@ export class SidemenuComponent implements OnInit {
 				id: 4
 			}]
 		},{
-			name: 'Movimiento de material',
-			link: '/movimiento/material',
+			name: 'Compras',
+			link: '/compras',
 			id: 2,
 			icon: faCalendarPlus,
 			childs: [{
@@ -319,8 +319,8 @@ export class SidemenuComponent implements OnInit {
 				id: 3
 			}],
 		},{
-			name: 'Cotizaciones',
-			link: '/cotizaciones',
+			name: 'Ventas',
+			link: '/ventas',
 			id: 3,
 			icon: faCalendarPlus,
 			childs: [{
@@ -342,7 +342,7 @@ export class SidemenuComponent implements OnInit {
 			}],
 		},{
 			name: 'Bancos',
-			link: '/bancos/0',
+			link: '/bancos',
 			id: 4,
 			icon: faCalendarPlus,
 			childs: [{

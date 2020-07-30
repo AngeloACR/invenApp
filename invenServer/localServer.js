@@ -13,17 +13,25 @@ const users = require('./users/routes/users');
 const superadmins = require('./users/routes/superadmins');
 const administradores = require('./users/routes/administradores');
 const vendedores = require('./users/routes/vendedores');
-const clientes = require('./directorio/routes/clientes');
-const productos = require('./inventario/routes/productos');
-const ingresos = require('./inventario/routes/ingresos');
-const pedidos = require('./inventario/routes/pedidos');
-const precios = require('./inventario/routes/precios');
-const almacenes = require('./inventario/routes/almacenes');
-const correlativos = require('./general/routes/correlativos');
-const proveedores = require('./directorio/routes/proveedores');
 const mails = require('./users/routes/mails');
 const auth = require('./users/routes/auth');
-const roles= require('./users/routes/roles');
+const roles = require('./users/routes/roles');
+
+const clientes = require('./directorio/routes/clientes');
+const proveedores = require('./directorio/routes/proveedores');
+
+const productos = require('./inventario/routes/productos');
+const precios = require('./inventario/routes/precios');
+const almacenes = require('./inventario/routes/almacenes');
+
+const ingresos = require('./compras/routes/ingresos');
+const pedidos = require('./ventas/routes/pedidos');
+const proformas = require('./ventas/routes/proformas');
+
+const bancos = require('./finanzas/routes/bancos');
+
+
+const correlativos = require('./general/routes/correlativos');
 const company = require('./general/routes/company');
 
 module.exports.init = function (folder, thePath, port) {
@@ -83,6 +91,8 @@ module.exports.init = function (folder, thePath, port) {
     app.use('/productos', productos);
     app.use('/precios', precios);
     app.use('/almacenes', almacenes);
+    app.use('/proformas', proformas);
+    app.use('/bancos', bancos);
 
     app.get('/', (req, res) => {
         res.send('We are having some troubles, please come back in a while!');

@@ -1,3 +1,109 @@
-<p>
-  form-proforma works!
-</p>
+<div class="cardBox">
+  <form class="formBox" [formGroup]="registroProforma" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+      <div class="formInput">
+        <label for="">Fecha*</label>
+        <input type="date" class="lInput" name="" formControlName="fecha" [max]="getToday()">
+      </div>
+      <div class="formInput">
+        <label for="">Solicitud asociada*</label>
+        <select class="lInput" name="" formControlName="pedido" (change)="togglePedido()">
+          <option *ngFor="let value of pedidos" [value]="value">{{value.name}}</option>
+        </select>
+        <div class="errorTag"
+          *ngIf="fProforma.pedido.errors?.required && (fProforma.pedido.touched || fProforma.pedido.dirty)">Por favor
+          seleccione la solicitud asociada</div>
+      </div>
+      <div class="formInput">
+        <label for="">Referencia u Orden de compra*</label>
+        <input type="text" class="lInput" name="" formControlName="referencia">
+        <div class="errorTag"
+          *ngIf="fProforma.referencia.errors?.required && (fProforma.referencia.touched || fProforma.referencia.dirty)">
+          Por favor ingrese la referencia</div>
+      </div>
+      <div class="formInput">
+        <label for="">Recibo de cobro</label>
+        <input type="text" class="lInput" name="" formControlName="recibo">
+        <div class="errorTag"
+          *ngIf="fProforma.recibo.errors?.required && (fProforma.recibo.touched || fProforma.recibo.dirty)">Por
+          favor ingrese el recibo</div>
+      </div>
+      <!--       <div class="formInput">
+        <label for="">Vendedor*</label>
+        <select class="lInput" name="" formControlName="vendedor">
+          <option *ngFor="let value of vendedores" [value]="value._id">{{value.name}}</option>
+        </select>
+        <div class="errorTag"
+          *ngIf="fProforma.vendedor.errors?.required && (fProforma.vendedor.touched || fProforma.vendedor.dirty)">Por favor
+          seleccione el Vendedor</div>
+      </div>
+ -->
+      <div class="formInput">
+        <label for="">Observaciones</label>
+        <textarea class="" rows="6" type="text" formControlName="observaciones" name=""></textarea>
+      </div>
+      <div class="formInput">
+        <label for="">Condición de venta*</label>
+        <select class="lInput" name="" formControlName="condicionVenta">
+          <option value="Contado">Contado</option>
+          <option value="Crédito">Crédito</option>
+        </select>
+        <div class="errorTag"
+          *ngIf="fProforma.condicionVenta.errors?.required && (fProforma.condicionVenta.touched || fProforma.condicionVenta.dirty)">
+          Por favor seleccione la condición de venta</div>
+      </div>
+      <!--           <div class="formInput">
+            <label for="">Estado*</label>
+            <select class="lInput" name="" formControlName="estado">
+                <option value="Bloqueada">Bloqueada</option>
+                <option value="Procesada">Procesada</option>
+                <option value="Rechazada">Rechazada</option>
+            </select>          
+            <div class="errorTag" *ngIf="fProforma.estado.errors?.required && (fProforma.estado.touched || fProforma.estado.dirty)">Por favor seleccione el estado</div>
+          </div>
+ -->
+    </div>
+
+
+
+    <div class="productsBox" *ngIf="pedidoSelected">
+      <div class="productsList">
+        <div class="productsTitle">
+          <p class="productTitle">Producto</p>
+          <p class="qtyTitle">Cantidades solicitadas</p>
+          <p class="qtyTitle">Cantidades Autorizadas</p>
+          <p class="deleteTitle">Precio Cotizado</p>
+          <p class="deleteTitle">Precio Autorizado</p>
+        </div>
+        <div class="arrayBox" *ngFor="let productoAutorizados of productosAutorizados.controls; let i = index;">
+          <ng-container class="controlBox" [formGroup]="productoAutorizado">
+            <div class="productField">
+              <p>{{pedido.produstosPedidos[i].producto.code}}</p>
+            </div>
+            <div class="qtyField">
+              <p>{{pedido.produstosPedidos[i].qty}}</p>
+
+            </div>
+            <div class="qtyField">
+              <input class="qtyInput" type="number" min="1" formControlName="qty" name="qty" />
+            </div>
+            <div class="qtyField">
+              <p>{{pedido.produstosPedidos[i].price}}</p>
+            </div>
+            <div class="qtyField">
+              <input class="qtyInput" type="number" min="1" formControlName="price" name="price" />
+            </div>
+
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="formButton">
+      <p>Registrar Proforma</p>
+    </button>
+  </form>
+</div>
+
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

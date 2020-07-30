@@ -84,7 +84,7 @@ const routes: Routes = [
     }
   },
   {
-    path: "disponibilidadbancaria",
+    path: "disponibilidadbancaria/:id",
     component: DisponibilidadBancariaComponent,
     canActivate: [Guard],
     data: {

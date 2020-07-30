@@ -44,7 +44,16 @@ export class FormBancoComponent implements OnInit {
   }
 
   initForm() {
-    this.registroBanco = new FormGroup({});
+    this.registroBanco = new FormGroup({
+      bank: new FormControl("", Validators.required),
+      alias: new FormControl("", Validators.required),
+      accountNumber: new FormControl(""),
+      status: new FormControl("", Validators.required),
+      address: new FormControl(""),
+      tlf: new FormControl(""),
+      executive: new FormControl(""),
+      executiveTlf: new FormControl("")
+    });
   }
 
   get fBanco() {
@@ -59,12 +68,10 @@ export class FormBancoComponent implements OnInit {
     let endpoint;
     console.log("here");
     dataValues = {
-      name: dataAux.name,
-      ws: dataAux.ws,
-      mail: dataAux.mail,
-      address: dataAux.address,
-      ig: dataAux.ig,
-      rif: dataAux.rif
+      bank: dataAux.bank,
+      alias: dataAux.alias,
+      accountNumber: dataAux.accountNumber,
+      status: dataAux.status
     };
     endpoint = "/bancos";
     error = this.catchUserErrors();
@@ -105,20 +112,13 @@ export class FormBancoComponent implements OnInit {
   }
 
   catchUserErrors() {
-    let aux1 = this.fBanco.name.errors
-      ? this.fBanco.name.errors.required
+    let aux1 = this.fBanco.bank.errors
+      ? this.fBanco.bank.errors.required
       : false;
-    let aux2 = this.fBanco.mail.errors
-      ? this.fBanco.mail.errors.required
+    let aux2 = this.fBanco.alias.errors
+      ? this.fBanco.alias.errors.required
       : false;
-    let aux3 = this.fBanco.address.errors
-      ? this.fBanco.address.errors.required
-      : false;
-    let aux4 = this.fBanco.ws.errors ? this.fBanco.ws.errors.required : false;
-    let aux5 = this.fBanco.rif.errors
-      ? this.fBanco.rif.errors.minlength
-      : false;
-    let error = aux1 || aux2 || aux3 || aux4 || aux5;
+    let error = aux1 || aux2;
     return error;
   }
 }
