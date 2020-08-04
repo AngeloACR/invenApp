@@ -1,39 +1,39 @@
-<div class="pageBox">
+<div class="pageBoxlogin">
   <div class="logBox">
-    <div class="logoBox">
-      <img class="formImg" src="assets/logo.png" alt="Logo" />
+    <div class="logoBoxlogin">
+      <img class="formImglogin" src="assets/logo.png" alt="Logo" />
     </div>
-    <div class="formHeader">
+    <div class="formHeaderlogin">
       <h1>Inicio de sesión</h1>
     </div>
-    <div class="formBox">
+    <div class="formBoxlogin">
       <form [formGroup]="login" (ngSubmit)="logUser()">
-        <div class="formContent">
-          <div class="formInput">
+        <div class="formContentlogin">
+          <div class="formInputlogin">
             <!--<label for="">Usuario</label>-->
             <input placeholder="Usuario" type="text" formControlName="username" name="username" />
           </div>
-          <div class="errorTag" *ngIf="
+          <div class="errorTaglogin" *ngIf="
               fLogin.username.errors?.required &&
               (fLogin.username.touched || fLogin.username.dirty)
             ">
             Debe ingresar un usuario
           </div>
-          <div class="formInput">
+          <div class="formInputlogin">
             <!--<label for="">Contraseña</label>-->
             <input placeholder="Contraseña" type="password" formControlName="password" name="password" />
           </div>
-          <div class="errorTag" *ngIf="
+          <div class="errorTaglogin" *ngIf="
               fLogin.password.errors?.required &&
               (fLogin.password.touched || fLogin.password.dirty)
             ">
            Debe ingresar una contraseña
           </div>
-          <div class="buttonBox">
+          <div class="buttonBoxlogin">
             <!--<button type="button" class="formButton" (click)="registro()">
               <p>Registrarse</p>
             </button>-->
-            <button type="submit" class="formButton">
+            <button type="submit" class="formButtonlogin">
               <p>Iniciar Sesion</p>
             </button>
           </div>
@@ -41,5 +41,5 @@
       </form>
     </div>
   </div>
-  <app-error class="errorBox" [msg]="errorMsg" [ngClass]="showError" (closeError)="closeError()"></app-error>
+  <app-error class="errorBoxlogin" [msg]="errorMsg" [ngClass]="showError" (closeError)="closeError()"></app-error>
 </div>

@@ -28,6 +28,11 @@
       <div class="errorTag"
         *ngIf="fProducto.brand.errors?.required && (fProducto.brand.touched || fProducto.brand.dirty)">Por favor ingrese
         la marca del producto</div>
+
+        <div class="formInput">
+          <label for="">Descripción</label>
+          <textarea class="lInput" rows="6" type="text" formControlName="description" name=""></textarea>
+        </div>
       <!--       <div class="formInput">
           <label for="">Almacén*</label>
             <select class="lInput" name="" formControlName="almacen">
@@ -37,12 +42,9 @@
           <div class="errorTag" *ngIf="fProducto.almacen.errors?.required && (fProducto.almacen.touched || fProducto.almacen.dirty)">Por favor ingrese la ubicación del producto</div>
  -->
     </div>
-    <div class="formInput">
-      <label for="">Descripción</label>
-      <textarea class="lInput" rows="6" type="text" formControlName="description" name=""></textarea>
-    </div>
+    
 
-    <button type="submit" class="formButton">
+    <button type="submit" class="buttonBox">
       <p>Registrar producto</p>
     </button>
   </form>

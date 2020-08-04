@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-$roboto: 'Roboto', sans-serif;
-$opensan: 'Open Sans', sans-serif;
+$primary: #347fc4; //rgb(52,127,196);
+$secondary: #31e981;
+$border-input: #347fc4;
+$third: #161925;
+$font1: 'Roboto', sans-serif;
+$font2: 'Open Sans', sans-serif;
+$font3: 'Montserrat', sans-serif;
+$row-color-header: $third;
+$row-color-one: #fff;
+$row-color-secondary: #fff;
 
 *{
   margin: 0;
@@ -9,7 +17,7 @@ $opensan: 'Open Sans', sans-serif;
 }
 
 body {
-  font-family: $roboto;
+  font-family: $font1;
 }
 
 .formHeader {
@@ -21,31 +29,27 @@ body {
 
 .modBox {
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
-.cardBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 1%;
-  margin-left: 1%;
-  padding-right: 1%;
-  margin-right: 1%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 96%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.buttonBox {
+  width: 180px;
+  height: 30px;
+  margin: 10px 0px;
+  cursor: pointer;
 }
 
-.formInput label {
-  white-space: nowrap;
-  margin-right: 15px;
+.cardBox {
+  width: 95%;
+  height: 90vh;
+  margin: auto;
+  position: relative;
 }
+
+
 
 .formInput select {
   background-color: white;
@@ -108,6 +112,9 @@ body {
   display: block;
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .confirmBox {
@@ -122,13 +129,7 @@ body {
 }
 
 .listBox {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: 60vh;
-  padding: 10px;
-  overflow-x: scroll;
-  overflow-y: scroll;
 }
 
 .titleRow {
@@ -189,23 +190,16 @@ body {
 }
 
 .actionButton {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   height: 30px;
-  width: 42%;
-  color: black;
+  width: 180px;
   margin-right: 5px;
   cursor: pointer;
 }
 
 .faIcon {
-  width: 25%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
+    margin: 10px 12px;
+    cursor: pointer;
+    font-size: 10px;
 }
 
 .actionButton:active {
@@ -287,6 +281,150 @@ body {
 .modChild {
   width: 100%;
 }
+
+.classtable {
+  width: 100%;
+
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+}
+
+.classthead {
+  width: 100%;
+  border-bottom: 0.5px solid #161925b6;
+  //background-color: #161925;
+}
+
+.classthead .classtr {
+  width: 100%;
+  margin: auto;
+}
+
+.classthead th:nth-child(1) {
+  width: 120px;
+}
+
+.classthead .classtr {
+  background-color: $row-color-header;
+}
+
+.classtbody .classtr:nth-child(odd) {
+  background-color: $row-color-one;
+}
+
+.classtbody .classtr:nth-child(even) {
+  background-color: $row-color-secondary;
+}
+
+.classthead .classth {
+  width: 90px;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.classtbody .classtr {
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.classtbody .classtr:hover {
+  background-color: rgba(22, 25, 37, 0.096);
+}
+
+.classtbody .classtd {
+  text-align: center;
+  
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.btnBox {
+  width: 100%;
+
+}
+
+.btn-details {
+  width: 120px;
+  margin: auto;
+  padding-top: 10px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.btn-details-btnhd {
+  width: 100%;
+  margin: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/************************* Formularios ********************************/
+
+.formBox {
+  width: 100%;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContent {
+  width: 450px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 12px;
+  color: #161925;
+  border-radius: 5px;
+}
+
+.formInput {
+  width: 100%;
+  margin: 12px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  padding: 10px 19px;
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+
+  & input, select, textarea {
+    width: 60%;
+    font-size: 0.9em;
+    padding: 5px;
+  }
+}
+
+.formInput label {
+  white-space: nowrap;
+  margin-right: 23px;
+  width: 35%;
+  font-size: 13px;
+  font-family: $font3;
+}
+
+.errorTag {
+  text-align: end;
+  padding-right: 21px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+
+
 
 /***************************CONFIRMATION BOX***************************/
 

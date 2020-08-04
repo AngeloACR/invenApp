@@ -55,13 +55,13 @@ export class ListaClientesComponent implements OnInit {
     let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
     this.fields = [
-      "Id",
+      //"Id",
       "RIF",
       "Nombre",
       "Correo",
       "Dirección",
-      "Teléfono",
-      "Instagram"
+      //"Teléfono",
+      /*"Instagram"*/
     ];
 
     this.values = [];
@@ -69,14 +69,19 @@ export class ListaClientesComponent implements OnInit {
     auxValues.forEach(value => {
       console.log(value);
       let aux = [
-        value._id,
+        
         value.rif,
         value.name,
         value.mail,
-        value.address,
-        value.ws,
-        value.ig
+        value.address
+        
       ];
+      /*
+      value._id,
+      value.ws,
+      value.ig
+      */
+
       console.log(aux);
       this.values.push(aux);
     });

@@ -67,7 +67,7 @@ export class ListaPedidoComponent implements OnInit {
       "Fecha",
       "Cliente",
       "Vendedor",
-      "Estado",
+      //"Estado",
       "Observaciones"
     ];
 
@@ -79,9 +79,11 @@ export class ListaPedidoComponent implements OnInit {
         value.fecha,
         value.cliente,
         value.vendedor,
-        value.estado,
+        
         value.observaciones
       ];
+
+      //value.estado
       this.values.push(aux);
     });
 
