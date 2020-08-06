@@ -229,26 +229,26 @@ export class ListaPedidoComponent implements OnInit {
     let pedidos = this.dbHandler.getLocal("pedidosValues");
     let productos = this.dbHandler.getLocal("productosValues");
     let precios = this.dbHandler.getLocal("preciosValues");
-    let clientes = this.dbHandler.getLocal("clientesValues");
-    let vendedor;
+    //    let clientes = this.dbHandler.getLocal("clientesValues");
     let pedido = pedidos[i];
-    let users = this.dbHandler.getLocal("usersValues");
+    let vendedor = pedido.vendedor;
+    /*    let users = this.dbHandler.getLocal("usersValues");
     for (var j = 0; j < users.length; j++) {
       if (users[j]["_id"] === pedido.vendedor) {
         vendedor = users[j];
         break;
       }
-    }
+    } */
     let company = this.dbHandler.getLocal("companyValues")[0];
     let logo = await this.fileHandler.imgTobase64("/assets/logo.png");
-    let cliente;
-    for (var j = 0; j < clientes.length; j++) {
+    let cliente = pedido.cliente;
+    /*     for (var j = 0; j < clientes.length; j++) {
       if (clientes[j]["_id"] == pedido.cliente) {
         cliente = clientes[j];
         break;
       }
     }
-
+ */
     let id = pedido._id;
     let fecha = this.datepipe.transform(pedido.fecha, "yyyy-MM-dd");
     let observaciones = pedido.observaciones;
