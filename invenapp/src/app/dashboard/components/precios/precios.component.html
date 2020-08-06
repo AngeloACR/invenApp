@@ -1,41 +1,58 @@
 <div class="modBox">
+	<div class="cardBox" *ngIf="!isEmpty">
+		<button *ngIf="isGuardar" class="buttonBox" (click)="guardarPrecios()">Guardar</button>
+		<div class="listBox">
+			<table class="classtable2">
+				<thead class="classthead">
+					<tr class="classtr">
+						<th class="classth2" scope="col">Acciones</th>
+						<th class="classth2" scope="col" *ngFor="let field of fields">{{ field }}</th>
+					</tr>
+				</thead>
+				<tbody class="classtbody">
+					<tr class="classtr2" *ngFor="let value of values; let i = index">
+						<td class="classtd2">
+							<fa-icon 
+								style="color: grey" 
+								class="faIcon" 
+								[icon]="faEdit" 
+								size="2x" 
+								(click)="openUpdate($event, i)">
+							</fa-icon>
+						</td>
+						
+						<td class="classtd2">
+							<p>{{ value[0] }}</p>
+						</td>
+						
+						<td class="classtd2">
+							<div *ngIf="!isUpdate[i]">
+								<p>{{ value[1]  | dot2comma }}</p>
+							</div>
+							<div *ngIf="isUpdate[i]">
+								<form class="formBoxpre" [formGroup]="prices.controls[i]">
+									<div class="qtyField">
+										<input 
+											class="qtyInput" 
+											lang="es" 
+											step="0.05" 
+											type="number" 
+											min="0" 
+											formControlName="valor"
+											name="valor" />
+									</div>
+								</form>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
 
-  <div class="cardBox" *ngIf="!isEmpty">
-    <div class="listBox">
-      <div class="titleRow">
-        <p style="width: 150px;">Acciones</p>
-        <p *ngFor="let field of fields">{{ field }}</p>
-      </div>
-      <div class="contentRow" *ngFor="let value of values; let i = index">
-        <div class="actionBox" style="width: 150px;">
-          <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)">
-          </fa-icon>
-        </div>
-        <div>
-          <p>{{ value[0] }}</p>
-        </div>
-        <div *ngIf="!isUpdate[i]">
-          <p>{{ value[1]  | dot2comma }}</p>
-        </div>
-        <div *ngIf="isUpdate[i]">
-          <form class="formBox" [formGroup]="prices.controls[i]">
-            <div class="qtyField">
-              <input class="qtyInput" lang="es" step="0.01" type="number" min="0" formControlName="valor"
-                name="valor" />
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  	<div class="cardBox" *ngIf="isEmpty">
+    	<p>No hay elementos para mostrar</p>
+  	</div>
 
-  <div class="cardBox" *ngIf="isEmpty">
-    <p>No hay elementos para mostrar</p>
-  </div>
-
-  <button *ngIf="isGuardar" class="buttonBox" (click)="guardarPrecios()">
-    Guardar
-  </button>
-  <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
-
+  	
+  	<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>
 </div>

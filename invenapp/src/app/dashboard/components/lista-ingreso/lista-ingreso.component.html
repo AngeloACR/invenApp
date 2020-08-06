@@ -90,20 +90,16 @@
 
 <div class="confirmBox" [ngClass]="showConfirm">
   <div class="blackBox" (click)="closeConfirm()"></div>
-
-  <div class="logBox">
-    <div class="closeButton">
-      <button class="closeB" (click)="closeConfirm()">X</button>
-    </div>
+  <div class="logBox2">
     <p class="confirmHeader">CONFIRMACIÓN</p>
     <p class="confirmContent">Segro que quiere eliminar este elemento</p>
     <div class="confirmButtons">
-      <button type="button" class="confirm formButton" (click)="deleteItem($event, deletedItem)">
+      <button type="button" class="confirm buttonBox" (click)="deleteItem($event, deletedItem)">
         <p>SÍ</p>
       </button>
-      <button type="button" class="goback formButton" (click)="closeConfirm()">
+      <button type="button" class="goback buttonBox" (click)="closeConfirm()">
         <p>NO</p>
       </button>
     </div>
-
   </div>
+</div>
