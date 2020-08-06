@@ -90,20 +90,20 @@ export class SidemenuComponent implements OnInit {
 				link: '/precios',
 				id: 4
 			}]
-		},{
+		},,{
 			name: 'Compras',
 			link: '/compras',
 			id: 2,
 			icon: faCalendarPlus,
 			childs: [{
-				name: 'Registrar ingreso de mercancia',
+				name: 'Registrar compra de mercancia',
 				link: '/registro/ingreso',
 				id: 0
 			},{
-				name: 'Ver ingreso de mercancia',
+				name: 'Ver compra de mercancia',
 				link: '/lista/ingreso',
 				id: 1
-			},{
+			}/* ,{
 				name: 'Registrar egreso de mercancia',
 				link: '/registro/egreso',
 				id: 2
@@ -111,7 +111,7 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver egresos de mercancia',
 				link: '/lista/egreso',
 				id: 3
-			}],
+			} */],
 		},{
 			name: 'Ventas',
 			link: '/ventas',
@@ -135,8 +135,8 @@ export class SidemenuComponent implements OnInit {
 				id: 3
 			}],
 		},{
-			name: 'Bancos',
-			link: '/bancos/0',
+			name: 'Finanzas',
+			link: '/finanzas',
 			id: 4,
 			icon: faCalendarPlus,
 			childs: [{
@@ -151,10 +151,18 @@ export class SidemenuComponent implements OnInit {
 				name: 'Disponibilidad bancaria',
 				link: '/disponibilidadbancaria',
 				id: 2
+			},{
+				name: 'Flujo de caja',
+				link: '/flujodecaja',
+				id: 3
+			},{
+				name: 'Proyecciones',
+				link: '/proyecciones',
+				id: 4
 			}],
 		},{
-			name: 'Mayor analítico',
-			link: '/mayoranalitico',
+			name: 'Contabilidad',
+			link: '/contabilidad',
 			id: 5,
 			icon: faCalendarPlus,
 			childs: [{
@@ -181,25 +189,11 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver cuentas por pagar',
 				link: '/lista/cuentasporpagar',
 				id: 5
-			}]
-		},{
-			name: 'Resultados financieros',
-			link: '/resultados',
-			id: 6,
-			icon: faCalendarPlus,
-			childs: [{
-				name: 'Flujo de caja',
-				link: '/flujodecaja',
-				id: 0
 			},{
 				name: 'Estado de resultados',
 				link: '/estadoderesultados',
-				id: 1
-			},{
-				name: 'Proyecciones',
-				link: '/proyecciones',
-				id: 2
-			}],
+				id: 6
+			},]
 		}];
 	}
 
@@ -302,14 +296,14 @@ export class SidemenuComponent implements OnInit {
 			id: 2,
 			icon: faCalendarPlus,
 			childs: [{
-				name: 'Registrar ingreso de mercancia',
+				name: 'Registrar compra de mercancia',
 				link: '/registro/ingreso',
 				id: 0
 			},{
-				name: 'Ver ingreso de mercancia',
+				name: 'Ver compra de mercancia',
 				link: '/lista/ingreso',
 				id: 1
-			},{
+			}/* ,{
 				name: 'Registrar egreso de mercancia',
 				link: '/registro/egreso',
 				id: 2
@@ -317,7 +311,7 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver egresos de mercancia',
 				link: '/lista/egreso',
 				id: 3
-			}],
+			} */],
 		},{
 			name: 'Ventas',
 			link: '/ventas',
@@ -341,8 +335,8 @@ export class SidemenuComponent implements OnInit {
 				id: 3
 			}],
 		},{
-			name: 'Bancos',
-			link: '/bancos',
+			name: 'Finanzas',
+			link: '/finanzas',
 			id: 4,
 			icon: faCalendarPlus,
 			childs: [{
@@ -357,10 +351,18 @@ export class SidemenuComponent implements OnInit {
 				name: 'Disponibilidad bancaria',
 				link: '/disponibilidadbancaria',
 				id: 2
+			},{
+				name: 'Flujo de caja',
+				link: '/flujodecaja',
+				id: 3
+			},{
+				name: 'Proyecciones',
+				link: '/proyecciones',
+				id: 4
 			}],
 		},{
-			name: 'Mayor analítico',
-			link: '/mayoranalitico',
+			name: 'Contabilidad',
+			link: '/contabilidad',
 			id: 5,
 			icon: faCalendarPlus,
 			childs: [{
@@ -387,25 +389,11 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver cuentas por pagar',
 				link: '/lista/cuentasporpagar',
 				id: 5
-			}]
-		},{
-			name: 'Resultados financieros',
-			link: '/resultados',
-			id: 6,
-			icon: faCalendarPlus,
-			childs: [{
-				name: 'Flujo de caja',
-				link: '/flujodecaja',
-				id: 0
 			},{
 				name: 'Estado de resultados',
 				link: '/estadoderesultados',
-				id: 1
-			},{
-				name: 'Proyecciones',
-				link: '/proyecciones',
-				id: 2
-			}],
+				id: 6
+			},]
 		},{
 			name: 'Administrador',
 			link: '/administrador',

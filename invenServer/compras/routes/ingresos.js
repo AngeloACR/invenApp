@@ -2,6 +2,7 @@ const express = require('express');
 const ingresoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Ingreso = require('../models/ingreso');
+const ingresoHandler = require('../controllers/main').ingresoHandler;
 
 ingresoRouter.post('/', auth, async (req, res) => {
 	try {
@@ -15,8 +16,7 @@ ingresoRouter.post('/', auth, async (req, res) => {
 			observaciones: req.body.observaciones,
 			proveedor: req.body.proveedor,
 		};
-		let newIngreso = new Ingreso(ingreso);
-		response = await Ingreso.addIngreso(newIngreso);
+		response = await ingresoHandler.addIngreso(ingreso);
 
 		res.status(200).json(response);
 	}
@@ -28,11 +28,7 @@ ingresoRouter.post('/', auth, async (req, res) => {
 
 ingresoRouter.get('/all', auth, async (req, res) => {
 	try {
-		let response = await Ingreso.getIngresos();
-		/* if (response.values && response.values.length) {
-		} else {
-			throw new Error('There are no ingresos')
-		} */
+		let response = await ingresoHandler.getIngresos();
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -44,9 +40,7 @@ ingresoRouter.get('/all', auth, async (req, res) => {
 ingresoRouter.get('/:ingresoId', auth, async (req, res) => {
 	try {
 		const ingresoId = req.params.ingresoId;
-		const ingreso = await Ingreso.getIngreso(ingresoId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, ingreso)
+		let response = await ingresoHandler.getIngreso(ingresoId);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -60,7 +54,7 @@ ingresoRouter.delete('/', auth, async (req, res, next) => {
 
 		const item = req.query.item;
 
-		let response = await Ingreso.deleteIngreso(item);
+		let response = await ingresoHandler.deleteIngreso(item);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -72,8 +66,9 @@ ingresoRouter.delete('/', auth, async (req, res, next) => {
 ingresoRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
+		const id = req.body._id;
 
-		let response = await Ingreso.updateIngreso(updateData);
+		let response = await ingresoHandler.updateIngreso(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

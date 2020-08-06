@@ -149,13 +149,14 @@ export class FormPedidoComponent implements OnInit {
             return;
           }
         });
-        let montoProducto = precio * qty;
-        montoTotal += montoProducto;
-        let montoProductoAux = montoProducto.toFixed(2);
+        let montoProductoAux = precio * qty;
+        montoTotal += montoProductoAux;
+        let montoProducto = montoProductoAux.toFixed(2);
         let productoPedido = {
           producto,
           qty,
-          montoProductoAux
+          montoProducto,
+          precio
         };
         productosPedidos.push(productoPedido);
       }

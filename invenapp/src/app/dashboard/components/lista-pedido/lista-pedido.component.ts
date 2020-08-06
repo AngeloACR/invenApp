@@ -62,14 +62,7 @@ export class ListaPedidoComponent implements OnInit {
     let auxfields = this.dbHandler.getLocal(this.name + "Fields");
     let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
-    this.fields = [
-      "Id",
-      "Fecha",
-      "Cliente",
-      "Vendedor",
-      "Estado",
-      "Observaciones"
-    ];
+    this.fields = ["Id", "Fecha", "Cliente", "Vendedor", "Observaciones"];
 
     this.values = [];
 
@@ -77,9 +70,8 @@ export class ListaPedidoComponent implements OnInit {
       let aux = [
         value._id,
         value.fecha,
-        value.cliente,
-        value.vendedor,
-        value.estado,
+        value.cliente.name,
+        value.vendedor.name,
         value.observaciones
       ];
       this.values.push(aux);

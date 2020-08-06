@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../../../services/auth.service";
+import { FileHandlerService } from "../../services/file-handler.service";
 import { DbHandlerService } from "../../services/db-handler.service";
 import {
   FormBuilder,
@@ -15,6 +16,11 @@ import {
   faEdit,
   faEye
 } from "@fortawesome/free-solid-svg-icons";
+import { DatePipe } from "@angular/common";
+
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: "app-lista-proformas",
@@ -56,23 +62,17 @@ export class ListaProformasComponent implements OnInit {
     let auxfields = this.dbHandler.getLocal(this.name + "Fields");
     let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
-    this.fields = [
-      "Id",
-      "Nombre del proforma",
-      "Alias",
-      "Status",
-      "Número de cuenta"
-    ];
+    this.fields = ["Id", "Fecha", "Monto Total", "Status", "Cliente"];
 
     this.values = [];
 
     auxValues.forEach(value => {
       let aux = [
         value._id,
-        value.bank,
-        value.alias,
+        value.fecha,
+        value.montoTotal,
         value.status,
-        value.accountNumber
+        value.cliente.name
       ];
       this.values.push(aux);
     });

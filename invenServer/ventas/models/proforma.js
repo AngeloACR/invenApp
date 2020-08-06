@@ -20,6 +20,9 @@ const proformaSchema = new mongoose.Schema({
         },
         montoProducto: {
             type: Number,
+        },
+        precio: {
+            type: Number,
         }
     }],
     montoTotal: {
@@ -28,8 +31,15 @@ const proformaSchema = new mongoose.Schema({
     status: {
         type: String,
     },
-    condicionVenta: {
+    referencia: {
         type: String,
+    },
+    reciboDeCobro: {
+        type: String,
+    },
+    cliente: {
+        type: Schema.Types.ObjectId,
+        ref: 'Cliente',
     },
     observaciones: {
         type: String,
@@ -39,10 +49,10 @@ const Proforma = module.exports = mongoose.model("Proforma", proformaSchema);
 
 module.exports.removeRef = async function (element) {
     try {
-        const Disponibilidad = require('./disponibilidad');
-        let productosProformas = element.productosProformas;
-        let proformaId = element._id;
-        await Disponibilidad.removeProforma(productosProformas, proformaId)
+        /*         const Disponibilidad = require('./disponibilidad');
+                let productosAutorizados = element.productosAutorizados;
+                let proformaId = element._id;
+                await Disponibilidad.removeProforma(productosAutorizados, proformaId) */
     } catch (error) {
         throw error
     }
@@ -87,7 +97,7 @@ module.exports.deleteProforma = async function (id) {
 
 module.exports.addProforma = async function (newProforma) {
     try {
-        await this.bloquearProductos(newProforma);
+        //        await this.bloquearProductos(newProforma);
         let proforma = await newProforma.save()
 
         let response = {

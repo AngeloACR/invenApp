@@ -19,6 +19,9 @@ import localeVE from "@angular/common/locales/es-VE";
 import { FormUsuarioComponent } from "./components/form-usuario/form-usuario.component";
 import { RegistroComponent } from './containers/registro/registro.component';
 import { RestorePassComponent } from './containers/restore-pass/restore-pass.component';
+import { FormMovimientosDiariosComponent } from './components/form-movimientos-diarios/form-movimientos-diarios.component';
+import { ListaMovimientosDiariosComponent } from './components/lista-movimientos-diarios/lista-movimientos-diarios.component';
+import { DetalleComponent } from './components/detalle/detalle.component';
 
 registerLocaleData(localeVE, "es-VE");
 
@@ -31,7 +34,10 @@ registerLocaleData(localeVE, "es-VE");
     FileValidator,
     FormUsuarioComponent,
     RegistroComponent,
-    RestorePassComponent
+    RestorePassComponent,
+    FormMovimientosDiariosComponent,
+    ListaMovimientosDiariosComponent,
+    DetalleComponent
   ],
   imports: [
     BrowserModule,

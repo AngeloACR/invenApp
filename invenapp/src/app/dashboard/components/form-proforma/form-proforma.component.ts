@@ -26,7 +26,8 @@ export class FormProformaComponent implements OnInit {
   onData = new EventEmitter<any>();
 
   pedidos: any;
-
+  precios: any;
+  preciosAutorizados: any;
   pedidoSelected: boolean = false;
 
   pedido: any;
@@ -46,6 +47,7 @@ export class FormProformaComponent implements OnInit {
 
   ngOnInit() {
     this.pedidos = this.dbHandler.getLocal("pedidosValues");
+    this.precios = this.dbHandler.getLocal("preciosValues");
     this.initForm();
     this.showError = {
       errorAct: false
@@ -60,21 +62,17 @@ export class FormProformaComponent implements OnInit {
       recibo: new FormControl(""),
       observaciones: new FormControl(""),
       requiereFactura: new FormControl(""),
-      condicionVenta: new FormControl(""),
-      montoSinIva: new FormControl(""),
-      montoConIva: new FormControl(""),
-      iva: new FormControl(""),
       productosAutorizados: this.productosAutorizados
     });
   }
 
-  addProducto() {
+  addProducto(productoId) {
     const productoAutorizado = new FormGroup({
       producto: new FormControl(""),
       qty: new FormControl(""),
       price: new FormControl("")
     });
-
+    productoAutorizado.controls["producto"].setValue(productoId);
     this.productosAutorizados.push(productoAutorizado);
   }
 
@@ -87,11 +85,22 @@ export class FormProformaComponent implements OnInit {
   }
 
   togglePedido() {
+    this.preciosAutorizados = [];
     var dataAux = this.registroProforma.value;
-    this.pedido = dataAux.pedido;
+    console.log(dataAux);
+    this.pedido = this.pedidos[dataAux.pedido];
+    console.log(this.pedido);
     let productosPedidos = this.pedido.productosPedidos;
     productosPedidos.forEach(productoPedido => {
-      this.addProducto();
+      let productoId = productoPedido.producto._id;
+      let aux = [];
+      this.precios.forEach(precio => {
+        if (precio.producto._id == productoId) {
+          aux.push(precio.valor);
+        }
+      });
+      this.preciosAutorizados.push(aux);
+      this.addProducto(productoId);
     });
     this.pedidoSelected = true;
   }
@@ -102,8 +111,42 @@ export class FormProformaComponent implements OnInit {
     let error;
     let refreshList;
     let endpoint;
-    console.log("here");
-    dataValues = {};
+    let productosAutorizados = [];
+    let montoTotal = 0;
+    var productosAutorizadosControls = this.productosAutorizados.controls;
+    for (let control of productosAutorizadosControls) {
+      if (control instanceof FormGroup) {
+        let precio = control.controls["price"].value;
+        let producto = control.controls["producto"].value;
+        let qty = control.controls["qty"].value;
+
+        let montoProductoAux = precio * qty;
+        console.log(montoProductoAux);
+        montoTotal += montoProductoAux;
+        let montoProducto = montoProductoAux.toFixed(2);
+        let productoAutorizado = {
+          producto,
+          qty,
+          montoProducto,
+          precio
+        };
+        productosAutorizados.push(productoAutorizado);
+      }
+    }
+
+    let montoTotalAux = montoTotal.toFixed(2);
+
+    dataValues = {
+      pedido: this.pedido._id,
+      fecha: dataAux.fecha,
+      referencia: dataAux.referencia,
+      reciboDeCobro: dataAux.recibo,
+      observaciones: dataAux.observaciones,
+      requiereFactura: dataAux.requiereFactura,
+      productosAutorizados: productosAutorizados,
+      montoTotal: montoTotalAux,
+      cliente: this.pedido.cliente._id
+    };
     endpoint = "/proformas";
     error = this.catchUserErrors();
     if (error) {

@@ -44,7 +44,12 @@ export class FormCuentasTComponent implements OnInit {
   }
 
   initForm() {
-    this.registroCuentast = new FormGroup({});
+    this.registroCuentast = new FormGroup({
+      nombre: new FormControl(""),
+      clasificacion: new FormControl(""),
+      naturaleza: new FormControl(""),
+      descripcion: new FormControl("")
+    });
   }
 
   get fCuentast() {
@@ -59,12 +64,10 @@ export class FormCuentasTComponent implements OnInit {
     let endpoint;
     console.log("here");
     dataValues = {
-      name: dataAux.name,
-      ws: dataAux.ws,
-      mail: dataAux.mail,
-      address: dataAux.address,
-      ig: dataAux.ig,
-      rif: dataAux.rif
+      name: dataAux.nombre,
+      clasificacion: dataAux.clasificacion,
+      descripcion: dataAux.descripcion,
+      naturaleza: dataAux.naturaleza
     };
     endpoint = "/cuentast";
     error = this.catchUserErrors();
@@ -105,22 +108,13 @@ export class FormCuentasTComponent implements OnInit {
   }
 
   catchUserErrors() {
-    let aux1 = this.fCuentast.name.errors
-      ? this.fCuentast.name.errors.required
+    let aux1 = this.fCuentast.nombre.errors
+      ? this.fCuentast.nombre.errors.required
       : false;
-    let aux2 = this.fCuentast.mail.errors
-      ? this.fCuentast.mail.errors.required
+    let aux2 = this.fCuentast.clasificacion.errors
+      ? this.fCuentast.clasificacion.errors.required
       : false;
-    let aux3 = this.fCuentast.address.errors
-      ? this.fCuentast.address.errors.required
-      : false;
-    let aux4 = this.fCuentast.ws.errors
-      ? this.fCuentast.ws.errors.required
-      : false;
-    let aux5 = this.fCuentast.rif.errors
-      ? this.fCuentast.rif.errors.minlength
-      : false;
-    let error = aux1 || aux2 || aux3 || aux4 || aux5;
+    let error = aux1 || aux2;
     return error;
   }
 }

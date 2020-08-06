@@ -26,6 +26,8 @@ export class FormMovimientoDiarioComponent implements OnInit {
 
   registroMovimientoDiario: FormGroup;
 
+  bancos: any;
+  cuentasT: any;
   showError: {};
   errorMsg: string;
 
@@ -37,6 +39,8 @@ export class FormMovimientoDiarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.bancos = this.dbHandler.getLocal("bancosValues");
+    this.cuentasT = this.dbHandler.getLocal("cuentastValues");
     this.initForm();
     this.showError = {
       errorAct: false
@@ -44,7 +48,12 @@ export class FormMovimientoDiarioComponent implements OnInit {
   }
 
   initForm() {
-    this.registroMovimientoDiario = new FormGroup({});
+    this.registroMovimientoDiario = new FormGroup({
+      banco: new FormControl(""),
+      cuentat: new FormControl(""),
+      descripcion: new FormControl(""),
+      monto: new FormControl("")
+    });
   }
 
   get fMovimientoDiario() {
@@ -59,14 +68,12 @@ export class FormMovimientoDiarioComponent implements OnInit {
     let endpoint;
     console.log("here");
     dataValues = {
-      name: dataAux.name,
-      ws: dataAux.ws,
-      mail: dataAux.mail,
-      address: dataAux.address,
-      ig: dataAux.ig,
-      rif: dataAux.rif
+      banco: dataAux.banco,
+      cuentat: dataAux.cuentat,
+      descripcion: dataAux.descripcion,
+      monto: dataAux.monto
     };
-    endpoint = "/movimientos";
+    endpoint = "/movimientosdiarios";
     error = this.catchUserErrors();
     if (error) {
       let errorMsg =
@@ -104,23 +111,5 @@ export class FormMovimientoDiarioComponent implements OnInit {
     this.registroMovimientoDiario.reset();
   }
 
-  catchUserErrors() {
-    let aux1 = this.fMovimientoDiario.name.errors
-      ? this.fMovimientoDiario.name.errors.required
-      : false;
-    let aux2 = this.fMovimientoDiario.mail.errors
-      ? this.fMovimientoDiario.mail.errors.required
-      : false;
-    let aux3 = this.fMovimientoDiario.address.errors
-      ? this.fMovimientoDiario.address.errors.required
-      : false;
-    let aux4 = this.fMovimientoDiario.ws.errors
-      ? this.fMovimientoDiario.ws.errors.required
-      : false;
-    let aux5 = this.fMovimientoDiario.rif.errors
-      ? this.fMovimientoDiario.rif.errors.minlength
-      : false;
-    let error = aux1 || aux2 || aux3 || aux4 || aux5;
-    return error;
-  }
+  catchUserErrors() {}
 }

@@ -1,5 +1,5 @@
 <div class="cardBox">
-  <form class="formBox" [formGroup]="registroProforma" (ngSubmit)="endRegistro()">
+  <form class="formBox" *ngIf="pedidos" [formGroup]="registroProforma" (ngSubmit)="endRegistro()">
     <div class="formContent">
       <div class="formInput">
         <label for="">Fecha*</label>
@@ -8,7 +8,7 @@
       <div class="formInput">
         <label for="">Solicitud asociada*</label>
         <select class="lInput" name="" formControlName="pedido" (change)="togglePedido()">
-          <option *ngFor="let value of pedidos" [value]="value">{{value.name}}</option>
+          <option *ngFor="let value of pedidos; let i=index" [value]="i">{{value._id}}</option>
         </select>
         <div class="errorTag"
           *ngIf="fProforma.pedido.errors?.required && (fProforma.pedido.touched || fProforma.pedido.dirty)">Por favor
@@ -42,6 +42,7 @@
         <label for="">Observaciones</label>
         <textarea class="" rows="6" type="text" formControlName="observaciones" name=""></textarea>
       </div>
+      <!-- 
       <div class="formInput">
         <label for="">Condición de venta*</label>
         <select class="lInput" name="" formControlName="condicionVenta">
@@ -51,7 +52,7 @@
         <div class="errorTag"
           *ngIf="fProforma.condicionVenta.errors?.required && (fProforma.condicionVenta.touched || fProforma.condicionVenta.dirty)">
           Por favor seleccione la condición de venta</div>
-      </div>
+      </div> -->
       <!--           <div class="formInput">
             <label for="">Estado*</label>
             <select class="lInput" name="" formControlName="estado">
@@ -75,23 +76,28 @@
           <p class="deleteTitle">Precio Cotizado</p>
           <p class="deleteTitle">Precio Autorizado</p>
         </div>
-        <div class="arrayBox" *ngFor="let productoAutorizados of productosAutorizados.controls; let i = index;">
+        <div class="arrayBox" *ngFor="let productoAutorizado of productosAutorizados.controls; let i = index;">
           <ng-container class="controlBox" [formGroup]="productoAutorizado">
             <div class="productField">
-              <p>{{pedido.produstosPedidos[i].producto.code}}</p>
+              <p>{{pedido.productosPedidos[i].producto.code}}</p>
             </div>
             <div class="qtyField">
-              <p>{{pedido.produstosPedidos[i].qty}}</p>
+              <p>{{pedido.productosPedidos[i].qty}}</p>
 
             </div>
             <div class="qtyField">
-              <input class="qtyInput" type="number" min="1" formControlName="qty" name="qty" />
+              <input class="qtyInput" type="number" min="1" [max]="pedido.productosPedidos[i].qty" formControlName="qty"
+                name="qty" />
             </div>
             <div class="qtyField">
-              <p>{{pedido.produstosPedidos[i].price}}</p>
+              <p>{{pedido.productosPedidos[i].precio}}</p>
             </div>
             <div class="qtyField">
-              <input class="qtyInput" type="number" min="1" formControlName="price" name="price" />
+
+              <select class="qtyInput" name="" formControlName="price">
+                <option *ngFor="let value of preciosAutorizados[i];" [value]="value">{{value}}</option>
+              </select>
+              <!--               <input class="qtyInput" type="number" min="1" formControlName="price" name="price" /> -->
             </div>
 
           </ng-container>
@@ -104,6 +110,9 @@
       <p>Registrar Proforma</p>
     </button>
   </form>
+</div>
+<div class="cardBox" *ngIf="!pedidos">
+  No hay pedidos registrados
 </div>
 
 <app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

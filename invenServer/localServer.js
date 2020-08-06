@@ -25,11 +25,16 @@ const precios = require('./inventario/routes/precios');
 const almacenes = require('./inventario/routes/almacenes');
 
 const ingresos = require('./compras/routes/ingresos');
+
 const pedidos = require('./ventas/routes/pedidos');
 const proformas = require('./ventas/routes/proformas');
 
 const bancos = require('./finanzas/routes/bancos');
 
+const ctasporcobrar = require('./contabilidad/routes/ctasporcobrar');
+const ctasporpagar = require('./contabilidad/routes/ctasporpagar');
+const ctast = require('./contabilidad/routes/cuentast');
+const movimientosdiarios = require('./contabilidad/routes/movimientosdiarios');
 
 const correlativos = require('./general/routes/correlativos');
 const company = require('./general/routes/company');
@@ -93,6 +98,10 @@ module.exports.init = function (folder, thePath, port) {
     app.use('/almacenes', almacenes);
     app.use('/proformas', proformas);
     app.use('/bancos', bancos);
+    app.use('/cuentasporcobrar', ctasporcobrar);
+    app.use('/cuentasporpagar', ctasporpagar);
+    app.use('/cuentast', ctast);
+    app.use('/movimientosdiarios', movimientosdiarios);
 
     app.get('/', (req, res) => {
         res.send('We are having some troubles, please come back in a while!');

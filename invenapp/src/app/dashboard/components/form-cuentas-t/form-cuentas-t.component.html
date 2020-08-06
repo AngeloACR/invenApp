@@ -1,3 +1,38 @@
-<p>
-  form-cuentas-t works!
-</p>
+<div class="cardBox">
+
+  <form class="formBox" [formGroup]="registroCuentast" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+
+      <div class="formInput">
+        <label for="desc">Nombre </label>
+        <input type="text" class="lInput" formControlName="nombre" name="nombre">
+      </div>
+
+      <div class="formInput">
+        <label for="tipo">Codigo clasificador </label>
+        <select class="lInput" name="clasificacion" formControlName="clasificacion">
+          <option value="Activo">1.- Activo</option>
+          <option value="Pasivo">2.- Pasivo</option>
+          <option value="Capital">3.- Capital</option>
+          <option value="Ingresos">4.- Ingresos</option>
+          <option value="Costos">5.- Costos</option>
+          <option value="Gastos">6.- Gastos</option>
+          <option value="Otros Ingresos">7.- Otros Ingresos</option>
+          <option value="Otros Egresos">8.- Otros Egresos</option>
+        </select>
+      </div>
+      <div class="formInput">
+        <label for="naturaleza">Naturaleza </label>
+        <select class="lInput" name="naturaleza" formControlName="naturaleza">
+          <option value="Debe">Debe</option>
+          <option value="Haber">Haber</option>
+        </select>
+      </div>
+
+      <button type="submit" class="formButton">
+        <p>Registrar Cuenta T</p>
+      </button>
+
+    </div>
+  </form>
+</div>

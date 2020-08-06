@@ -2,6 +2,7 @@ const express = require('express');
 const productoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Producto = require('../models/producto');
+const productoHandler = require('../controllers/main').productoHandler;
 
 productoRouter.post('/', auth, async (req, res) => {
 	try {
@@ -14,6 +15,7 @@ productoRouter.post('/', auth, async (req, res) => {
 		};
 		let newProducto = new Producto(producto);
 		response = await Producto.addProducto(newProducto);
+		//let response = await productoHandler.addProducto(producto);
 
 		res.status(200).json(response);
 	}
@@ -26,10 +28,8 @@ productoRouter.post('/', auth, async (req, res) => {
 productoRouter.get('/all', auth, async (req, res) => {
 	try {
 		let response = await Producto.getProductos();
-		/* if (response.values && response.values.length) {
-		} else {
-			throw new Error('There are no productos')
-		} */
+		//let response = await productoHandler.getProductos();
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -41,9 +41,9 @@ productoRouter.get('/all', auth, async (req, res) => {
 productoRouter.get('/:productoId', auth, async (req, res) => {
 	try {
 		const productoId = req.params.productoId;
-		const producto = await Producto.getProducto(productoId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, producto)
+		let response = await Producto.getProducto(productoId);
+		//let response = await productoHandler.getProductoById(productoId);
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -58,6 +58,8 @@ productoRouter.delete('/', auth, async (req, res, next) => {
 		const item = req.query.item;
 
 		let response = await Producto.deleteProducto(item);
+		//let response = await productoHandler.deleteProducto(item);
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -69,8 +71,10 @@ productoRouter.delete('/', auth, async (req, res, next) => {
 productoRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
+		const id = req.body._id;
 
 		let response = await Producto.updateProducto(updateData);
+		//let response = await productoHandler.updateProducto(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

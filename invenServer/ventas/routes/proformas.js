@@ -2,21 +2,20 @@ const express = require('express');
 const proformaRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Proforma = require('../models/proforma');
+const proformaHandler = require('../controllers/main').proformaHandler;
 
 proformaRouter.post('/', auth, async (req, res) => {
     try {
         const proforma = {
+            pedido: req.body.pedido,
             cliente: req.body.cliente,
-            productosProformas: req.body.productosProformas,
-            vendedor: req.body.vendedor,
+            productosAutorizados: req.body.productosAutorizados,
             fecha: req.body.fecha,
-            estado: req.body.estado,
             montoTotal: req.body.montoTotal,
-            condicionVenta: req.body.condicionVenta,
             observaciones: req.body.observaciones,
         };
-        let newProforma = new Proforma(proforma);
-        response = await Proforma.addProforma(newProforma);
+
+        response = await proformaHandler.addProforma(proforma);
         res.status(200).json(response);
     }
     catch (e) {
@@ -27,7 +26,7 @@ proformaRouter.post('/', auth, async (req, res) => {
 
 proformaRouter.get('/all', auth, async (req, res) => {
     try {
-        let response = await Proforma.getProformas();
+        let response = await proformaHandler.getProformas();
 		/* if (response.values && response.values.length) {
 		} else {
 			throw new Error('There are no proformas')
@@ -43,9 +42,7 @@ proformaRouter.get('/all', auth, async (req, res) => {
 proformaRouter.get('/:proformaId', auth, async (req, res) => {
     try {
         const proformaId = req.params.proformaId;
-        const proforma = await Proforma.getProforma(proformaId);
-        const msg = ` ${req.originalUrl} `;
-        sendOk(msg, res, proforma)
+        let response = await proformaHandler.getProforma(proformaId);
         res.status(200).json(response);
     }
     catch (e) {
@@ -59,7 +56,7 @@ proformaRouter.delete('/', auth, async (req, res, next) => {
 
         const item = req.query.item;
 
-        let response = await Proforma.deleteProforma(item);
+        let response = await proformaHandler.deleteProforma(item);
         console.log(response);
         res.status(200).json(response);
     }
@@ -72,8 +69,9 @@ proformaRouter.delete('/', auth, async (req, res, next) => {
 proformaRouter.put('/', auth, async (req, res, next) => {
     try {
         const updateData = req.body;
+        const id = req.body._id;
 
-        let response = await Proforma.updateProforma(updateData);
+        let response = await proformaHandler.updateProforma(id, updateData);
         res.status(200).json(response);
     }
     catch (e) {

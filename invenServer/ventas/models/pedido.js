@@ -3,10 +3,10 @@ const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
 const pedidoSchema = new mongoose.Schema({
-  cliente: [{
+  cliente: {
     type: Schema.Types.ObjectId,
     ref: 'Cliente',
-  }],
+  },
   vendedor: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -20,6 +20,9 @@ const pedidoSchema = new mongoose.Schema({
       type: Number,
     },
     montoProducto: {
+      type: Number,
+    },
+    precio: {
       type: Number,
     }
   }],
@@ -37,6 +40,10 @@ const pedidoSchema = new mongoose.Schema({
   },
   observaciones: {
     type: String,
+  },
+  proforma: {
+    type: Schema.Types.ObjectId,
+    ref: 'Proforma',
   },
 })
 /* .post('save', alterDisponibilidad)
