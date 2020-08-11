@@ -12,8 +12,7 @@ export class DbHandlerService {
   localSource = "http://localhost:3400";
   serverSource = "";
 
-  mySource = this.localSource
-  //mySource = this.serverSource;
+  mySource = this.serverSource;
 
   constructor(
     private http: HttpClient,
@@ -167,8 +166,32 @@ export class DbHandlerService {
           name: "roles"
         },
         {
+          endpoint: "/bancos/all",
+          name: "bancos"
+        },
+        {
+          endpoint: "/proformas/all",
+          name: "proformas"
+        },
+        {
+          endpoint: "/cuentast/all",
+          name: "cuentast"
+        },
+        {
+          endpoint: "/cuentasporcobrar/all",
+          name: "cuentasporcobrar"
+        },
+        {
+          endpoint: "/cuentasporpagar/all",
+          name: "cuentasporpagar"
+        },
+        {
           endpoint: "/company",
           name: "company"
+        },
+        {
+          endpoint: "/movimientosdiarios/all",
+          name: "movimientosdiarios"
         }
       ];
     } else if (tipo == "Admin") {
@@ -198,8 +221,36 @@ export class DbHandlerService {
           name: "pedidos"
         },
         {
+          endpoint: "/bancos/all",
+          name: "bancos"
+        },
+        {
+          endpoint: "/proformas/all",
+          name: "proformas"
+        },
+        {
+          endpoint: "/cuentast/all",
+          name: "cuentast"
+        },
+        {
+          endpoint: "/cuentasporcobrar/all",
+          name: "cuentasporcobrar"
+        },
+        {
+          endpoint: "/cuentasporpagar/all",
+          name: "cuentasporpagar"
+        },
+        {
           endpoint: "/precios/all",
           name: "precios"
+        },
+        {
+          endpoint: "/company",
+          name: "company"
+        },
+        {
+          endpoint: "/movimientosdiarios/all",
+          name: "movimientosdiarios"
         }
       ];
     } else if (tipo == "Vendedor") {
@@ -215,6 +266,10 @@ export class DbHandlerService {
         {
           endpoint: "/almacenes/all",
           name: "almacenes"
+        },
+        {
+          endpoint: "/company",
+          name: "company"
         },
         {
           endpoint: "/pedidos/all",

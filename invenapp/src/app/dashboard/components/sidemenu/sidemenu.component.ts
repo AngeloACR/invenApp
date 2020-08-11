@@ -75,7 +75,7 @@ export class SidemenuComponent implements OnInit {
 				id: 0
 			},{
 				name: 'Ver almacen',
-				link: '/lsitaalmacen',
+				link: '/lista/almacen',
 				id: 1
 			},{
 				name: 'Registrar productos',
@@ -83,37 +83,126 @@ export class SidemenuComponent implements OnInit {
 				id: 2
 			},{
 				name: 'Ver disponibilidad de material',
-				link: '/lista/productos',
+				link: '/lista/producto',
 				id: 3
-			},{
-				name: 'Registrar ingreso de mercancia',
-				link: '/registro/ingreso',
-				id: 4
-			},{
-				name: 'Ver ingreso de mercancia',
-				link: '/lista/ingreso',
-				id: 5
-			},{
-				name: 'Registrar solicitud de pedido',
-				link: '/registro/pedido',
-				id: 6
-			},{
-				name: 'Ver solicitudes de pedido',
-				link: '/lista/pedidos',
-				id: 7
 			},{
 				name: 'Lista de precios',
 				link: '/precios',
-				id: 8
+				id: 4
+			}]
+		},,{
+			name: 'Compras',
+			link: '/compras',
+			id: 2,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar compra de mercancia',
+				link: '/registro/ingreso',
+				id: 0
+			},{
+				name: 'Ver compra de mercancia',
+				link: '/lista/ingreso',
+				id: 1
+			}/* ,{
+				name: 'Registrar egreso de mercancia',
+				link: '/registro/egreso',
+				id: 2
+			},{
+				name: 'Ver egresos de mercancia',
+				link: '/lista/egreso',
+				id: 3
+			} */],
+		},{
+			name: 'Ventas',
+			link: '/ventas',
+			id: 3,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar solicitud de pedido',
+				link: '/registro/pedido',
+				id: 0
+			},{
+				name: 'Ver solicitudes de pedido',
+				link: '/lista/pedido',
+				id: 1
+			},{
+				name: 'Registrar proforma',
+				link: '/registro/proforma',
+				id: 2
+			},{
+				name: 'Ver proformas',
+				link: '/lista/proforma',
+				id: 3
 			}],
+		},{
+			name: 'Finanzas',
+			link: '/finanzas',
+			id: 4,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar banco',
+				link: '/registro/banco',
+				id: 0
+			},{
+				name: 'Ver bancos',
+				link: '/lista/banco',
+				id: 1
+			},{
+				name: 'Disponibilidad bancaria',
+				link: '/disponibilidadbancaria',
+				id: 2
+			},{
+				name: 'Flujo de caja',
+				link: '/flujodecaja',
+				id: 3
+			},{
+				name: 'Proyecciones',
+				link: '/proyecciones',
+				id: 4
+			}],
+		},{
+			name: 'Contabilidad',
+			link: '/contabilidad',
+			id: 5,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar cuenta T',
+				link: '/registro/cuentat',
+				id: 0
+			},{
+				name: 'Ver cuentas T',
+				link: '/lista/cuentat',
+				id: 1
+			},{
+				name: 'Registar movimiento diario',
+				link: '/registro/movimientodiario',
+				id: 2
+			},{
+				name: 'Ver movimientos diarios',
+				link: '/lista/movimientodiario',
+				id: 3
+			},{
+				name: 'Ver cuentas por cobrar',
+				link: '/lista/cuentasporcobrar',
+				id: 4
+			},{
+				name: 'Ver cuentas por pagar',
+				link: '/lista/cuentasporpagar',
+				id: 5
+			},{
+				name: 'Estado de resultados',
+				link: '/estadoderesultados',
+				id: 6
+			},]
 		}];
 	}
+
 
 
 	setVendedorMenu(){
 		this.myMenu = [{
 			name: 'Directorio',
-			link: '/dir/0',
+			link: '/dir',
 			id: 0,
 			icon: faUserCog,
 			childs: [{
@@ -127,21 +216,27 @@ export class SidemenuComponent implements OnInit {
 			}],
 		},{
 			name: 'Inventario',
-			link: '/inventario/0',
+			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
 			childs: [{
 				name: 'Ver disponibilidad de material',
-				link: '/lista/productos',
-				id: 1
-			},{
+				link: '/lista/producto',
+				id: 0
+			}],
+		},{
+			name: 'Ventas',
+			link: '/ventas',
+			id: 1,
+			icon: faCalendarPlus,
+			childs: [{
 				name: 'Registrar solicitud de pedido',
 				link: '/registro/pedido',
-				id: 2
+				id: 0
 			},{
 				name: 'Ver solicitudes de pedido',
-				link: '/lista/pedidos',
-				id: 3
+				link: '/lista/pedido',
+				id: 1
 			}],
 		}];
 	}
@@ -149,7 +244,7 @@ export class SidemenuComponent implements OnInit {
 	setSuperAdminMenu(){
 		this.myMenu = [{
 			name: 'Directorio',
-			link: '/dir/0',
+			link: '/dir',
 			id: 0,
 			icon: faUserCog,
 			childs: [{
@@ -169,10 +264,9 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/proveedor',
 				id: 3
 			}],
-		},
-		{
+		},{
 			name: 'Inventario',
-			link: '/inventario/0',
+			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
 			childs: [{
@@ -192,52 +286,137 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/producto',
 				id: 3
 			},{
-				name: 'Registrar ingreso de mercancia',
-				link: '/registro/ingreso',
+				name: 'Lista de precios',
+				link: '/precios',
 				id: 4
+			}]
+		},{
+			name: 'Compras',
+			link: '/compras',
+			id: 2,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar compra de mercancia',
+				link: '/registro/ingreso',
+				id: 0
 			},{
-				name: 'Ver ingreso de mercancia',
+				name: 'Ver compra de mercancia',
 				link: '/lista/ingreso',
-				id: 5
+				id: 1
+			}/* ,{
+				name: 'Registrar egreso de mercancia',
+				link: '/registro/egreso',
+				id: 2
 			},{
+				name: 'Ver egresos de mercancia',
+				link: '/lista/egreso',
+				id: 3
+			} */],
+		},{
+			name: 'Ventas',
+			link: '/ventas',
+			id: 3,
+			icon: faCalendarPlus,
+			childs: [{
 				name: 'Registrar solicitud de pedido',
 				link: '/registro/pedido',
-				id: 6
+				id: 0
 			},{
 				name: 'Ver solicitudes de pedido',
 				link: '/lista/pedido',
-				id: 7
+				id: 1
 			},{
-				name: 'Lista de precios',
-				link: '/precios',
-				id: 8
+				name: 'Registrar proforma',
+				link: '/registro/proforma',
+				id: 2
+			},{
+				name: 'Ver proformas',
+				link: '/lista/proforma',
+				id: 3
 			}],
 		},{
-			name: 'Administrador',
-			link: '/adm/0',
-			id: 2,
-			icon: faUserCog,
-			class: {
-				aBox: false
-			},
+			name: 'Finanzas',
+			link: '/finanzas',
+			id: 4,
+			icon: faCalendarPlus,
 			childs: [{
-				name: 'Registrar usuarios',
+				name: 'Registrar banco',
+				link: '/registro/banco',
+				id: 0
+			},{
+				name: 'Ver bancos',
+				link: '/lista/banco',
+				id: 1
+			},{
+				name: 'Disponibilidad bancaria',
+				link: '/disponibilidadbancaria',
+				id: 2
+			},{
+				name: 'Flujo de caja',
+				link: '/flujodecaja',
+				id: 3
+			},{
+				name: 'Proyecciones',
+				link: '/proyecciones',
+				id: 4
+			}],
+		},{
+			name: 'Contabilidad',
+			link: '/contabilidad',
+			id: 5,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registrar cuenta T',
+				link: '/registro/cuentat',
+				id: 0
+			},{
+				name: 'Ver cuentas T',
+				link: '/lista/cuentat',
+				id: 1
+			},{
+				name: 'Registar movimiento diario',
+				link: '/registro/movimientodiario',
+				id: 2
+			},{
+				name: 'Ver movimientos diarios',
+				link: '/lista/movimientodiario',
+				id: 3
+			},{
+				name: 'Ver cuentas por cobrar',
+				link: '/lista/cuentasporcobrar',
+				id: 4
+			},{
+				name: 'Ver cuentas por pagar',
+				link: '/lista/cuentasporpagar',
+				id: 5
+			},{
+				name: 'Estado de resultados',
+				link: '/estadoderesultados',
+				id: 6
+			},]
+		},{
+			name: 'Administrador',
+			link: '/administrador',
+			id: 7,
+			icon: faCalendarPlus,
+			childs: [{
+				name: 'Registro de usuarios',
 				link: '/registro/usuario',
 				id: 0
 			},{
-				name: 'Ver usuarios',
+				name: 'Lista de usuarios',
 				link: '/lista/usuario',
 				id: 1
 			},{
-				name: 'Registrar Roles',
+				name: 'Registro de roles',
 				link: '/registro/rol',
 				id: 2
 			},{
-				name: 'Ver roles',
+				name: 'Lista de roles',
 				link: '/lista/rol',
 				id: 3
 			},{
-				name: 'Datos de la Compañía',
+				name: 'Datos de la compañía',
 				link: '/compañia',
 				id: 4
 			}],

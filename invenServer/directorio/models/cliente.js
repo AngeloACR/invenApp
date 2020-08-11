@@ -20,7 +20,11 @@ const clienteSchema = mongoose.Schema({
   },
   rif: {
     type: String
-  }
+  },
+  ctaPorCobrar: {
+    type: Schema.Types.ObjectId,
+    ref: 'Ctaporcobrar',
+  },
 });
 
 const Cliente = module.exports = mongoose.model("Cliente", clienteSchema);

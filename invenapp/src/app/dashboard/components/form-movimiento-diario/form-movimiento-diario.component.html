@@ -1,0 +1,32 @@
+<div class="cardBox">
+
+  <form class="formBox" [formGroup]="registroMovimientoDiario" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+      <div class="formInput">
+
+        <label for="mBacc">Banco </label>
+        <select class="lInput" formControlName="banco">
+          <option *ngFor="let value of bancos;" value={{value._id}}>{{value.alias}}</option>
+        </select>
+      </div>
+      <div class="formInput">
+        <label for="mTAcc">Cuenta Contable </label>
+        <select class="lInput" formControlName="cuentat">
+          <option *ngFor="let value of cuentasT;" value={{value._id}}>{{value.name}}</option>
+        </select>
+      </div>
+      <div class="formInput">
+        <label for="mDesc">Descripcion </label>
+        <input type="text" class="lInput" formControlName="descripcion" name="">
+      </div>
+      <div class="formInput">
+        <label for="mAmmount">Monto </label>
+        <input i18n lang="es-VE" type="number" step="0.01" class="lInput" formControlName="monto" name="">
+      </div>
+      <button type="submit" class="formButton">
+        <p>Registrar Movimiento Diario</p>
+      </button>
+    </div>
+  </form>
+
+</div>

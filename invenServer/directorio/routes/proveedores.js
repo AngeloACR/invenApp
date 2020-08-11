@@ -2,6 +2,7 @@ const express = require('express');
 const proveedorRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Proveedor = require('../models/proveedor');
+const proveedorHandler = require('../controllers/main').proveedorHandler;
 
 proveedorRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
@@ -13,8 +14,7 @@ proveedorRouter.post('/', /*auth,*/ async (req, res) => {
 			mail: req.body.mail,
 			rif: req.body.rif,
 		};
-		let newProveedor = new Proveedor(proveedor);
-		response = await Proveedor.addProveedor(newProveedor);
+		response = await proveedorHandler.addProveedor(proveedor);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -25,7 +25,7 @@ proveedorRouter.post('/', /*auth,*/ async (req, res) => {
 
 proveedorRouter.get('/all', /*auth,*/ async (req, res) => {
 	try {
-		let response = await Proveedor.getProveedores();
+		let response = await proveedorHandler.getProveedores();
 		/* if (response.values && response.values.length) {
 		} else {
 			throw new Error('There are no proveedors')
@@ -41,9 +41,7 @@ proveedorRouter.get('/all', /*auth,*/ async (req, res) => {
 proveedorRouter.get('/:proveedorId', /*auth,*/ async (req, res) => {
 	try {
 		const proveedorId = req.params.proveedorId;
-		const proveedor = await Proveedor.getProveedor(proveedorId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, proveedor)
+		const response = await proveedorHandler.getProveedor(proveedorId);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -57,7 +55,7 @@ proveedorRouter.delete('/', auth, async (req, res, next) => {
 
 		const item = req.query.item;
 
-		let response = await Proveedor.deleteProveedor(item);
+		let response = await proveedorHandler.deleteProveedor(item);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -69,8 +67,9 @@ proveedorRouter.delete('/', auth, async (req, res, next) => {
 proveedorRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
+		const id = req.body.id;
 
-		let response = await Proveedor.updateProveedor(updateData);
+		let response = await proveedorHandler.updateProveedor(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

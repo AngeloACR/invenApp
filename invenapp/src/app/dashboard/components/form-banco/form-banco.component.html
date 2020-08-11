@@ -1,0 +1,64 @@
+<div class="cardBox">
+  <form class="formBox" [formGroup]="registroBanco" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+
+      <div class="formInput">
+        <label for="bank">Banco: </label>
+        <input class="lInput" type="text" formControlName="bank" name="bank" placeHolder="Banco">
+      </div>
+      <div class="errorTag" *ngIf="
+          fBanco.bank.errors?.required &&
+          (fBanco.bank.touched || fBanco.bank.dirty)
+        ">
+        Por favor ingrese el nombre del banco
+      </div>
+      <div class="formInput">
+        <label for="alias">Alias: </label>
+        <input class="lInput" type="text" formControlName="alias" name="alias" placeHolder="Alias">
+      </div>
+      <div class="errorTag" *ngIf="
+          fBanco.alias.errors?.required &&
+          (fBanco.alias.touched || fBanco.alias.dirty)
+        ">
+        Por favor ingrese el alias de esta cuenta
+      </div>
+      <div class="formInput">
+        <label for="accountNumber">Numero de cuenta: </label>
+        <input class="lInput" type="text" formControlName="accountNumber" name="accountNumber"
+          placeHolder="Numero de cuenta">
+      </div>
+      <div class="formInput">
+        <label for="status">Status: </label>
+        <select class="lInput" name="status" formControlName="status">
+          <option value="Activa">Activa</option>
+          <option value="Inactiva">Inactiva</option>
+          <option value="Cerrada">Cerrada</option>
+        </select>
+      </div>
+      <!--       <div class="formInput">
+        <label for="address">Dirección: </label>
+        <input class="lInput" type="text" formControlName="address" name="address" placeHolder="Dirección">
+      </div>
+      <div class="formInput">
+        <label for="tlf">Teléfono:
+          <input class="lInput" type="text" formControlName="tlf" name="tlf" placeHolder="Teléfono">
+        </label>
+      </div>
+      <div class="formInput">
+        <label for="executive">Ejecutivo de cuenta:
+          <input class="lInput" type="text" formControlName="executive" name="executive" placeHolder="Ejecutivo">
+        </label>
+      </div>
+      <div class="formInput">
+        <label for="executiveTlf">Telefono personal Ejecutivo:
+          <input class="lInput" type="text" formControlName="executiveTlf" name="executiveTlf"
+            placeHolder="Teléfono Ejecutivo">
+        </label>
+      </div>
+ -->
+      <button type="submit" class="formButton">
+        <p>Registrar Banco</p>
+      </button>
+    </div>
+  </form>
+</div>
