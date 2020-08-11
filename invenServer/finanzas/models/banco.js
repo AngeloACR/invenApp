@@ -19,8 +19,11 @@ const bancoSchema = new mongoose.Schema({
   saldoInicial: {
     type: Number,
   },
+  disponibilidad: {
+    type: Schema.Types.ObjectId,
+    ref: 'DisponibilidadBancaria',
+  },
 })
-//.post('save', createRef)
 
 const Banco = module.exports = mongoose.model("Banco", bancoSchema);
 

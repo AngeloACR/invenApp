@@ -1,4 +1,4 @@
-const Ingreso = require('../models/ingreso');
+const Compra = require('../models/compra');
 const inventarioHandler = require('../../inventario/controllers/main').mainHandler
 
 const mainHandler = {
@@ -6,8 +6,8 @@ const mainHandler = {
         try {
             let productosIngresados = element.productosIngresados;
             let almacenId = element.almacen;
-            let ingresoId = element._id;
-            await inventarioHandler.removeIngreso(productosIngresados, almacenId, ingresoId)
+            let compraId = element._id;
+            await inventarioHandler.removeCompra(productosIngresados, almacenId, compraId)
         } catch (error) {
             throw error
         }
@@ -19,9 +19,9 @@ const mainHandler = {
 
             let productosIngresados = element.productosIngresados;
             let almacenId = element.almacen;
-            let ingresoId = element._id;
+            let compraId = element._id;
 
-            await inventarioHandler.agregarProductos(productosIngresados, almacenId, ingresoId)
+            await inventarioHandler.agregarProductos(productosIngresados, almacenId, compraId)
 
         } catch (error) {
             throw error
@@ -31,14 +31,14 @@ const mainHandler = {
 
 }
 
-const ingresoHandler = {
+const compraHandler = {
 
-    deleteIngreso: async function (id) {
+    deleteCompra: async function (id) {
         try {
-            let response = await this.getIngresoById(id);
-            let ingreso = response.values;
-            await mainHandler.removeRef(ingreso);
-            let deleteRes = await ingreso.remove();
+            let response = await this.getCompraById(id);
+            let compra = response.values;
+            await mainHandler.removeRef(compra);
+            let deleteRes = await compra.remove();
             response = {
                 status: true,
                 values: deleteRes
@@ -53,14 +53,14 @@ const ingresoHandler = {
         }
     },
 
-    addIngreso: async function (element) {
+    addCompra: async function (element) {
         try {
-            let newIngreso = new Ingreso(element);
-            await mainHandler.agregarProductos(newIngreso);
-            let ingreso = await newIngreso.save();
+            let newCompra = new Compra(element);
+            await mainHandler.agregarProductos(newCompra);
+            let compra = await newCompra.save();
             let response = {
                 status: true,
-                values: ingreso
+                values: compra
             }
             return response;
         } catch (error) {
@@ -72,13 +72,13 @@ const ingresoHandler = {
         }
     },
 
-    getIngresos: async function () {
+    getCompras: async function () {
         try {
             const query = {};
-            let ingresos = await Ingreso.find(query)
+            let compras = await Compra.find(query)
             let response = {
                 status: true,
-                values: ingresos
+                values: compras
             }
             return response;
         } catch (error) {
@@ -89,13 +89,13 @@ const ingresoHandler = {
             return response
         }
     },
-    getIngresoById: async function (id) {
+    getCompraById: async function (id) {
         try {
             const query = { '_id': id };
-            let ingreso = await Ingreso.findOne(query)
+            let compra = await Compra.findOne(query)
             let response = {
                 status: true,
-                values: ingreso
+                values: compra
             }
             return response;
         } catch (error) {
@@ -106,16 +106,16 @@ const ingresoHandler = {
             return response
         }
     },
-    updateIngreso: async function (id, data) {
+    updateCompra: async function (id, data) {
         try {
-            let response = await this.getIngresoById(id);
-            let ingreso = response.values;
-            ingreso.name = data.name;
-            ingreso.code = data.code;
-            ingreso = await ingreso.save();
+            let response = await this.getCompraById(id);
+            let compra = response.values;
+            compra.name = data.name;
+            compra.code = data.code;
+            compra = await compra.save();
             response = {
                 status: true,
-                values: ingreso
+                values: compra
             }
             return response
 
@@ -131,7 +131,7 @@ const ingresoHandler = {
 
 const finanzasCtrl = {
     mainHandler,
-    ingresoHandler,
+    compraHandler,
 }
 
 module.exports = finanzasCtrl

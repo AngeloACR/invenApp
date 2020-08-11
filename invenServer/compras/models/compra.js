@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
-const ingresoSchema = new mongoose.Schema({
+const compraSchema = new mongoose.Schema({
   productosIngresados: [{
     producto: {
       type: Schema.Types.ObjectId,
@@ -37,9 +37,9 @@ const ingresoSchema = new mongoose.Schema({
   }
 })
 /* .post('save', alterDisponibilidad)
-  .post('remove', ingresoDeleted);
+  .post('remove', compraDeleted);
  */
-async function ingresoDeleted(element) {
+async function compraDeleted(element) {
   try {
 
 
@@ -49,7 +49,7 @@ async function ingresoDeleted(element) {
 
     let productosIngresados = element.productosIngresados;
     let almacenId = element.almacen;
-    let ingresoId = element._id;
+    let compraId = element._id;
     let piLength = productosIngresados.length;
 
     for (let i = 0; i < piLength; i++) {
@@ -69,9 +69,9 @@ async function ingresoDeleted(element) {
       }
 
       disponibilidad.qtyDisponible -= qty;
-      for (let j = 0; j < disponibilidad.ingresos.length; j++) {
-        if (disponibilidad.ingresos[j] == ingresoId) {
-          disponibilidad.ingresos.splice(j, 1);
+      for (let j = 0; j < disponibilidad.compras.length; j++) {
+        if (disponibilidad.compras[j] == compraId) {
+          disponibilidad.compras.splice(j, 1);
         }
       }
       disponibilidad = await disponibilidad.save();
@@ -95,7 +95,7 @@ async function alterDisponibilidad(element) {
 
     let productosIngresados = element.productosIngresados;
     let almacenId = element.almacen;
-    let ingresoId = element._id;
+    let compraId = element._id;
     let piLength = productosIngresados.length;
 
     for (let i = 0; i < piLength; i++) {
@@ -115,7 +115,7 @@ async function alterDisponibilidad(element) {
       }
 
       disponibilidad.qtyDisponible += qty;
-      disponibilidad.ingresos.push(ingresoId);
+      disponibilidad.compras.push(compraId);
       disponibilidad = await disponibilidad.save();
     }
     next()
@@ -126,15 +126,15 @@ async function alterDisponibilidad(element) {
 
 }
 
-const Ingreso = module.exports = mongoose.model("Ingreso", ingresoSchema);
+const Compra = module.exports = mongoose.model("Compra", compraSchema);
 
 module.exports.removeRef = async function (element) {
   try {
     const Disponibilidad = require('./disponibilidad');
     let productosIngresados = element.productosIngresados;
     let almacenId = element.almacen;
-    let ingresoId = element._id;
-    await Disponibilidad.removeIngreso(productosIngresados, almacenId, ingresoId)
+    let compraId = element._id;
+    await Disponibilidad.removeCompra(productosIngresados, almacenId, compraId)
   } catch (error) {
     throw error
   }
@@ -148,9 +148,9 @@ module.exports.agregarProductos = async function (element) {
 
     let productosIngresados = element.productosIngresados;
     let almacenId = element.almacen;
-    let ingresoId = element._id;
+    let compraId = element._id;
 
-    await Disponibilidad.agregarProductos(productosIngresados, almacenId, ingresoId)
+    await Disponibilidad.agregarProductos(productosIngresados, almacenId, compraId)
 
   } catch (error) {
     throw error
@@ -158,12 +158,12 @@ module.exports.agregarProductos = async function (element) {
 
 }
 
-module.exports.deleteIngreso = async function (id) {
+module.exports.deleteCompra = async function (id) {
   try {
     const query = { "_id": id };
-    let ingreso = await this.findOne(query);
-    await this.removeRef(ingreso);
-    let deleteRes = await ingreso.remove();
+    let compra = await this.findOne(query);
+    await this.removeRef(compra);
+    let deleteRes = await compra.remove();
     let response = {
       status: true,
       values: deleteRes
@@ -178,13 +178,13 @@ module.exports.deleteIngreso = async function (id) {
   }
 }
 
-module.exports.addIngreso = async function (newIngreso) {
+module.exports.addCompra = async function (newCompra) {
   try {
-    await this.agregarProductos(newIngreso);
-    let ingreso = await newIngreso.save();
+    await this.agregarProductos(newCompra);
+    let compra = await newCompra.save();
     let response = {
       status: true,
-      values: ingreso
+      values: compra
     }
     return response;
   } catch (error) {
@@ -196,13 +196,13 @@ module.exports.addIngreso = async function (newIngreso) {
   }
 }
 
-module.exports.getIngresos = async function () {
+module.exports.getCompras = async function () {
   try {
     const query = {};
-    let ingresos = await this.find(query)
+    let compras = await this.find(query)
     let response = {
       status: true,
-      values: ingresos
+      values: compras
     }
     return response;
   } catch (error) {
@@ -213,13 +213,13 @@ module.exports.getIngresos = async function () {
     return response
   }
 }
-module.exports.getIngreso = async function (id) {
+module.exports.getCompra = async function (id) {
   try {
     const query = { '_id': id };
-    let ingreso = await this.findOne(query)
+    let compra = await this.findOne(query)
     let response = {
       status: true,
-      values: ingreso
+      values: compra
     }
     return response;
   } catch (error) {
@@ -230,16 +230,16 @@ module.exports.getIngreso = async function (id) {
     return response
   }
 }
-module.exports.updateIngreso = async function (data) {
+module.exports.updateCompra = async function (data) {
   try {
     const query = { '_id': data.id }
-    let ingreso = await this.findOne(query);
-    ingreso.name = data.name;
-    ingreso.code = data.code;
-    ingreso = await ingreso.save();
+    let compra = await this.findOne(query);
+    compra.name = data.name;
+    compra.code = data.code;
+    compra = await compra.save();
     let response = {
       status: true,
-      values: ingreso
+      values: compra
     }
     return response
 

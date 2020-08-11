@@ -20,7 +20,11 @@ const proveedorSchema = mongoose.Schema({
   },
   rif: {
     type: String
-  }
+  },
+  ctaPorPagar: {
+    type: Schema.Types.ObjectId,
+    ref: 'Ctaporpagar',
+  },
 });
 
 const Proveedor = module.exports = mongoose.model("Proveedor", proveedorSchema);

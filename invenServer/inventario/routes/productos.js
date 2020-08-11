@@ -73,7 +73,7 @@ productoRouter.put('/', auth, async (req, res, next) => {
 		const updateData = req.body;
 		const id = req.body._id;
 
-		let response = await Producto.updateProducto(updateData);
+		let response = await Producto.updateProducto(id, updateData);
 		//let response = await productoHandler.updateProducto(id, updateData);
 		res.status(200).json(response);
 	}

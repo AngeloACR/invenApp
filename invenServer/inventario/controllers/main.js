@@ -755,7 +755,7 @@ const precioHandler = {
     getPrecioById: async function (id) {
         try {
             const query = { '_id': id };
-            let precio = await this.findOne(query)
+            let precio = await Precio.findOne(query)
             let response = {
                 status: true,
                 values: precio
@@ -769,10 +769,10 @@ const precioHandler = {
             return response
         }
     },
-    getPrecioByProduc: async function (id) {
+    getPrecioByProduct: async function (id) {
         try {
             const query = { 'producto': id };
-            let precio = await this.findOne(query)
+            let precio = await Precio.findOne(query)
             let response = {
                 status: true,
                 values: precio
@@ -812,7 +812,8 @@ const inventarioCtrl = {
     mainHandler,
     almacenHandler,
     disponibilidadHandler,
-    productoHandler
+    productoHandler,
+    precioHandler
 }
 
 module.exports = inventarioCtrl

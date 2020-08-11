@@ -10,9 +10,7 @@ precioRouter.post('/', auth, async (req, res) => {
 			producto: req.body.producto,
 			valor: req.body.valor
 		};
-		let newPrecio = new Precio(precio);
-		let response = await Precio.addPrecio(newPrecio);
-		//let response = await precioHandler.addPrecio(precio);
+		let response = await precioHandler.addPrecio(precio);
 
 		res.status(200).json(response);
 	}
@@ -24,8 +22,7 @@ precioRouter.post('/', auth, async (req, res) => {
 
 precioRouter.get('/all', auth, async (req, res) => {
 	try {
-		let response = await Precio.getPrecios();
-		//let response = await precioHandler.getPrecios();
+		let response = await precioHandler.getPrecios();
 
 		res.status(200).json(response);
 	}
@@ -38,8 +35,7 @@ precioRouter.get('/all', auth, async (req, res) => {
 precioRouter.get('/:precioId', auth, async (req, res) => {
 	try {
 		const precioId = req.params.precioId;
-		let response = await Precio.getPrecio(precioId);
-		//let response = await precioHandler.getPrecioById(precioId);
+		let response = await precioHandler.getPrecioById(precioId);
 
 		res.status(200).json(response);
 	}
@@ -54,8 +50,7 @@ precioRouter.delete('/', auth, async (req, res, next) => {
 
 		const item = req.query.item;
 
-		let response = await Precio.deletePrecio(item);
-		//let response = await precioHandler.deletePrecio(item);
+		let response = await precioHandler.deletePrecio(item);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -69,8 +64,7 @@ precioRouter.put('/', auth, async (req, res, next) => {
 		const updateData = req.body;
 		const id = req.body._id;
 
-		let response = await Precio.updatePrecio(updateData);
-		//let response = await precioHandler.updatePrecio(id, updateData);
+		let response = await precioHandler.updatePrecio(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

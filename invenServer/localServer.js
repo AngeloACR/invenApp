@@ -24,7 +24,7 @@ const productos = require('./inventario/routes/productos');
 const precios = require('./inventario/routes/precios');
 const almacenes = require('./inventario/routes/almacenes');
 
-const ingresos = require('./compras/routes/ingresos');
+const compras = require('./compras/routes/compras');
 
 const pedidos = require('./ventas/routes/pedidos');
 const proformas = require('./ventas/routes/proformas');
@@ -88,7 +88,7 @@ module.exports.init = function (folder, thePath, port) {
     app.use('/proveedores', proveedores);
     app.use('/mails', mails);
     app.use('/pedidos', pedidos);
-    app.use('/ingresos', ingresos);
+    app.use('/compras', compras);
     app.use('/company', company);
     app.use('/correlativos', correlativos);
     app.use('/auth', auth);

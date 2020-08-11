@@ -258,7 +258,7 @@ export class ListaPedidoComponent implements OnInit {
     let fields = [
       "Item",
       "Código",
-      "Descripción",
+      "Nombre",
       "Cantidad",
       "Precio unitario",
       "Subtotal"
@@ -281,10 +281,10 @@ export class ListaPedidoComponent implements OnInit {
       let aux = [
         item,
         productoPedido.producto.code,
-        productoPedido.producto.description,
+        productoPedido.producto.name,
         qty,
         precio,
-        subtotal
+        productoPedido.montoProducto
       ];
       values.push(aux);
       item++;

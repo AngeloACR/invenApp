@@ -3,27 +3,30 @@ const config = require('../../config/database');
 const Schema = require('mongoose').Schema;
 
 const ctaporpagarSchema = new mongoose.Schema({
-    ingreso: {
-        type: Schema.Types.ObjectId,
-        ref: 'Ingreso',
-    },
+    pagos: [{
+        compra: {
+            type: Schema.Types.ObjectId,
+            ref: 'Compra',
+        },
+        montoTotal: {
+            type: Number,
+        },
+        status: {
+            type: String,
+        },
+        movimiento: {
+            type: Schema.Types.ObjectId,
+            ref: 'MovimientoDiario',
+        },
+
+    }],
     proveedor: {
         type: Schema.Types.ObjectId,
-        ref: 'Proveedor',
-    },
-    montoTotal: {
-        type: Number,
-    },
-    status: {
-        type: String,
+        ref: 'proveedor',
     },
     cuentaT: {
         type: Schema.Types.ObjectId,
         ref: 'CuentaT',
-    },
-    movimiento: {
-        type: Schema.Types.ObjectId,
-        ref: 'MovimientoDiario',
     },
 })
 const Ctaporpagar = module.exports = mongoose.model("Ctaporpagar", ctaporpagarSchema);

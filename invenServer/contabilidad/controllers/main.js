@@ -3,8 +3,175 @@ const Ctaporpagar = require('../models/ctaporpagar');
 const MovimientoDiario = require('../models/movimientodiario');
 const CuentaT = require('../models/cuentat');
 const finanzasHandler = require('../../finanzas/controllers/main').mainHandler
+const spawn = require("child_process").spawn;
 
 const mainHandler = {
+
+
+    createCuentaPorPagarDeProveedor: async function (proveedor) {
+        try {
+
+            const ctaT = {
+                name: `Cuenta por pagar ${proveedor.name}`,
+                balance: 0,
+                clasificacion: "Pasivo",
+                naturaleza: "Haber",
+                descripcion: `Cuenta por pagar correspondiente al proveedor ${proveedor.name}`,
+            };
+
+            let newCtaT = await ctaTHandler.addCuentaT(ctaT);
+
+            let ctaTId = newCtaT._id;
+            let proveedorId = proveedor._id;
+
+            let ctaPorPagar = {
+                proveedor: proveedorId,
+                ctaTId: ctaTId
+            }
+
+            let newCtaPorPagar = await ctaPorPagarHandler(ctaPorPagar);
+
+            return newCtaPorPagar._id;
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+    createCuentaPorCobrarDeCliente: async function (cliente) {
+        try {
+
+            const ctaT = {
+                name: `Cuenta por cobrar ${cliente.name}`,
+                balance: 0,
+                clasificacion: "Activo",
+                naturaleza: "Debe",
+                descripcion: `Cuenta por cobrar correspondiente al cliente ${cliente.name}`,
+            };
+
+            let newCtaT = await ctaTHandler.addCuentaT(ctaT);
+
+            let ctaTId = newCtaT._id;
+            let clienteId = cliente._id;
+
+            let ctaPorPagar = {
+                cliente: clienteId,
+                ctaTId: ctaTId
+            }
+
+            let newCtaPorPagar = await ctaPorCobrarHandler(ctaPorPagar);
+
+            return newCtaPorPagar._id;
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+    deleteCuentaPorPagarDeProveedor: async function (proveedor) {
+        try {
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+    deleteCuentaPorCobrarDeCliente: async function (cliente) {
+        try {
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+    aumentarDisponibilidad: async function (move) {
+        try {
+            let results = await finanzasHandler.aumentarDisponibilidad(move)
+        } catch (error) {
+            console.log(error.toString())
+
+        }
+    },
+    disminuirDisponibilidad: async function (move) {
+        try {
+            let results = await finanzasHandler.disminuirDisponibilidad(move)
+        } catch (error) {
+            console.log(error.toString())
+
+        }
+    },
+
+    aumentarCuentaT: async function (move) {
+        try {
+            const cId = movimiento.cuentaT;
+
+            let query = { '_id': bId }
+            let response = ctaTHandler.getCuentaTById(cId)
+            let ctaT = response.values;
+            let balance = ctaT.balance;
+            let montoMovimiento = movimiento.monto;
+
+            const pytonPath = "./python/aumentarbalance.py";
+
+            const options = [pythonPath, balance, montoMovimiento];
+
+            const process = spawn('python', options);
+
+            var disminuirData;
+
+            process.stdout.on('data', async (data) => {
+                disminuirData = data.toString();
+            });
+
+            process.on('close', async (code) => {
+                dispo.montoDisponible = disminuirData.disponibilidespues;
+                dispo.movimientos.push(movimiento._id)
+                await dispo.save();
+                return {
+                    success: true,
+                    msg: disminuirData
+                };
+            });
+        } catch (error) {
+            console.log(error.toString())
+        }
+    },
+
+    disminuirCuentaT: async function (move) {
+        try {
+            const cId = movimiento.cuentaT;
+
+            let query = { '_id': bId }
+            let response = ctaTHandler.getCuentaTById(cId)
+            let ctaT = response.values;
+            let balance = ctaT.balance;
+            let montoMovimiento = movimiento.monto;
+
+            const pytonPath = "./python/disminuirbalance.py";
+
+            const options = [pythonPath, balance, montoMovimiento];
+
+            const process = spawn('python', options);
+
+            var disminuirData;
+
+            process.stdout.on('data', async (data) => {
+                disminuirData = data.toString();
+            });
+
+            process.on('close', async (code) => {
+                dispo.montoDisponible = disminuirData.disponibilidespues;
+                dispo.movimientos.push(movimiento._id)
+                await dispo.save();
+                return {
+                    success: true,
+                    msg: disminuirData
+                };
+            });
+        } catch (error) {
+            console.log(error.toString())
+        }
+    },
 
     addProformaToCtaPorCobrar: async function (cliente, cobro) {
         try {
@@ -383,9 +550,20 @@ const movimientoDiarioHandler = {
 
     deleteMovimientoDiario: async function (id) {
         try {
-            let response = await this.getMovimientoDiarioById(id);
-            let movimientodiario = response.values
-            let deleteRes = await movimientodiario.remove();
+            const query = { "_id": id };
+            let response = await this.getMovimientoDiarioById(query);
+            let movimientoDiario = response.values;
+
+            let sign = newMovimientoDiario.signo
+            if (sign == '+') {
+                mainHandler.disminuirCuentaT(move)
+                mainHandler.disminuirDisponibilidad(move)
+            } else {
+                mainHandler.aumentarCuentaT(move)
+                mainHandler.aumentarDisponibilidad(move)
+            }
+
+            let deleteRes = await movimientoDiario.remove();
             response = {
                 status: true,
                 values: deleteRes
@@ -400,14 +578,22 @@ const movimientoDiarioHandler = {
         }
     },
 
-    addMovimientoDiario: async function (element) {
+    addMovimientoDiario: async function (move) {
         try {
-            let newMovimientoDiario = new MovimientoDiario(element);
-            let movimientodiario = await newMovimientoDiario.save();
+            let newMovimientoDiario = new MovimientoDiario(move)
+            let sign = newMovimientoDiario.signo
+            if (sign == '+') {
+                await mainHandler.aumentarCuentaT(move)
+                await mainHandler.aumentarDisponibilidad(move)
+            } else {
+                await mainHandler.disminuirCuentaT(move)
+                await mainHandler.disminuirDisponibilidad(move)
+            }
+            let movimientoDiario = await newMovimientoDiario.save()
 
             let response = {
                 status: true,
-                values: movimientodiario
+                values: movimientoDiario
             }
             return response;
         } catch (error) {
@@ -422,10 +608,44 @@ const movimientoDiarioHandler = {
     getMovimientosDiarios: async function () {
         try {
             const query = {};
-            let movimientosdiarios = await MovimientoDiario.find(query)
+            let movimientoDiarios = await MovimientoDiario.find(query)
             let response = {
                 status: true,
-                values: movimientosdiarios
+                values: movimientoDiarios
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientosDiariosByBanco: async function (banco) {
+        try {
+            const query = { 'banco': banco };
+            let movimientoDiarios = await MovimientoDiario.find(query)
+            let response = {
+                status: true,
+                values: movimientoDiarios
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientosDiariosByCuentaT: async function (cuentat) {
+        try {
+            const query = { 'cuentaT': cuentat };
+            let movimientoDiarios = await MovimientoDiario.find(query)
+            let response = {
+                status: true,
+                values: movimientoDiarios
             }
             return response;
         } catch (error) {
@@ -439,10 +659,27 @@ const movimientoDiarioHandler = {
     getMovimientoDiarioById: async function (id) {
         try {
             const query = { '_id': id };
-            let movimientodiario = await MovimientoDiario.findOne(query)
+            let movimientoDiario = await MovimientoDiario.findOne(query)
             let response = {
                 status: true,
-                values: movimientodiario
+                values: movimientoDiario
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientoDiarioByReferencia: async function (ref) {
+        try {
+            const query = { 'referencia': ref };
+            let movimientoDiario = await MovimientoDiario.findOne(query)
+            let response = {
+                status: true,
+                values: movimientoDiario
             }
             return response;
         } catch (error) {
@@ -455,12 +692,14 @@ const movimientoDiarioHandler = {
     },
     updateMovimientoDiario: async function (id, data) {
         try {
-            let response = await this.getMovimientoDiarioById(id);
-            let movimientodiario = response.values
-            movimientodiario = await movimientodiario.save();
-            response = {
+            const query = { "_id": id };
+            let response = await this.getMovimientoDiarioById(query);
+            let movimientoDiario = response.values;
+
+            movimientoDiario = await movimientoDiario.save();
+            let response = {
                 status: true,
-                values: movimientodiario
+                values: movimientoDiario
             }
             return response
 

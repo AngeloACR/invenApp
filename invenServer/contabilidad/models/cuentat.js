@@ -19,7 +19,8 @@ const cuentaTSchema = new mongoose.Schema({
         type: String,
     },
     movimientos: [{
-        type: String
+        type: Schema.Types.ObjectId,
+        ref: 'MovimientoDiario',
     }]
 })
 const CuentaT = module.exports = mongoose.model("CuentaT", cuentaTSchema);

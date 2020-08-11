@@ -1,12 +1,12 @@
 const express = require('express');
-const ingresoRouter = express.Router();
+const compraRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Ingreso = require('../models/ingreso');
-const ingresoHandler = require('../controllers/main').ingresoHandler;
+const Compra = require('../models/compra');
+const compraHandler = require('../controllers/main').compraHandler;
 
-ingresoRouter.post('/', auth, async (req, res) => {
+compraRouter.post('/', auth, async (req, res) => {
 	try {
-		const ingreso = {
+		const compra = {
 			proveedor: req.body.proveedor,
 			almacen: req.body.almacen,
 			productosIngresados: req.body.productosIngresados,
@@ -16,7 +16,7 @@ ingresoRouter.post('/', auth, async (req, res) => {
 			observaciones: req.body.observaciones,
 			proveedor: req.body.proveedor,
 		};
-		response = await ingresoHandler.addIngreso(ingreso);
+		response = await compraHandler.addCompra(compra);
 
 		res.status(200).json(response);
 	}
@@ -26,9 +26,9 @@ ingresoRouter.post('/', auth, async (req, res) => {
 });
 
 
-ingresoRouter.get('/all', auth, async (req, res) => {
+compraRouter.get('/all', auth, async (req, res) => {
 	try {
-		let response = await ingresoHandler.getIngresos();
+		let response = await compraHandler.getCompras();
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -37,10 +37,10 @@ ingresoRouter.get('/all', auth, async (req, res) => {
 });
 
 
-ingresoRouter.get('/:ingresoId', auth, async (req, res) => {
+compraRouter.get('/:compraId', auth, async (req, res) => {
 	try {
-		const ingresoId = req.params.ingresoId;
-		let response = await ingresoHandler.getIngreso(ingresoId);
+		const compraId = req.params.compraId;
+		let response = await compraHandler.getCompra(compraId);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -49,12 +49,12 @@ ingresoRouter.get('/:ingresoId', auth, async (req, res) => {
 });
 
 // Delete user
-ingresoRouter.delete('/', auth, async (req, res, next) => {
+compraRouter.delete('/', auth, async (req, res, next) => {
 	try {
 
 		const item = req.query.item;
 
-		let response = await ingresoHandler.deleteIngreso(item);
+		let response = await compraHandler.deleteCompra(item);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -63,12 +63,12 @@ ingresoRouter.delete('/', auth, async (req, res, next) => {
 });
 
 // Update user, NEED TO IMPROVE
-ingresoRouter.put('/', auth, async (req, res, next) => {
+compraRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
 		const id = req.body._id;
 
-		let response = await ingresoHandler.updateIngreso(id, updateData);
+		let response = await compraHandler.updateCompra(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -78,4 +78,4 @@ ingresoRouter.put('/', auth, async (req, res, next) => {
 
 });
 
-module.exports = ingresoRouter;
+module.exports = compraRouter;
