@@ -10,26 +10,29 @@
         <select class="lInput" name="" formControlName="proveedor">
           <option *ngFor="let value of proveedores" [value]="value._id">{{value.name}}</option>
         </select>
-        <div class="errorTag"
+        
+      </div>
+      <div class="errorTag"
           *ngIf="fIngreso.proveedor.errors?.required && (fIngreso.proveedor.touched || fIngreso.proveedor.dirty)">Por
-          favor seleccione el proveedor</div>
+          favor seleccione el proveedor
       </div>
       <div class="formInput">
         <label for="">Almacen*</label>
         <select class="lInput" name="" formControlName="almacen">
           <option *ngFor="let value of almacenes" [value]="value._id">{{value.code}}</option>
         </select>
-        <div class="errorTag"
+        
+      </div>
+      <div class="errorTag"
           *ngIf="fIngreso.almacen.errors?.required && (fIngreso.almacen.touched || fIngreso.almacen.dirty)">Por favor
           seleccione el almacen</div>
-      </div>
       <div class="formInput">
         <label for="">Referencia de compra*</label>
         <input type="text" class="lInput" name="" formControlName="referencia">
-        <div class="errorTag"
+      </div>
+      <div class="errorTag"
           *ngIf="fIngreso.referencia.errors?.required && (fIngreso.referencia.touched || fIngreso.referencia.dirty)">Por
           favor ingrese la referencia de compra</div>
-      </div>
       <div class="formInput">
         <label for="">Observaciones</label>
         <textarea class="" rows="6" type="text" formControlName="observaciones" name=""></textarea>
@@ -41,13 +44,13 @@
           <option value="Pagado">Pagado</option>
           <option value="Por pagar">Por pagar</option>
         </select>
-        <div class="errorTag"
+        
+      </div>
+      <div class="errorTag"
           *ngIf="fIngreso.estado.errors?.required && (fIngreso.estado.touched || fIngreso.estado.dirty)">Por favor
           seleccione el estado</div>
-      </div>
 
     </div>
-
 
 
     <div class="productsBox">
@@ -84,7 +87,7 @@
       </div>
     </div>
 
-    <button type="submit" class="formButton">
+    <button type="submit" class="buttonBox">
       <p>Registrar ingreso</p>
     </button>
   </form>

@@ -1,47 +1,45 @@
-<div class="pageBox">
+<div class="pageBoxlogin">
   <div class="logBox">
-    <div class="formHeader">
-      <h1>
-        Inicio de sesión
-      </h1>
+    <div class="logoBoxlogin">
+      <img class="formImglogin" src="assets/logo.png" alt="Logo" />
     </div>
-    <div class="logoBox">
-      <img class="formImg" src="assets/logo.png" alt="Logo" />
+    <div class="formHeaderlogin">
+      <h1>Inicio de sesión</h1>
     </div>
-    <div class="formBox">
+    <div class="formBoxlogin">
       <form [formGroup]="login" (ngSubmit)="logUser()">
-        <div class="formContent">
-          <div class="formInput">
-            <label for="">Usuario</label>
-            <input class="lInput" type="text" formControlName="username" name="username" />
+        <div class="formContentlogin">
+          <div class="formInputlogin">
+            <!--<label for="">Usuario</label>-->
+            <input placeholder="Usuario" type="text" formControlName="username" name="username" />
           </div>
-          <div class="errorTag" *ngIf="
+          <div class="errorTaglogin" *ngIf="
               fLogin.username.errors?.required &&
               (fLogin.username.touched || fLogin.username.dirty)
             ">
-            Por favor ingrese su correo
+            Debe ingresar un usuario
           </div>
-          <div class="formInput">
-            <label for="">Contraseña</label>
-            <input class="lInput" type="password" formControlName="password" name="password" />
+          <div class="formInputlogin">
+            <!--<label for="">Contraseña</label>-->
+            <input placeholder="Contraseña" type="password" formControlName="password" name="password" />
           </div>
-          <div class="errorTag" *ngIf="
+          <div class="errorTaglogin" *ngIf="
               fLogin.password.errors?.required &&
               (fLogin.password.touched || fLogin.password.dirty)
             ">
-            Por favor ingrese su correo
+           Debe ingresar una contraseña
           </div>
-          <div class="buttonBox">
-            <button style="margin-right: 10px;" type="button" class="formButton" (click)="registro()">
-              <p>REGISTRARSE</p>
-            </button>
-            <button type="submit" class="formButton">
-              <p>INICIAR SESIÓN</p>
+          <div class="buttonBoxlogin">
+            <!--<button type="button" class="formButton" (click)="registro()">
+              <p>Registrarse</p>
+            </button>-->
+            <button type="submit" class="formButtonlogin">
+              <p>Iniciar Sesion</p>
             </button>
           </div>
         </div>
       </form>
     </div>
   </div>
-  <app-error class="errorBox" [msg]="errorMsg" [ngClass]="showError" (closeError)="closeError()"></app-error>
+  <app-error class="errorBoxlogin" [msg]="errorMsg" [ngClass]="showError" (closeError)="closeError()"></app-error>
 </div>

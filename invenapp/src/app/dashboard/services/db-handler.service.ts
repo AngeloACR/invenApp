@@ -12,7 +12,6 @@ export class DbHandlerService {
   localSource = "http://localhost:3400";
   serverSource = "";
 
-  //mySource = this.localSource;
   mySource = this.serverSource;
 
   constructor(

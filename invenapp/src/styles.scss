@@ -1,155 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
+$primary: #347fc4; //rgb(52,127,196);
+$secondary: #31e981;
+$border-input: #347fc4;
+$third: #161925;
+$font1: 'Roboto', sans-serif;
+$font2: 'Open Sans', sans-serif;
+$font3: 'Montserrat', sans-serif;
+$row-color-header: $third;
+$row-color-one: #fff;
+$row-color-secondary: #fff;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font1;
+}
+
 .formHeader {
   height: 12vh;
   width: 100%;
-  background: #029ced;
   color: white;
   text-align: center;
 }
 
 .modBox {
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
 }
 
-.cardBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 1%;
-  margin-left: 1%;
-  padding-right: 1%;
-  margin-right: 1%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 96%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.formContent {
-  display: flex;
-  width: 100%;
-  margin-top: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
-  height: auto;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.formBox {
-  width: 90%;
-  margin: auto;
-}
-
-.formButton {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: white;
-  background-color: #0084b6;
-  margin: auto;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-  border-style: solid;
-  border-width: 3px;
-  border-color: #0084b6;
-  cursor: pointer;
-}
-
-.formButton:hover {
-  color: #0084b6;
-  background-color: white;
-}
-
-.formButton:active {
-  color: #0084b6;
-  background-color: white;
-}
-
-.formButton p {
-  color: white;
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-  width: 100%;
-  text-decoration: none !important;
-}
-
-.formButton:hover p {
-  color: #0084b6;
-}
-
 .buttonBox {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 30%;
-  font-size: 16px;
-  font-weight: bold;
-  height: 35px;
-  margin-bottom: 10px;
-  margin-top: 3vh;
-  background: #029ced;
-  color: white;
-  text-align: center;
-  border-radius: 3px;
+  width: 180px;
+  height: 30px;
+  margin: 10px 0px;
   cursor: pointer;
-  border: solid;
-  border-color: #029ced;
-  border-width: 1px;
 }
 
-.buttonBox:hover {
-  background: white;
-  color: #029ced;
-  font-weight: bold;
+.cardBox {
+  width: 95%;
+  height: 90vh;
+  margin: auto;
+  position: relative;
 }
 
-.lInput {
-  flex-basis: 100%;
-  margin-top: 5px;
-  font-size: 16px;
-  padding-left: 16px;
-  height: 33px;
-  border: none;
-  background-image: none;
-  background-color: white;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: black;
-  box-shadow: none;
-}
 
-.formInput {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  flex-wrap: nowrap;
-  margin-bottom: 10px;
-  width: 100%;
-  align-self: center;
-}
-
-.formInput label {
-  white-space: nowrap;
-  margin-right: 15px;
-}
 
 .formInput select {
   background-color: white;
 }
 
-.blackBox {
+/*.blackBox {
   position: fixed;
   top: 0;
   left: 0;
@@ -159,7 +65,7 @@
   overflow: hidden;
   background-color: rgba(155, 155, 155, 0.5);
   border: none;
-}
+}*/
 
 .formAct {
   height: auto;
@@ -197,14 +103,6 @@
   color: white;
 }
 
-.errorTag {
-  font-size: 14px;
-  color: red;
-  width: 100%;
-  margin-bottom: 15px;
-  text-align: right;
-}
-
 .errorBox {
   display: none;
   height: 0;
@@ -214,6 +112,9 @@
   display: block;
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .confirmBox {
@@ -228,13 +129,7 @@
 }
 
 .listBox {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: 60vh;
-  padding: 10px;
-  overflow-x: scroll;
-  overflow-y: scroll;
 }
 
 .titleRow {
@@ -292,34 +187,31 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  margin-top: 5px;
 }
 
 .actionButton {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   height: 30px;
-  width: 42%;
-  color: black;
-  margin-right: 5px;
+  width: 150px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .faIcon {
-  width: 25%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
+    margin: 10px 12px;
+    cursor: pointer;
+    font-size: 10px;
 }
 
 .actionButton:active {
   background-color: white;
+  border: none;
 }
 
 .actionButton p {
-  color: white !important;
+  color: $third !important;
   margin: 0;
   font-size: 10px !important;
   border: none !important;
@@ -394,26 +286,201 @@
   width: 100%;
 }
 
+.classtable {
+  width: 100%;
+
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+}
+
+.classtable2 {
+  width: 50%;
+  margin: auto;
+
+  background-color: white;
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+}
+
+.classthead {
+  width: 100%;
+  border-bottom: 0.5px solid #161925b6;
+  //background-color: #161925;
+}
+
+.classthead .classtr {
+  width: 100%;
+  margin: auto;
+}
+
+.classthead .classtr2 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.classthead th:nth-child(1) {
+  width: 120px;
+}
+
+.classthead .classtr {
+  background-color: $row-color-header;
+}
+
+.classtbody .classtr:nth-child(odd) {
+  background-color: $row-color-one;
+}
+
+.classtbody .classtr:nth-child(even) {
+  background-color: $row-color-secondary;
+}
+
+.classthead .classth {
+  width: 90px;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.classth2 {
+  width: 250px;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.classtbody .classtr {
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.classtbody .classtr:hover {
+  background-color: rgba(22, 25, 37, 0.096);
+}
+
+.classtbody .classtd {
+  text-align: center;
+  
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.classtd2 {
+  width: 180px;
+  text-align: center;
+  
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.btnBox {
+  width: 100%;
+
+}
+
+.btn-details {
+  width: 120px;
+  margin: auto;
+  padding-top: 10px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.btn-details-btnhd {
+  width: 100%;
+  margin: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/************************* Formularios ********************************/
+
+.formBox {
+  width: 100%;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContent {
+  width: 450px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 12px;
+  color: #161925;
+  border-radius: 5px;
+}
+
+.formInput {
+  width: 100%;
+  margin: 12px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  padding: 10px 19px;
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+
+  & input, select, textarea {
+    width: 60%;
+    font-size: 0.9em;
+    padding: 5px;
+  }
+}
+
+.formInput label {
+  white-space: nowrap;
+  margin-right: 23px;
+  width: 35%;
+  font-size: 13px;
+  font-family: $font3;
+}
+
+.errorTag {
+  text-align: end;
+  padding-right: 21px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+
 /***************************CONFIRMATION BOX***************************/
 
 .confirmHeader {
-  width: 100%;
+  width: 500px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 23px;
   font-weight: bold;
   color: white;
-  background-color: green;
-  margin: 0;
+  background-color: $third;
+  margin: auto;
   text-align: center;
+  font-family: $font3;
+  font-weight: bold;
 }
 
 .confirmContent {
-  font-size: 18px;
+  width: 500px;
+  font-size: 15px;
   color: black;
-  padding-top: 42px;
-  padding-bottom: 42px;
-  margin: 0;
+  margin: 42px 0px;
   text-align: center;
 }
 
@@ -466,8 +533,9 @@
 .confirmButtons {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 500px;
   justify-content: space-around;
+  margin: auto;
 }
 
 .logBox {
@@ -483,4 +551,23 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.logBox2 {
+  background-color: #ffffff;
+  border-radius: 3px;
+  max-height: 80%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  overflow: hidden;
+  width: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.19);
 }

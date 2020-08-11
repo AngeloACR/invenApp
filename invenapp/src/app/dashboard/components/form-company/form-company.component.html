@@ -35,10 +35,10 @@
             <div class="errorTag" *ngIf="fCompany.tlf.errors?.required && (fCompany.tlf.touched || fCompany.tlf.dirty)">
                 Por favor ingrese un número telefónico</div>
         </div>
-        <button type="submit" *ngIf="!editMode" class="formButton" (click)="endRegistro()">
+        <button type="submit" *ngIf="!editMode" class="buttonBox" (click)="endRegistro()">
             <p>Registrar compañía</p>
         </button>
-        <button type="submit" *ngIf="editMode" class="formButton" (click)="endUpdate()">
+        <button type="submit" *ngIf="editMode" class="buttonBox" (click)="endUpdate()">
             <p>Actualizar compañía</p>
         </button>
     </form>

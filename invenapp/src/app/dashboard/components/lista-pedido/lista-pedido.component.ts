@@ -74,6 +74,8 @@ export class ListaPedidoComponent implements OnInit {
         value.vendedor.name,
         value.observaciones
       ];
+
+      //value.estado
       this.values.push(aux);
     });
 
