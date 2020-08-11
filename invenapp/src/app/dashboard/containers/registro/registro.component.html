@@ -11,8 +11,8 @@
   <app-form-usuario class="modChild" *ngIf="isUsuario" [editMode]="editMode" (onData)="onData($event)">
   </app-form-usuario>
   <app-form-rol class="modChild" *ngIf="isRol" [editMode]="editMode" (onData)="onData($event)"></app-form-rol>
-  <app-form-ingreso class="modChild" *ngIf="isIngreso" [editMode]="editMode" (onData)="onData($event)">
-  </app-form-ingreso>
+  <app-form-compra class="modChild" *ngIf="isCompra" [editMode]="editMode" (onData)="onData($event)">
+  </app-form-compra>
   <app-form-egreso class="modChild" *ngIf="isEgreso" [editMode]="editMode" (onData)="onData($event)"></app-form-egreso>
   <app-form-banco class="modChild" *ngIf="isBanco" [editMode]="editMode" (onData)="onData($event)"></app-form-banco>
   <app-form-cuentas-t class="modChild" *ngIf="isCuentaT" [editMode]="editMode" (onData)="onData($event)">

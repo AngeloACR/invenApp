@@ -13,6 +13,6 @@
     (onData)="onData($event)"></app-form-usuario>
   <app-form-rol class="modChild" *ngIf="isRol" [editMode]="editMode" [rol]="selectedeItem" (onData)="onData($event)">
   </app-form-rol>
-  <app-form-ingreso class="modChild" *ngIf="isIngreso" [editMode]="editMode" [ingreso]="selectedeItem"
-    (onData)="onData($event)"></app-form-ingreso>
+  <app-form-compra class="modChild" *ngIf="isCompra" [editMode]="editMode" [compra]="selectedeItem"
+    (onData)="onData($event)"></app-form-compra>
 </div>

@@ -15,7 +15,7 @@ export class ListaComponent implements OnInit {
   isProveedor: boolean;
   isProducto: boolean;
   isAlmacen: boolean;
-  isIngreso: boolean;
+  isCompra: boolean;
   isPedido: boolean;
   isUsuario: boolean;
   isRol: boolean;
@@ -53,7 +53,7 @@ export class ListaComponent implements OnInit {
     this.isUsuario = false;
     this.isRol = false;
     this.isPedido = false;
-    this.isIngreso = false;
+    this.isCompra = false;
     this.isProducto = false;
     this.isAlmacen = false;
     this.isBanco = false;
@@ -80,8 +80,8 @@ export class ListaComponent implements OnInit {
       case "producto":
         this.isProducto = true;
         break;
-      case "ingreso":
-        this.isIngreso = true;
+      case "compra":
+        this.isCompra = true;
         break;
       case "rol":
         this.isRol = true;

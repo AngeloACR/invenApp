@@ -17,7 +17,7 @@ export class ActualizarComponent implements OnInit {
   isProveedor: boolean;
   isProducto: boolean;
   isAlmacen: boolean;
-  isIngreso: boolean;
+  isCompra: boolean;
   isPedido: boolean;
   isUsuario: boolean;
   isRol: boolean;
@@ -51,7 +51,7 @@ export class ActualizarComponent implements OnInit {
     this.isUsuario = false;
     this.isRol = false;
     this.isPedido = false;
-    this.isIngreso = false;
+    this.isCompra = false;
     this.isProducto = false;
     this.isAlmacen = false;
     let auxValues;
@@ -81,9 +81,9 @@ export class ActualizarComponent implements OnInit {
         auxValues = this.dbHandler.getLocal("productosValues");
         //            this.selectedItem = auxValues[this.id];
         break;
-      case "ingreso":
-        this.isIngreso = true;
-        auxValues = this.dbHandler.getLocal("ingresosValues");
+      case "compra":
+        this.isCompra = true;
+        auxValues = this.dbHandler.getLocal("comprasValues");
         //            this.selectedItem = auxValues[this.id];
         break;
       case "rol":
