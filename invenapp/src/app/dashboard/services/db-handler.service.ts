@@ -150,8 +150,8 @@ export class DbHandlerService {
           name: "almacenes"
         },
         {
-          endpoint: "/ingresos/all",
-          name: "ingresos"
+          endpoint: "/compras/all",
+          name: "compras"
         },
         {
           endpoint: "/pedidos/all",
@@ -213,8 +213,8 @@ export class DbHandlerService {
           name: "almacenes"
         },
         {
-          endpoint: "/ingresos/all",
-          name: "ingresos"
+          endpoint: "/compras/all",
+          name: "compras"
         },
         {
           endpoint: "/pedidos/all",
