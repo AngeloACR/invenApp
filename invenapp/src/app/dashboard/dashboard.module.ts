@@ -27,13 +27,13 @@ import { SidemenuComponent } from "./components/sidemenu/sidemenu.component";
 import { FormClientesComponent } from "./components/form-clientes/form-clientes.component";
 import { FormProveedoresComponent } from "./components/form-proveedores/form-proveedores.component";
 import { FormAlmacenComponent } from "./components/form-almacen/form-almacen.component";
-import { FormIngresoComponent } from "./components/form-ingreso/form-ingreso.component";
+import { FormCompraComponent } from "./components/form-compra/form-compra.component";
 import { FormPedidoComponent } from "./components/form-pedido/form-pedido.component";
 import { FormProductoComponent } from "./components/form-producto/form-producto.component";
 import { ListaClientesComponent } from "./components/lista-clientes/lista-clientes.component";
 import { ListaProveedoresComponent } from "./components/lista-proveedores/lista-proveedores.component";
 import { ListaAlmacenComponent } from "./components/lista-almacen/lista-almacen.component";
-import { ListaIngresoComponent } from "./components/lista-ingreso/lista-ingreso.component";
+import { ListaCompraComponent } from "./components/lista-compra/lista-compra.component";
 import { ListaPedidoComponent } from "./components/lista-pedido/lista-pedido.component";
 import { ListaProductoComponent } from "./components/lista-producto/lista-producto.component";
 import { FormUsuarioComponent } from "./components/form-usuario/form-usuario.component";
@@ -76,13 +76,13 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     Dot2commaPipe,
     FormProveedoresComponent,
     FormAlmacenComponent,
-    FormIngresoComponent,
+    FormCompraComponent,
     FormPedidoComponent,
     FormProductoComponent,
     ListaClientesComponent,
     ListaProveedoresComponent,
     ListaAlmacenComponent,
-    ListaIngresoComponent,
+    ListaCompraComponent,
     ListaPedidoComponent,
     ListaProductoComponent,
     FormUsuarioComponent,
@@ -106,7 +106,7 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
   entryComponents: [
     FormProveedoresComponent,
     FormAlmacenComponent,
-    FormIngresoComponent,
+    FormCompraComponent,
     FormPedidoComponent,
     FormProductoComponent,
     FormUsuarioComponent,
@@ -121,7 +121,7 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     ListaClientesComponent,
     ListaProveedoresComponent,
     ListaAlmacenComponent,
-    ListaIngresoComponent,
+    ListaCompraComponent,
     ListaPedidoComponent,
     ListaProductoComponent,
     ListaUsuarioComponent,
