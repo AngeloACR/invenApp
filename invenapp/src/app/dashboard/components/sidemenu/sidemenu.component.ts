@@ -9,7 +9,7 @@ import { faQuestionCircle, faCalendarPlus, faComments, faIdCard, faUserCog, faAd
 })
 export class SidemenuComponent implements OnInit {
 
-	boxOn: boolean;
+	boxOn: boolean[];
 	menuOn: number;
 	prevMenu: number;
 
@@ -47,7 +47,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/dir/0',
 			id: 0,
 			icon: faUserCog,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar clientes',
 				link: '/registro/cliente',
 				id: 0
@@ -60,7 +60,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/registro/proveedor',
 				id: 2
 			},{
-				name: 'Ver proveedor',
+				name: 'Ver proveedores',
 				link: '/lista/proveedor',
 				id: 3
 			}],
@@ -69,7 +69,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/inventario/0',
 			id: 1,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar almacenes',
 				link: '/registro/almacen',
 				id: 0
@@ -95,13 +95,13 @@ export class SidemenuComponent implements OnInit {
 			link: '/compras',
 			id: 2,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar compra de mercancia',
-				link: '/registro/ingreso',
+				link: '/registro/compra',
 				id: 0
 			},{
 				name: 'Ver compra de mercancia',
-				link: '/lista/ingreso',
+				link: '/lista/compra',
 				id: 1
 			}/* ,{
 				name: 'Registrar egreso de mercancia',
@@ -117,7 +117,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/ventas',
 			id: 3,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar solicitud de pedido',
 				link: '/registro/pedido',
 				id: 0
@@ -139,7 +139,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/finanzas',
 			id: 4,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar banco',
 				link: '/registro/banco',
 				id: 0
@@ -165,7 +165,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/contabilidad',
 			id: 5,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar cuenta T',
 				link: '/registro/cuentat',
 				id: 0
@@ -205,21 +205,21 @@ export class SidemenuComponent implements OnInit {
 			link: '/dir',
 			id: 0,
 			icon: faUserCog,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar cliente',
 				link: '/registro/cliente',
 				id: 0
 			},{
 				name: 'Ver clientes',
 				link: '/lista/cliente',
-				id: 0
+				id: 1
 			}],
 		},{
 			name: 'Inventario',
 			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Ver disponibilidad de material',
 				link: '/lista/producto',
 				id: 0
@@ -227,9 +227,9 @@ export class SidemenuComponent implements OnInit {
 		},{
 			name: 'Ventas',
 			link: '/ventas',
-			id: 1,
+			id: 2,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar solicitud de pedido',
 				link: '/registro/pedido',
 				id: 0
@@ -247,7 +247,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/dir',
 			id: 0,
 			icon: faUserCog,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar clientes',
 				link: '/registro/cliente',
 				id: 0
@@ -269,7 +269,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/inventario',
 			id: 1,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar almacenes',
 				link: '/registro/almacen',
 				id: 0
@@ -295,7 +295,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/compras',
 			id: 2,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar compra de mercancia',
 				link: '/registro/ingreso',
 				id: 0
@@ -317,7 +317,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/ventas',
 			id: 3,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar solicitud de pedido',
 				link: '/registro/pedido',
 				id: 0
@@ -339,7 +339,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/finanzas',
 			id: 4,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar banco',
 				link: '/registro/banco',
 				id: 0
@@ -365,7 +365,7 @@ export class SidemenuComponent implements OnInit {
 			link: '/contabilidad',
 			id: 5,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registrar cuenta T',
 				link: '/registro/cuentat',
 				id: 0
@@ -397,9 +397,9 @@ export class SidemenuComponent implements OnInit {
 		},{
 			name: 'Administrador',
 			link: '/administrador',
-			id: 7,
+			id: 6,
 			icon: faCalendarPlus,
-			childs: [{
+			boxOn: false, childs: [{
 				name: 'Registro de usuarios',
 				link: '/registro/usuario',
 				id: 0
@@ -424,14 +424,25 @@ export class SidemenuComponent implements OnInit {
 	}
 
 	tMenu(event, item) {
-		this.closeMenus();
+		
+		if(this.prevMenu == null){
+			this.prevMenu = item.id;
+		}
+
+		this.menuOn = item.id;
+		if(this.prevMenu != this.menuOn){
+			this.closeMenus();
+		}
+		this.prevMenu = this.menuOn;
+		this.myMenu[item.id].boxOn = !this.myMenu[item.id].boxOn
 		this.myMenu[item.id].class = {
-			aBox: true,
+			aBox: this.myMenu[item.id].boxOn,
 		}
 	}
 
 	closeMenus() {
 		this.myMenu.forEach(item => {
+			item.boxOn = false;
 			item.class = {
 				aBox: false,
 			}
