@@ -1,11 +1,12 @@
 const Cliente = require('../models/cliente');
 const Proveedor = require('../models/proveedor');
-const contabilidadHandler = require('../../contabilidad/controllers/main').mainHandler
+const ventasHandler = require('../../ventas/controllers/main').mainHandler
+const comprasHandler = require('../../compras/controllers/main').mainHandler
 
 const mainHandler = {
     createCuentaPorPagar: async function (proveedor) {
         try {
-            let id = await contabilidadHandler.createCuentaPorPagarDeProveedor(proveedor);
+            let id = await comprasHandler.createCuentaPorPagarDeProveedor(proveedor);
             return id;
         } catch (error) {
             console.log(error.toString())
@@ -14,7 +15,7 @@ const mainHandler = {
     },
     createCuentaPorCobrar: async function (cliente) {
         try {
-            let id = await contabilidadHandler.createCuentaPorCobrarDeCliente(cliente);
+            let id = await ventasHandler.createCuentaPorCobrarDeCliente(cliente);
             return id;
         } catch (error) {
             console.log(error.toString())
@@ -24,7 +25,7 @@ const mainHandler = {
     deleteCuentaPorPagar: async function (proveedor) {
         try {
 
-            await contabilidadHandler.deleteCuentaPorPagarDeProveedor(proveedor);
+            await comprasHandler.deleteCuentaPorPagarDeProveedor(proveedor);
         } catch (error) {
             console.log(error.toString())
         }
@@ -33,7 +34,7 @@ const mainHandler = {
     deleteCuentaPorCobrar: async function (cliente) {
         try {
 
-            await contabilidadHandler.deleteCuentaPorCobrarDeCliente(cliente);
+            await ventasHandler.deleteCuentaPorCobrarDeCliente(cliente);
         } catch (error) {
             console.log(error.toString())
         }
@@ -193,7 +194,7 @@ const proveedorHandler = {
             } else {
                 let newProveedor = new Cliente(proveedor);
 
-                let ctaPorPagarId = await mainHandler.createCuentaPorPaga(newProveedor);
+                let ctaPorPagarId = await mainHandler.createCuentaPorPagar(newProveedor);
                 newProveedor.ctaPorPagar = ctaPorPagarId;
                 newProveedor = await newProveedor.save();
                 let response = {

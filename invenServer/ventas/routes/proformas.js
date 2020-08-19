@@ -1,8 +1,8 @@
 const express = require('express');
 const proformaRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Proforma = require('../models/proforma');
 const proformaHandler = require('../controllers/main').proformaHandler;
+const ventasHandler = require('../controllers/main').mainHandler;
 
 proformaRouter.post('/', auth, async (req, res) => {
     try {
@@ -14,8 +14,9 @@ proformaRouter.post('/', auth, async (req, res) => {
             montoTotal: req.body.montoTotal,
             observaciones: req.body.observaciones,
         };
+        let cobros = req.body.cobros,
 
-        response = await proformaHandler.addProforma(proforma);
+            response = await proformaHandler.addProforma(proforma, cobros);
         res.status(200).json(response);
     }
     catch (e) {
@@ -80,5 +81,24 @@ proformaRouter.put('/', auth, async (req, res, next) => {
 
 
 });
+
+proformaRouter.put('/cobro', auth, async (req, res, next) => {
+    try {
+        const proforma = req.body.proforma;
+        let cobro = {
+            banco: req.body.banco,
+            monto: req.body.monto,
+        }
+
+        let response = await ventasHandler.agregarCobro(proforma, cobro);
+        res.status(200).json(response);
+    }
+    catch (e) {
+        res.status(400).json(e.toString());
+    }
+
+
+});
+
 
 module.exports = proformaRouter;

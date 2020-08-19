@@ -1,8 +1,8 @@
 const express = require('express');
 const ctaporcobrarRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const Ctaporcobrar = require('../models/ctaporcobrar');
 const ctaPorCobrarHandler = require('../controllers/main').ctaPorCobrarHandler;
+const ventasHandler = require('../controllers/main').mainHandler;
 
 ctaporcobrarRouter.post('/', auth, async (req, res) => {
     try {
@@ -12,7 +12,8 @@ ctaporcobrarRouter.post('/', auth, async (req, res) => {
             status: req.body.status,
             montoTotal: req.body.montoTotal,
         };
-        let response = await ctaPorCobrarHandler.addCtaporcobrar(newCtaporcobrar);
+
+        let response = await ctaPorCobrarHandler.addCtaporcobrar(ctaporcobrar);
         res.status(200).json(response);
     }
     catch (e) {
@@ -63,8 +64,8 @@ ctaporcobrarRouter.delete('/', auth, async (req, res, next) => {
 ctaporcobrarRouter.put('/', auth, async (req, res, next) => {
     try {
         const updateData = req.body;
-
-        let response = await ctaPorCobrarHandler.updateCtaporcobrar(updateData);
+        const id = req.body.id
+        let response = await ctaPorCobrarHandler.updateCtaporcobrar(id, updateData);
         res.status(200).json(response);
     }
     catch (e) {
@@ -73,5 +74,6 @@ ctaporcobrarRouter.put('/', auth, async (req, res, next) => {
 
 
 });
+
 
 module.exports = ctaporcobrarRouter;

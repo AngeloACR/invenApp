@@ -22,6 +22,23 @@ const mainHandler = {
 
     },
 
+    createMovimientoDiario: async function (element) {
+        try {
+            const movimientoDiario = {
+                banco: element.banco,
+                monto: element.monto,
+                descripcion: element.descripcion,
+                signo: element.signo,
+                fecha: element.fecha
+            };
+            let response = await movimientoDiarioHandler.addMovimientoDiario(movimientoDiario);
+            return response.values;
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
 
     removeBancoRef: async function (element) {
         try {
@@ -36,6 +53,7 @@ const mainHandler = {
         }
 
     },
+
     aumentarDisponibilidad: async function (movimiento) {
         try {
             const bId = movimiento.banco;
@@ -55,11 +73,14 @@ const mainHandler = {
             var aumentarData;
 
             process.stdout.on('data', async (data) => {
-                aumentarData = data.toString();
+                console.log(data)
+                aumentarData = data;
+                //                aumentarData = data.toString();
+
             });
 
             process.on('close', async (code) => {
-                dispo.montoDisponible = aumentarData.disponibilidespues;
+                dispo.montoDisponible = aumentarData.disponibilidadDespues;
                 dispo.movimientos.push(movimiento._id)
                 await dispo.save();
                 return {
@@ -67,14 +88,6 @@ const mainHandler = {
                     msg: aumentarData
                 };
             });
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
-
-    removeMovimientoFromDisponibilidadBancaria: async function (movimientoId) {
-        try {
         } catch (error) {
             console.log(error.toString())
         }
@@ -104,7 +117,7 @@ const mainHandler = {
             });
 
             process.on('close', async (code) => {
-                dispo.montoDisponible = disminuirData.disponibilidespues;
+                dispo.montoDisponible = disminuirData.disponibilidadDespues;
                 dispo.movimientos.push(movimiento._id)
                 await dispo.save();
                 return {
@@ -118,9 +131,15 @@ const mainHandler = {
 
     },
 
-
-
     addMovimientoToDisponibilidadBancaria: async function (movimiento) {
+        try {
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+
+    removeMovimientoFromDisponibilidadBancaria: async function (movimientoId) {
         try {
         } catch (error) {
             console.log(error.toString())
@@ -346,10 +365,180 @@ const disponibilidadHandler = {
     }
 }
 
+const movimientoDiarioHandler = {
+
+
+    deleteMovimientoDiario: async function (id) {
+        try {
+            const query = { "_id": id };
+            let response = await this.getMovimientoDiarioById(query);
+            let movimientoDiario = response.values;
+
+            let sign = newMovimientoDiario.signo
+            if (sign == '+') {
+                mainHandler.disminuirCuentaT(move)
+                mainHandler.disminuirDisponibilidad(move)
+            } else {
+                mainHandler.aumentarCuentaT(move)
+                mainHandler.aumentarDisponibilidad(move)
+            }
+
+            let deleteRes = await movimientoDiario.remove();
+            response = {
+                status: true,
+                values: deleteRes
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+
+    addMovimientoDiario: async function (move) {
+        try {
+            let newMovimientoDiario = new MovimientoDiario(move)
+            let sign = newMovimientoDiario.signo
+            let data;
+            if (sign == '+') {
+                data = await mainHandler.aumentarDisponibilidad(move)
+            } else {
+                data = await mainHandler.disminuirDisponibilidad(move)
+            }
+            newMovimientoDiario.disponibilidadAntes = data.disponibilidadAntes;
+            newMovimientoDiario.disponibilidadDespues = data.disponibilidadDespues;
+            let movimientoDiario = await newMovimientoDiario.save()
+
+            let response = {
+                status: true,
+                values: movimientoDiario
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+
+    getMovimientosDiarios: async function () {
+        try {
+            const query = {};
+            let movimientoDiarios = await MovimientoDiario.find(query)
+            let response = {
+                status: true,
+                values: movimientoDiarios
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientosDiariosByBanco: async function (banco) {
+        try {
+            const query = { 'banco': banco };
+            let movimientoDiarios = await MovimientoDiario.find(query)
+            let response = {
+                status: true,
+                values: movimientoDiarios
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientosDiariosByCuentaT: async function (cuentat) {
+        try {
+            const query = { 'cuentaT': cuentat };
+            let movimientoDiarios = await MovimientoDiario.find(query)
+            let response = {
+                status: true,
+                values: movimientoDiarios
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientoDiarioById: async function (id) {
+        try {
+            const query = { '_id': id };
+            let movimientoDiario = await MovimientoDiario.findOne(query)
+            let response = {
+                status: true,
+                values: movimientoDiario
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getMovimientoDiarioByReferencia: async function (ref) {
+        try {
+            const query = { 'referencia': ref };
+            let movimientoDiario = await MovimientoDiario.findOne(query)
+            let response = {
+                status: true,
+                values: movimientoDiario
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    updateMovimientoDiario: async function (id, data) {
+        try {
+            const query = { "_id": id };
+            let response = await this.getMovimientoDiarioById(query);
+            let movimientoDiario = response.values;
+
+            movimientoDiario = await movimientoDiario.save();
+            let response = {
+                status: true,
+                values: movimientoDiario
+            }
+            return response
+
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    }
+}
+
 const finanzasCtrl = {
     mainHandler,
     bancoHandler,
     disponibilidadHandler,
+    movimientoDiarioHandler
 }
 
 module.exports = finanzasCtrl
