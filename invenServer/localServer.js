@@ -31,10 +31,10 @@ const proformas = require('./ventas/routes/proformas');
 
 const bancos = require('./finanzas/routes/bancos');
 
-const ctasporcobrar = require('./contabilidad/routes/ctasporcobrar');
-const ctasporpagar = require('./contabilidad/routes/ctasporpagar');
+const ctasporcobrar = require('./ventas/routes/ctasporcobrar');
+const ctasporpagar = require('./compras/routes/ctasporpagar');
 const ctast = require('./contabilidad/routes/cuentast');
-const movimientosdiarios = require('./contabilidad/routes/movimientosdiarios');
+const movimientosdiarios = require('./finanzas/routes/movimientosdiarios');
 
 const correlativos = require('./general/routes/correlativos');
 const company = require('./general/routes/company');

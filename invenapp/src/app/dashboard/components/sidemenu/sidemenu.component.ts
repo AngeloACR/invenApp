@@ -297,21 +297,29 @@ export class SidemenuComponent implements OnInit {
 			icon: faCalendarPlus,
 			boxOn: false, childs: [{
 				name: 'Registrar compra de mercancia',
-				link: '/registro/ingreso',
+				link: '/registro/compra',
 				id: 0
 			},{
 				name: 'Ver compra de mercancia',
-				link: '/lista/ingreso',
+				link: '/lista/compra',
 				id: 1
-			}/* ,{
-				name: 'Registrar egreso de mercancia',
-				link: '/registro/egreso',
+			},{
+				name: 'Registar gasto',
+				link: '/registro/gasto',
 				id: 2
 			},{
-				name: 'Ver egresos de mercancia',
-				link: '/lista/egreso',
+				name: 'Ver gastos',
+				link: '/lista/gasto',
 				id: 3
-			} */],
+			},{
+				name: 'Registar cuenta por pagar',
+				link: '/registro/cuentaporpagar',
+				id: 4
+			},{
+				name: 'Ver cuentas por pagar',
+				link: '/lista/cuentaporpagar',
+				id: 5
+			},],
 		},{
 			name: 'Ventas',
 			link: '/ventas',
@@ -333,7 +341,23 @@ export class SidemenuComponent implements OnInit {
 				name: 'Ver proformas',
 				link: '/lista/proforma',
 				id: 3
-			}],
+			},{
+				name: 'Registar ingreso',
+				link: '/registro/ingreso',
+				id: 4
+			},{
+				name: 'Ver ingresos',
+				link: '/lista/ingreso',
+				id: 5
+			},{
+				name: 'Registar cuenta por cobrar',
+				link: '/registro/cuentaporcobrar',
+				id: 6
+			},{
+				name: 'Ver cuentas por cobrar',
+				link: '/lista/cuentasporcobrar',
+				id: 7
+			},],
 		},{
 			name: 'Finanzas',
 			link: '/finanzas',
@@ -374,25 +398,9 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/cuentat',
 				id: 1
 			},{
-				name: 'Registar movimiento diario',
-				link: '/registro/movimientodiario',
-				id: 2
-			},{
-				name: 'Ver movimientos diarios',
-				link: '/lista/movimientodiario',
-				id: 3
-			},{
-				name: 'Ver cuentas por cobrar',
-				link: '/lista/cuentasporcobrar',
-				id: 4
-			},{
-				name: 'Ver cuentas por pagar',
-				link: '/lista/cuentasporpagar',
-				id: 5
-			},{
 				name: 'Estado de resultados',
 				link: '/estadoderesultados',
-				id: 6
+				id: 2
 			},]
 		},{
 			name: 'Administrador',

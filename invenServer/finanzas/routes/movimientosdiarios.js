@@ -1,7 +1,7 @@
 const express = require('express');
 const movimientoDiarioRouter = express.Router();
 const auth = require("../../users/auth/auth");
-const movimientoDiarioHandler = require('../controllers/main').movimientoDiarioHandler;
+const movimientoDiarioHandler = require('../../contabilidad/controllers/main').movimientoDiarioHandler;
 
 movimientoDiarioRouter.post('/', auth, async (req, res) => {
     try {

@@ -1,8 +1,4 @@
-const Ctaporcobrar = require('../models/ctaporcobrar');
-const Ctaporpagar = require('../models/ctaporpagar');
-const MovimientoDiario = require('../models/movimientodiario');
 const CuentaT = require('../models/cuentat');
-const finanzasHandler = require('../../finanzas/controllers/main').mainHandler
 const spawn = require("child_process").spawn;
 
 const mainHandler = {
@@ -37,35 +33,6 @@ const mainHandler = {
             console.log(error.toString())
         }
 
-    },
-    createCuentaPorCobrarDeCliente: async function (cliente) {
-        try {
-
-            const ctaT = {
-                name: `Cuenta por cobrar ${cliente.name}`,
-                balance: 0,
-                clasificacion: "Activo",
-                naturaleza: "Debe",
-                descripcion: `Cuenta por cobrar correspondiente al cliente ${cliente.name}`,
-            };
-
-            let newCtaT = await ctaTHandler.addCuentaT(ctaT);
-
-            let ctaTId = newCtaT._id;
-            let clienteId = cliente._id;
-
-            let ctaPorPagar = {
-                cliente: clienteId,
-                ctaTId: ctaTId
-            }
-
-            let newCtaPorPagar = await ctaPorCobrarHandler(ctaPorPagar);
-
-            return newCtaPorPagar._id;
-
-        } catch (error) {
-            console.log(error.toString())
-        }
 
     },
     deleteCuentaPorPagarDeProveedor: async function (proveedor) {
@@ -75,30 +42,6 @@ const mainHandler = {
             console.log(error.toString())
         }
 
-    },
-    deleteCuentaPorCobrarDeCliente: async function (cliente) {
-        try {
-
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
-    aumentarDisponibilidad: async function (move) {
-        try {
-            let results = await finanzasHandler.aumentarDisponibilidad(move)
-        } catch (error) {
-            console.log(error.toString())
-
-        }
-    },
-    disminuirDisponibilidad: async function (move) {
-        try {
-            let results = await finanzasHandler.disminuirDisponibilidad(move)
-        } catch (error) {
-            console.log(error.toString())
-
-        }
     },
 
     aumentarCuentaT: async function (move) {
@@ -173,26 +116,6 @@ const mainHandler = {
         }
     },
 
-    addProformaToCtaPorCobrar: async function (cliente, cobro) {
-        try {
-            let response = await ctaPorCobrarHandler.getCtaporcobrarByCliente(cliente);
-            let ctaporcobrar = response.values;
-            ctaporcobrar.cobros.push(cobro);
-            ctaporcobrar = await ctaporcobrar.save();
-        } catch (error) {
-
-            console.log(error.toString())
-        }
-    },
-
-    removeProformaFromCtaPorCobrar: async function (element) {
-        try {
-
-        } catch (error) {
-
-            console.log(error.toString())
-        }
-    },
 
     removeCtaTFromMovimientosDiarios: async function (element) {
         try {
@@ -203,36 +126,6 @@ const mainHandler = {
         }
     },
 
-    addCtaPorCobrarToCuentasT: async function (element) {
-        try {
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
-
-    removeCtaPorCobrarFromCuentasT: async function (element) {
-        try {
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
-    addCtaPorPagarToCuentasT: async function (element) {
-        try {
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
-
-    removeCtaPorPagarFromCuentasT: async function (element) {
-        try {
-        } catch (error) {
-            console.log(error.toString())
-        }
-
-    },
 
 }
 
@@ -332,7 +225,7 @@ const ctaTHandler = {
     }
 }
 
-const ctaPorCobrarHandler = {
+/* const ctaPorCobrarHandler = {
 
 
     deleteCtaporcobrar: async function (id) {
@@ -543,7 +436,7 @@ const ctaPorPagarHandler = {
             return response
         }
     }
-}
+} */
 
 const movimientoDiarioHandler = {
 
@@ -717,8 +610,6 @@ const movimientoDiarioHandler = {
 const contabilidadCtrl = {
     mainHandler,
     ctaTHandler,
-    ctaPorCobrarHandler,
-    ctaPorPagarHandler,
     movimientoDiarioHandler,
 }
 

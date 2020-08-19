@@ -1,20 +1,30 @@
 const Proforma = require('../models/proforma');
 const Pedido = require('../models/pedido');
 const inventarioHandler = require('../../inventario/controllers/main').mainHandler
-const contabilidadHandler = require('../../contabilidad/controllers/main').contabilidadHandler
+const finanzasHandler = require('../../finanzas/controllers/main').mainHandler
 
 const mainHandler = {
+
+    createMovimientoDiario: async function (element) {
+        try {
+            let movimientoDiario = await finanzasHandler.createMovimientoDiario(element)
+            return movimientoDiario;
+        } catch (error) {
+            console.log(error.toString())
+        }
+    },
 
     addProformaToCtaPorCobrar: async function (element) {
         try {
             let cliente = element.pedido.cliente;
             let cobro = {
 
-                proforma: element._id,
-                montoTotal: element.montoTotal,
-                status: element.status
+                proforma: element._id
             }
-            await contabilidadHandler.addProformaToCtaporcobrar(cliente, cobro);
+            let response = await ctaPorCobrarHandler.getCtaporcobrarByCliente(cliente);
+            let ctaporcobrar = response.values;
+            ctaporcobrar.cobros.push(cobro);
+            ctaporcobrar = await ctaporcobrar.save();
         } catch (error) {
 
             console.log(error.toString())
@@ -23,20 +33,136 @@ const mainHandler = {
 
     removeProformaFromCtaPorCobrar: async function (element) {
         try {
-            await contabilidadHandler.removeProformaFromCtaPorCobrar(element.cliente, element._id)
         } catch (error) {
 
             console.log(error.toString())
         }
     },
 
-    removePedidoFromDisponibilidad: async function (element) {
+
+    aumentarBalance: async function (proforma) {
         try {
-            let productosPedidos = element.productosPedidos;
-            let pedidoId = element._id;
-            await inventarioHandler.removePedido(productosPedidos, pedidoId)
+            const clienteId = proforma.cliente;
+
+            let response = ctaPorCobrarHandler.getCtaporcobrarByCliente(clienteId)
+            let ctaPorCobrar = response.values;
+            let montoActual = ctaPorCobrar.balance;
+            let montoTotal = proforma.montoTotal;
+
+            const pythonPath = "./python/aumentarbalance.py";
+
+            const options = [pythonPath, montoActual, montoTotal];
+
+            const process = spawn('python', options);
+
+            var aumentarData;
+
+            process.stdout.on('data', async (data) => {
+                aumentarData = data.toString();
+            });
+
+            process.on('close', async (code) => {
+                let cobro = {
+                    proforma: proforma._id,
+                    montoPendiente: montoTotal
+                }
+                ctaPorCobrar.balance = aumentarData.balanceDespues;
+                ctaPorCobrar.cobros.push(cobro)
+                await ctaPorCobrar.save();
+                return {
+                    success: true,
+                    msg: aumentarData
+                };
+            });
         } catch (error) {
-            throw error
+            console.log(error.toString())
+        }
+
+    },
+
+    agregarCobro: async function (proformaId, cobro) {
+        try {
+            /*             const cliente = proforma.cliente;
+                        let response = proformaHandler.getCtaporcobrarByCliente(cliente)
+                        let proforma = response.values;
+             */
+
+            let response = proformaHandler.getProformaById(proformaId)
+            let proforma = response.values;
+
+            let moveAux = {
+                banco: cobro.banco,
+                monto: cobro.monto,
+                descripcion: `Cobro de proforma ${proformaId}`,
+                signo: "+",
+                fecha: Date.today(),
+            }
+            let movimiento = await mainHandler.createMovimientoDiario(moveAux)
+
+            let montoPagado = cobro.monto;
+
+            proforma.cobros.movimientos.push(movimiento._id)
+
+            const pythonPathB = "./python/agregarCobro.py";
+
+            const optionsB = [pythonPathB, proforma.cobros.montoPendiente, proforma.cobros.montoPagado, montoPagado];
+
+            const processB = spawn('python', optionsB);
+
+            var cobroData
+
+            processB.stdout.on('data', async (data) => {
+                cobroData = data;
+            });
+
+            process.on('close', async (code) => {
+                proforma.cobros.montoPendiente = cobroData.montoPendiente
+                proforma.cobros.montoPagado = cobroData.montoPagado
+            });
+
+
+            await this.disminuirBalance(proforma, movimiento)
+            await proforma.save();
+
+
+            return {
+                success: true,
+                msg: disminuirData
+            };
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+
+
+    disminuirBalance: async function (proforma, movimiento) {
+        try {
+            const cliente = proforma.cliente;
+            let response = ctaPorCobrarHandler.getCtaporcobrarByCliente(cliente)
+            let ctaPorCobrar = response.values;
+            let montoActual = ctaPorCobrar.balance;
+            let montoMovimiento = movimiento.monto;
+
+            const pythonPath = "./python/disminuirbalance.py";
+
+            const options = [pythonPath, montoActual, montoMovimiento];
+
+            const process = spawn('python', options);
+
+            var disminuirData;
+
+            process.stdout.on('data', async (data) => {
+                disminuirData = data;
+            });
+
+            process.on('close', async (code) => {
+                ctaPorCobrar.balance = disminuirData.balanceDespues;
+
+                await ctaPorCobrar.save();
+            });
+        } catch (error) {
+            console.log(error.toString())
         }
 
     },
@@ -53,6 +179,7 @@ const mainHandler = {
         }
 
     },
+
     removeProformaFromPedido: async function (element) {
         try {
             let pedidoId = element.pedido
@@ -92,6 +219,45 @@ const mainHandler = {
         }
 
     },
+
+    createCuentaPorCobrarDeCliente: async function (cliente) {
+        try {
+
+            /*             const ctaT = {
+                            name: `Cuenta por cobrar ${cliente.name}`,
+                            balance: 0,
+                            clasificacion: "Activo",
+                            naturaleza: "Debe",
+                            descripcion: `Cuenta por cobrar correspondiente al cliente ${cliente.name}`,
+                        };
+            
+                        let newCtaT = await ctaTHandler.addCuentaT(ctaT);
+            
+                        let ctaTId = newCtaT._id; */
+            let clienteId = cliente._id;
+
+            let ctaPorPagar = {
+                cliente: clienteId,
+            }
+
+            let newCtaPorPagar = await ctaPorCobrarHandler(ctaPorPagar);
+
+            return newCtaPorPagar._id;
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+    },
+
+    deleteCuentaPorCobrarDeCliente: async function (cliente) {
+        try {
+
+        } catch (error) {
+            console.log(error.toString())
+        }
+
+    },
+
 }
 
 const pedidoHandler = {
@@ -221,9 +387,21 @@ const proformaHandler = {
         }
     },
 
-    addProforma: async function (element) {
+    addProforma: async function (element, cobros) {
         try {
             let newProforma = new Proforma(element)
+            await mainHandler.aumentarBalance(newProforma);
+            if (cobros && cobros.length) {
+
+                cobros.forEach(async (cobro) => {
+
+
+                    await mainHandler.agregarCobro(newProforma, cobro)
+                    /*                     await mainHandler.disminuirBalance(newProforma, movimiento);
+                     */
+                });
+
+            }
             await mainHandler.addProformaToPedido(newProforma);
             let proforma = await newProforma.save()
 
@@ -301,11 +479,126 @@ const proformaHandler = {
     }
 }
 
+const ctaPorCobrarHandler = {
+
+
+    deleteCtaporcobrar: async function (id) {
+        try {
+            let response = await this.getCtaporcobrarById(id);
+            let ctaporcobrar = response.values
+            await this.removeCtaPorCobrarFromCuentasT(ctaporcobrar);
+            let deleteRes = await ctaporcobrar.remove();
+            response = {
+                status: true,
+                values: deleteRes
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+
+    addCtaporcobrar: async function (element) {
+        try {
+            let newCtaporcobrar = new Ctaporcobrar(element);
+            await this.addCtaPorCobrarToCuentasT(ctaporcobrar);
+            let ctaporcobrar = await newCtaporcobrar.save();
+
+            let response = {
+                status: true,
+                values: ctaporcobrar
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+
+    getCtasporcobrar: async function () {
+        try {
+            const query = {};
+            let ctaporcobrars = await Ctaporcobrar.find(query)
+            let response = {
+                status: true,
+                values: ctaporcobrars
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getCtaporcobrarById: async function (id) {
+        try {
+            const query = { '_id': id };
+            let ctaporcobrar = await Ctaporcobrar.findOne(query)
+            let response = {
+                status: true,
+                values: ctaporcobrar
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getCtaporcobrarByCliente: async function (id) {
+        try {
+            const query = { 'cliente': id };
+            let ctaporcobrar = await Ctaporcobrar.findOne(query)
+            let response = {
+                status: true,
+                values: ctaporcobrar
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    updateCtaporcobrar: async function (id, data) {
+        try {
+            let response = await this.getCtaporcobrarById(id);
+            let ctaporcobrar = response.values
+            ctaporcobrar = await ctaporcobrar.save();
+            response = {
+                status: true,
+                values: ctaporcobrar
+            }
+            return response
+
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    }
+}
 
 const ventasHandler = {
     mainHandler,
     proformaHandler,
-    pedidoHandler
+    pedidoHandler,
+    ctaPorCobrarHandler
 }
 
 module.exports = ventasHandler;
