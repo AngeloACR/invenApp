@@ -361,7 +361,7 @@ const almacenHandler = {
             newAlmacen.disponibilidades = disponibilidades;
 
             almacen = await newAlmacen.save();
-            let response = {
+            response = {
                 status: true,
                 values: almacen
             }
@@ -548,7 +548,7 @@ const disponibilidadHandler = {
             disponibilidad.name = data.name;
             disponibilidad.code = data.code;
             disponibilidad = await disponibilidad.save();
-            response = {
+            let response = {
                 status: true,
                 values: disponibilidad
             }
@@ -604,7 +604,7 @@ const productoHandler = {
 
             producto = await newProducto.save();
 
-            let response = {
+            response = {
                 status: true,
                 values: producto
             }
@@ -726,7 +726,7 @@ const precioHandler = {
             let newPrecio = new Precio(element);
             precio = await newPrecio.save()
 
-            let response = {
+            response = {
                 status: true,
                 values: precio
             }

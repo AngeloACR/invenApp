@@ -140,7 +140,7 @@ const clienteHandler = {
             cliente.mail = data.mail;
             cliente.rif = data.rif;
             cliente = await cliente.save();
-            let response = {
+            response = {
                 status: true,
                 values: cliente
             }
@@ -275,7 +275,7 @@ const proveedorHandler = {
             proveedor.mail = data.mail;
             proveedor.rif = data.rif;
             proveedor = await proveedor.save();
-            let response = {
+            response = {
                 status: true,
                 values: proveedor
             }

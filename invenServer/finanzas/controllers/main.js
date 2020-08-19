@@ -237,7 +237,7 @@ const bancoHandler = {
             banco.code = data.code;
             banco.brand = data.brand;
             banco = await banco.save();
-            let response = {
+            response = {
                 status: true,
                 values: banco
             }
@@ -349,7 +349,7 @@ const disponibilidadHandler = {
             disponibilidadBancaria.code = data.code;
             disponibilidadBancaria.brand = data.brand;
             disponibilidadBancaria = await disponibilidadBancaria.save();
-            let response = {
+            response = {
                 status: true,
                 values: disponibilidadBancaria
             }
@@ -518,7 +518,7 @@ const movimientoDiarioHandler = {
             let movimientoDiario = response.values;
 
             movimientoDiario = await movimientoDiario.save();
-            let response = {
+            response = {
                 status: true,
                 values: movimientoDiario
             }
