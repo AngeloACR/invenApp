@@ -2,7 +2,7 @@ module.exports = {
 
 	// DATABASES ADDRESSES
 	prodDB: "mongodb://localhost:27017/inven",
-	testDB: "mongodb://localhost:27017/inventest",
+	testDB: "mongodb://localhost:27017/inven",
 
 	// SECRETS FOR ENCRYPTION
 	authSecret: 'Shall I let you pass, or Shall I not?',

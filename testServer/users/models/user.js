@@ -35,6 +35,9 @@ const userSchema = mongoose.Schema({
     type: {
         type: String,
     },
+    codigo: {
+        type: String,
+    },
     createdAt: { type: Date, default: Date.now },
 });
 

@@ -2,6 +2,7 @@ const express = require('express');
 const almacenRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Almacen = require('../models/almacen');
+const almacenHandler = require('../controllers/main').almacenHandler;
 
 almacenRouter.post('/', /*auth,*/ async (req, res) => {
 	try {
@@ -12,7 +13,9 @@ almacenRouter.post('/', /*auth,*/ async (req, res) => {
 			address: req.body.address,
 		};
 		let newAlmacen = new Almacen(almacen);
-		response = await Almacen.addAlmacen(newAlmacen);
+		let response = await Almacen.addAlmacen(newAlmacen);
+
+		//let response = await almacenHandler.addAlmacen(almacen);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -24,10 +27,7 @@ almacenRouter.post('/', /*auth,*/ async (req, res) => {
 almacenRouter.get('/all', /*auth,*/ async (req, res) => {
 	try {
 		let response = await Almacen.getAlmacenes();
-		/* if (response.values && response.values.length) {
-		} else {
-			throw new Error('There are no almacens')
-		} */
+		//let response = await almacenHandler.getAlmacenes();
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -39,9 +39,9 @@ almacenRouter.get('/all', /*auth,*/ async (req, res) => {
 almacenRouter.get('/:almacenId', /*auth,*/ async (req, res) => {
 	try {
 		const almacenId = req.params.almacenId;
-		const almacen = await Almacen.getAlmacen(almacenId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, almacen)
+		let response = await Almacen.getAlmacen(almacenId);
+		//let response = await almacenHandler.getAlmaceneById(almacenId);
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -56,6 +56,8 @@ almacenRouter.delete('/', auth, async (req, res, next) => {
 		const item = req.query.item;
 
 		let response = await Almacen.deleteAlmacen(item);
+		//let response = await almacenHandler.deleteAlmacen(item);
+
 		console.log(response);
 		res.status(200).json(response);
 	}
@@ -68,8 +70,9 @@ almacenRouter.delete('/', auth, async (req, res, next) => {
 almacenRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
-
-		let response = await Almacen.updateAlmacen(updateData);
+		const id = req.body._id
+		let response = await Almacen.updateAlmacen(id, updateData);
+		//let response = await almacenHandler.updateAlmacen();
 		res.status(200).json(response);
 	}
 	catch (e) {

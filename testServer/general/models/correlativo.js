@@ -12,6 +12,9 @@ const CorrelativoSchema = mongoose.Schema({
   valorActual: {
     type: String
   },
+  codigo: {
+    type: String,
+  },
 });
 
 const correlativo = module.exports = mongoose.model('correlativo', CorrelativoSchema, 'correlativo');

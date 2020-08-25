@@ -18,6 +18,9 @@ const CompanySchema = mongoose.Schema({
   rif: {
     type: String
   },
+  codigo: {
+    type: String,
+  },
   mail: {
     type: String
   },

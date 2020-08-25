@@ -1,7 +1,7 @@
 const db = require('./database');
 const path = require('path');
-const testServer = require('./localServer');
 
+const testServer = require('./testServer');
 const connection = db.initConnect();
 
 const testPort = 6800;
@@ -12,6 +12,7 @@ const testApp = testServer.init(testFolder, testPath, testPort);
 testApp.listen(testPort, () => {
 	console.log('Server running at: ' + testPort);
 });
+
 
 //const landingServer = require('./landingServer');
 /* const landingPort = 6174;

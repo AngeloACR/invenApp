@@ -8,7 +8,10 @@ const adminSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User',
-  }
+  },
+  codigo: {
+    type: String,
+  },
 })
   .post('remove', removeLinkedDocuments);
 

@@ -2,6 +2,7 @@ const express = require('express');
 const pedidoRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Pedido = require('../models/pedido');
+const pedidoHandler = require('../controllers/main').pedidoHandler;
 
 pedidoRouter.post('/', auth, async (req, res) => {
 	try {
@@ -15,8 +16,7 @@ pedidoRouter.post('/', auth, async (req, res) => {
 			condicionVenta: req.body.condicionVenta,
 			observaciones: req.body.observaciones,
 		};
-		let newPedido = new Pedido(pedido);
-		response = await Pedido.addPedido(newPedido);
+		let response = await pedidoHandler.addPedido(pedido);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -27,7 +27,7 @@ pedidoRouter.post('/', auth, async (req, res) => {
 
 pedidoRouter.get('/all', auth, async (req, res) => {
 	try {
-		let response = await Pedido.getPedidos();
+		let response = await pedidoHandler.getPedidos();
 		/* if (response.values && response.values.length) {
 		} else {
 			throw new Error('There are no pedidos')
@@ -43,9 +43,7 @@ pedidoRouter.get('/all', auth, async (req, res) => {
 pedidoRouter.get('/:pedidoId', auth, async (req, res) => {
 	try {
 		const pedidoId = req.params.pedidoId;
-		const pedido = await Pedido.getPedido(pedidoId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, pedido)
+		let response = await pedidoHandler.getPedido(pedidoId);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -59,7 +57,7 @@ pedidoRouter.delete('/', auth, async (req, res, next) => {
 
 		const item = req.query.item;
 
-		let response = await Pedido.deletePedido(item);
+		let response = await pedidoHandler.deletePedido(item);
 		console.log(response);
 		res.status(200).json(response);
 	}
@@ -72,8 +70,9 @@ pedidoRouter.delete('/', auth, async (req, res, next) => {
 pedidoRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
+		const id = req.body._id;
 
-		let response = await Pedido.updatePedido(updateData);
+		let response = await pedidoHandler.updatePedido(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

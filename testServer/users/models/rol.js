@@ -11,6 +11,9 @@ const rolSchema = mongoose.Schema({
   nombre: {
     type: String,
   },
+  codigo: {
+    type: String,
+  },
 
 })
   .post('remove', removeLinkedDocuments);

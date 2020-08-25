@@ -1,10 +1,8 @@
 const db = require('./database');
 const path = require('path');
 const localServer = require('./localServer');
-const testServer = require('./localServer');
 
 const connection = db.initConnect();
-
 
 const localPort = 3400;
 const localFolder = './public/invenapp';

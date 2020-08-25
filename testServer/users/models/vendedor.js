@@ -15,7 +15,10 @@ const vendedorSchema = mongoose.Schema({
   type: [{
     type: Schema.Types.ObjectId,
     ref: 'Cliente'
-  }]
+  }],
+  codigo: {
+    type: String,
+  },
 })
   .post('remove', removeLinkedDocuments);
 

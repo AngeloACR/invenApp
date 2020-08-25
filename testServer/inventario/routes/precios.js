@@ -2,6 +2,7 @@ const express = require('express');
 const precioRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Precio = require('../models/precio');
+const precioHandler = require('../controllers/main').precioHandler;
 
 precioRouter.post('/', auth, async (req, res) => {
 	try {
@@ -9,8 +10,7 @@ precioRouter.post('/', auth, async (req, res) => {
 			producto: req.body.producto,
 			valor: req.body.valor
 		};
-		let newPrecio = new Precio(precio);
-		response = await Precio.addPrecio(newPrecio);
+		let response = await precioHandler.addPrecio(precio);
 
 		res.status(200).json(response);
 	}
@@ -22,11 +22,8 @@ precioRouter.post('/', auth, async (req, res) => {
 
 precioRouter.get('/all', auth, async (req, res) => {
 	try {
-		let response = await Precio.getPrecios();
-		/* if (response.values && response.values.length) {
-		} else {
-			throw new Error('There are no precios')
-		} */
+		let response = await precioHandler.getPrecios();
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -38,9 +35,8 @@ precioRouter.get('/all', auth, async (req, res) => {
 precioRouter.get('/:precioId', auth, async (req, res) => {
 	try {
 		const precioId = req.params.precioId;
-		const precio = await Precio.getPrecio(precioId);
-		const msg = ` ${req.originalUrl} `;
-		sendOk(msg, res, precio)
+		let response = await precioHandler.getPrecioById(precioId);
+
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -54,7 +50,7 @@ precioRouter.delete('/', auth, async (req, res, next) => {
 
 		const item = req.query.item;
 
-		let response = await Precio.deletePrecio(item);
+		let response = await precioHandler.deletePrecio(item);
 		res.status(200).json(response);
 	}
 	catch (e) {
@@ -66,8 +62,10 @@ precioRouter.delete('/', auth, async (req, res, next) => {
 precioRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
+		console.log(updateData)
+		const id = req.body.id;
 
-		let response = await Precio.updatePrecio(updateData);
+		let response = await precioHandler.updatePrecio(id, updateData);
 		res.status(200).json(response);
 	}
 	catch (e) {

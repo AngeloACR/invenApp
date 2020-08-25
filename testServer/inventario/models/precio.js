@@ -7,6 +7,9 @@ const precioSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Producto',
   },
+  codigo: {
+    type: String,
+  },
   valor: {
     type: Number,
   }

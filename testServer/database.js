@@ -1,6 +1,6 @@
 const config = require('./config/environment');
 const mongoose = require('mongoose');
-const myDB = config.testDB2;
+const myDB = config.testDB;
 //const myDB = config.prodDB;
 
 
