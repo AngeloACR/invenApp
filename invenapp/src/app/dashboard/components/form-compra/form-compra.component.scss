@@ -135,14 +135,138 @@
   box-shadow: none;
 }
 
+.paymentsBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+.paymentsFunctions {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.paymentFunction {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.paymentFunction:hover {
+  font-weight: bold;
+}
+
+.paymentsList {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.paymentsTitle {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.fechaField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  align-self: center;
+  width: 30%;
+}
+.bankField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  align-self: center;
+  width: 30%;
+}
+
+.amountField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  align-self: center;
+  width: 20%;
+}
+
+.fechaTitle {
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+
+  width: 30%;
+}
+
+.bankTitle {
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+
+  width: 30%;
+}
+
+.amountTitle {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+
+  width: 20%;
+}
+
+.amountInput {
+  width: 50%;
+  margin-top: 5px;
+  font-size: 16px;
+  padding-left: 16px;
+  height: 33px;
+  border: none;
+  background-image: none;
+  background-color: white;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
+  box-shadow: none;
+}
+
+.bankInput {
+  width: 100%;
+  margin-top: 5px;
+  font-size: 16px;
+  padding-left: 16px;
+  height: 33px;
+  border: none;
+  background-image: none;
+  background-color: white;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
+  box-shadow: none;
+}
+
 .arrayBox {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-
-
 
 .controlBox {
   width: 100%;

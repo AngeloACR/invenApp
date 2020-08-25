@@ -4,26 +4,26 @@ const Schema = require('mongoose').Schema;
 
 const ctaporcobrarSchema = new mongoose.Schema({
     cobros: [{
-        proforma: {
-            type: Schema.Types.ObjectId,
-            ref: 'Proforma',
-        },
-        movimientos: [{
-            type: Schema.Types.ObjectId,
-            ref: 'MovimientoDiario',
-        }],
+        type: Schema.Types.ObjectId,
+        ref: 'Cobro',
 
     }],
     balance: {
         type: Number,
     },
-    cliente: {
+    proforma: {
         type: Schema.Types.ObjectId,
-        ref: 'Cliente',
+        ref: 'Proforma',
+    },
+    referencia: {
+        type: String,
     },
     cuentaT: {
         type: Schema.Types.ObjectId,
         ref: 'CuentaT',
+    },
+    codigo: {
+        type: String,
     },
 })
 const Ctaporcobrar = module.exports = mongoose.model("Ctaporcobrar", ctaporcobrarSchema);

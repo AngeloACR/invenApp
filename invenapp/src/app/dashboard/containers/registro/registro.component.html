@@ -13,7 +13,9 @@
   <app-form-rol class="modChild" *ngIf="isRol" [editMode]="editMode" (onData)="onData($event)"></app-form-rol>
   <app-form-compra class="modChild" *ngIf="isCompra" [editMode]="editMode" (onData)="onData($event)">
   </app-form-compra>
-  <app-form-egreso class="modChild" *ngIf="isEgreso" [editMode]="editMode" (onData)="onData($event)"></app-form-egreso>
+  <app-form-gasto class="modChild" *ngIf="isGasto" [editMode]="editMode" (onData)="onData($event)"></app-form-gasto>
+  <app-form-pago class="modChild" *ngIf="isPago" [editMode]="editMode" (onData)="onData($event)"></app-form-pago>
+  <app-form-cobro class="modChild" *ngIf="isCobro" [editMode]="editMode" (onData)="onData($event)"></app-form-cobro>
   <app-form-banco class="modChild" *ngIf="isBanco" [editMode]="editMode" (onData)="onData($event)"></app-form-banco>
   <app-form-cuentas-t class="modChild" *ngIf="isCuentaT" [editMode]="editMode" (onData)="onData($event)">
   </app-form-cuentas-t>

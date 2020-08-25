@@ -1,31 +1,41 @@
-<button class="buttonBox" (click)="agregar()">
-  {{ addText }}
-</button>
-
+<div class="btnBox">
+  <button class="buttonBox" (click)="agregar()">
+    {{ addText }}
+  </button>
+</div>
 <div class="cardBox" *ngIf="!isEmpty">
   <div class="listBox">
-    <div class="titleRow">
-      <p style="width: 250px;">Acciones</p>
-      <p *ngFor="let field of fields">{{ field }}</p>
-    </div>
-    <div class="contentRow" *ngFor="let value of values; let i = index">
-      <div class="actionBox" style="width: 250px;">
+    <table class="classtable">
+      <thead class="classthead">
+        <tr class="classtr">
+          <th class="classth" scope="col">Acciones</th>
+          <th class="classth" scope="col" *ngFor="let field of fields">{{ field }}</th>
+        </tr>
+      </thead>
+      <tbody class="classtbody">
+        <tr class="classtr" *ngFor="let value of values; let i = index">
+          <div class="btn-details">
+            <fa-icon style="color: grey" class="faIcon" [icon]="faEye" size="2x" (click)="verDetalle($event, i)">
+            </fa-icon>
+            <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)">
+            </fa-icon>
+            <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x"
+              (click)="generatePdf($event, i)"></fa-icon>
+            <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)">
+            </fa-icon>
+          </div>
 
-        <fa-icon style="color: grey" class="faIcon" [icon]="faEye" size="2x" (click)="verDetalle($event, i)"></fa-icon>
-        <fa-icon style="color: grey" class="faIcon" [icon]="faEdit" size="2x" (click)="openUpdate($event, i)"></fa-icon>
-        <fa-icon style="color: red; stroke: black" class="faIcon" [icon]="faPdf" size="2x"
-          (click)="generatePdf($event, i)"></fa-icon>
-        <fa-icon style="color: red" class="faIcon" [icon]="faTrash" size="2x" (click)="confirmDelete($event, i)">
-        </fa-icon>
+          <td class="classtd" *ngFor="let item of value">
+            <p>{{ item }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      </div>
-      <div *ngFor="let item of value">
-        <p>{{ item }}</p>
-      </div>
-    </div>
+    <br><br>
   </div>
-</div>
 
+</div>
 <div class="cardBox" *ngIf="isEmpty">
   <p>No hay elementos para mostrar</p>
 </div>
@@ -34,20 +44,16 @@
 
 <div class="confirmBox" [ngClass]="showConfirm">
   <div class="blackBox" (click)="closeConfirm()"></div>
-
-  <div class="logBox">
-    <div class="closeButton">
-      <button class="closeB" (click)="closeConfirm()">X</button>
-    </div>
+  <div class="logBox2">
     <p class="confirmHeader">CONFIRMACIÓN</p>
     <p class="confirmContent">Segro que quiere eliminar este elemento</p>
     <div class="confirmButtons">
-      <button type="button" class="confirm formButton" (click)="deleteItem($event, deletedItem)">
+      <button type="button" class="confirm buttonBox" (click)="deleteItem($event, deletedItem)">
         <p>SÍ</p>
       </button>
-      <button type="button" class="goback formButton" (click)="closeConfirm()">
+      <button type="button" class="goback buttonBox" (click)="closeConfirm()">
         <p>NO</p>
       </button>
     </div>
-
   </div>
+</div>

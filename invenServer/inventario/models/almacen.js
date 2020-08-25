@@ -20,6 +20,9 @@ const almacenSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  codigo: {
+    type: String,
+  },
 })/* .post('save', createDisponibilidad)
 .post('remove', removeLinkedDocuments); */
 

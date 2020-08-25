@@ -4,25 +4,25 @@ const Schema = require('mongoose').Schema;
 
 const ctaporpagarSchema = new mongoose.Schema({
     pagos: [{
-        compra: {
-            type: Schema.Types.ObjectId,
-            ref: 'Compra',
-        },
-        montoTotal: {
-            type: Number,
-        },
-        status: {
-            type: String,
-        },
-        movimiento: {
-            type: Schema.Types.ObjectId,
-            ref: 'MovimientoDiario',
-        },
-
-    }],
-    proveedor: {
         type: Schema.Types.ObjectId,
-        ref: 'proveedor',
+        ref: 'Pago',
+    }],
+    balance: {
+        type: Number,
+    },
+    compra: {
+        type: Schema.Types.ObjectId,
+        ref: 'Compra',
+    },
+    gasto: {
+        type: Schema.Types.ObjectId,
+        ref: 'Gasto',
+    },
+    codigo: {
+        type: String,
+    },
+    referencia: {
+        type: String,
     },
     cuentaT: {
         type: Schema.Types.ObjectId,

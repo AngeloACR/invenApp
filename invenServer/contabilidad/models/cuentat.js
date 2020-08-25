@@ -6,6 +6,9 @@ const cuentaTSchema = new mongoose.Schema({
     name: {
         type: String,
     },
+    codigo: {
+        type: String,
+    },
     balance: {
         type: Number,
     },

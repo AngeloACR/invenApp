@@ -17,9 +17,9 @@ const disponibilidadSchema = new mongoose.Schema({
       type: Number,
     }
   }],
-  ingresos: [{
+  compras: [{
     type: Schema.Types.ObjectId,
-    ref: 'Ingreso',
+    ref: 'Compra',
   }],
   pedidos: [{
     type: Schema.Types.ObjectId,
@@ -30,7 +30,10 @@ const disponibilidadSchema = new mongoose.Schema({
   },
   qtyBloqueada: {
     type: Number,
-  }
+  },
+  codigo: {
+    type: String,
+  },
 })
 
 const Disponibilidad = module.exports = mongoose.model("Disponibilidad", disponibilidadSchema);

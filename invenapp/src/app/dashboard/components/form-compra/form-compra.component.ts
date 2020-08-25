@@ -32,6 +32,7 @@ export class FormCompraComponent implements OnInit {
 
   proveedores: any;
   productos: any;
+  bancos: any;
   almacenes: any;
 
   @Output()
@@ -40,6 +41,8 @@ export class FormCompraComponent implements OnInit {
   registroCompra: FormGroup;
 
   productosIngresos = new FormArray([]);
+  pagos = new FormArray([]);
+  showPayments: boolean = false;
 
   showError: {};
   errorMsg: string;
@@ -76,6 +79,7 @@ export class FormCompraComponent implements OnInit {
   getValues() {
     this.proveedores = this.dbHandler.getLocal("proveedoresValues");
     this.productos = this.dbHandler.getLocal("productosValues");
+    this.bancos = this.dbHandler.getLocal("bancosValues");
     this.almacenes = this.dbHandler.getLocal("almacenesValues");
     console.log(this.proveedores);
     console.log(this.productos);
@@ -89,10 +93,39 @@ export class FormCompraComponent implements OnInit {
       estado: new FormControl("", Validators.required),
       observaciones: new FormControl("", Validators.required),
       referencia: new FormControl("", Validators.required),
+      montoTotal: new FormControl("", Validators.required),
       productos: this.productosIngresos
     });
 
+    this.addPago();
     this.addProducto();
+  }
+
+  addPago() {
+    const pago = new FormGroup({
+      banco: new FormControl("", Validators.required),
+      fecha: new FormControl("", Validators.required),
+      monto: new FormControl("", Validators.required)
+    });
+
+    this.pagos.push(pago);
+  }
+
+  removePago(event, index) {
+    this.pagos.removeAt(index);
+  }
+
+  togglePayments() {
+    var estadoPago = this.registroCompra.value.estado;
+    switch (estadoPago) {
+      case "Pagado":
+        this.showPayments = true;
+        break;
+
+      default:
+        this.showPayments = false;
+        break;
+    }
   }
 
   addProducto() {
@@ -136,14 +169,32 @@ export class FormCompraComponent implements OnInit {
       }
     }
 
+    let pagos = [];
+    var pagosControls = this.pagos.controls;
+    for (let control of pagosControls) {
+      if (control instanceof FormGroup) {
+        let banco = control.controls["banco"].value;
+        let monto = control.controls["monto"].value;
+        let fecha = control.controls["fecha"].value;
+        let pago = {
+          banco,
+          monto,
+          fecha
+        };
+        pagos.push(pago);
+      }
+    }
+
     dataValues = {
       proveedor: dataAux.proveedor,
       fecha: dataAux.fecha,
       estado: dataAux.estado,
       almacen: dataAux.almacen,
       observaciones: dataAux.observaciones,
+      montoTotal: dataAux.montoTotal,
       referencia: dataAux.referencia,
-      productosIngresados: productosIngresos
+      productosIngresados: productosIngresos,
+      pagos: pagos
     };
 
     endpoint = "/compras";

@@ -53,8 +53,29 @@ import { FormMovimientoDiarioComponent } from "./components/form-movimiento-diar
 import { ListaMovimientoDiarioComponent } from "./components/lista-movimiento-diario/lista-movimiento-diario.component";
 import { ListaCuentasPorCobrarComponent } from "./components/lista-cuentas-por-cobrar/lista-cuentas-por-cobrar.component";
 import { ListaCuentasPorPagarComponent } from "./components/lista-cuentas-por-pagar/lista-cuentas-por-pagar.component";
+import { DetalleComponent } from "./containers/detalle/detalle.component";
 
 import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
+import { FormCobroComponent } from "./components/form-cobro/form-cobro.component";
+import { FormGastoComponent } from "./components/form-gasto/form-gasto.component";
+import { FormPagoComponent } from "./components/form-pago/form-pago.component";
+import { ListaCobroComponent } from "./components/lista-cobro/lista-cobro.component";
+import { ListaGastoComponent } from "./components/lista-gasto/lista-gasto.component";
+import { ListaPagoComponent } from "./components/lista-pago/lista-pago.component";
+import { DetalleProformaComponent } from "./components/detalle-proforma/detalle-proforma.component";
+import { DetalleCobroComponent } from "./components/detalle-cobro/detalle-cobro.component";
+import { DetallePagoComponent } from "./components/detalle-pago/detalle-pago.component";
+import { DetalleCompraComponent } from "./components/detalle-compra/detalle-compra.component";
+import { DetalleGastoComponent } from "./components/detalle-gasto/detalle-gasto.component";
+import { DetalleProductoComponent } from "./components/detalle-producto/detalle-producto.component";
+import { DetalleAlmacenComponent } from "./components/detalle-almacen/detalle-almacen.component";
+import { DetalleBancoComponent } from "./components/detalle-banco/detalle-banco.component";
+import { DetalleCuentaPorCobrarComponent } from "./components/detalle-cuenta-por-cobrar/detalle-cuenta-por-cobrar.component";
+import { DetalleCuentaPorPagarComponent } from "./components/detalle-cuenta-por-pagar/detalle-cuenta-por-pagar.component";
+import { DetallePedidoComponent } from "./components/detalle-pedido/detalle-pedido.component";
+import { DetalleClienteComponent } from "./components/detalle-cliente/detalle-cliente.component";
+import { DetalleProveedorComponent } from "./components/detalle-proveedor/detalle-proveedor.component";
+import { DetalleCuentaTComponent } from "./components/detalle-cuenta-t/detalle-cuenta-t.component";
 
 @NgModule({
   declarations: [
@@ -74,6 +95,7 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     EstadoDeResultadosComponent,
 
     Dot2commaPipe,
+    DetalleComponent,
     FormProveedoresComponent,
     FormAlmacenComponent,
     FormCompraComponent,
@@ -101,9 +123,30 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     FormMovimientoDiarioComponent,
     ListaMovimientoDiarioComponent,
     ListaCuentasPorCobrarComponent,
-    ListaCuentasPorPagarComponent
+    ListaCuentasPorPagarComponent,
+    FormCobroComponent,
+    FormGastoComponent,
+    FormPagoComponent,
+    ListaCobroComponent,
+    ListaGastoComponent,
+    ListaPagoComponent,
+    DetalleProformaComponent,
+    DetalleCobroComponent,
+    DetallePagoComponent,
+    DetalleCompraComponent,
+    DetalleGastoComponent,
+    DetalleProductoComponent,
+    DetalleAlmacenComponent,
+    DetalleBancoComponent,
+    DetalleCuentaPorCobrarComponent,
+    DetalleCuentaPorPagarComponent,
+    DetallePedidoComponent,
+    DetalleClienteComponent,
+    DetalleProveedorComponent,
+    DetalleCuentaTComponent
   ],
   entryComponents: [
+    DetalleComponent,
     FormProveedoresComponent,
     FormAlmacenComponent,
     FormCompraComponent,
@@ -117,7 +160,13 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     FormEgresoComponent,
     FormCuentasTComponent,
     FormMovimientoDiarioComponent,
+    FormCobroComponent,
+    FormGastoComponent,
+    FormPagoComponent,
 
+    ListaCobroComponent,
+    ListaGastoComponent,
+    ListaPagoComponent,
     ListaClientesComponent,
     ListaProveedoresComponent,
     ListaAlmacenComponent,
@@ -132,7 +181,15 @@ import { Dot2commaPipe } from "./pipes/dot2comma.pipe";
     ListaCuentasTComponent,
     ListaMovimientoDiarioComponent,
     ListaCuentasPorCobrarComponent,
-    ListaCuentasPorPagarComponent
+    ListaCuentasPorPagarComponent,
+    DetalleProformaComponent,
+    DetalleCobroComponent,
+    DetallePagoComponent,
+    DetalleCompraComponent,
+    DetalleGastoComponent,
+    DetalleProductoComponent,
+    DetalleAlmacenComponent,
+    DetalleBancoComponent
   ],
   imports: [
     CommonModule,

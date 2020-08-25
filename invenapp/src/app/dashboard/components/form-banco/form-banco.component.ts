@@ -48,6 +48,7 @@ export class FormBancoComponent implements OnInit {
       bank: new FormControl("", Validators.required),
       alias: new FormControl("", Validators.required),
       accountNumber: new FormControl(""),
+      saldoInicial: new FormControl(""),
       status: new FormControl("", Validators.required),
       address: new FormControl(""),
       tlf: new FormControl(""),
@@ -71,6 +72,7 @@ export class FormBancoComponent implements OnInit {
       bank: dataAux.bank,
       alias: dataAux.alias,
       accountNumber: dataAux.accountNumber,
+      saldoInicial: dataAux.saldoInicial,
       status: dataAux.status
     };
     endpoint = "/bancos";

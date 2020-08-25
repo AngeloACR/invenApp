@@ -17,11 +17,8 @@ import { ResetPassComponent } from "./containers/reset-pass/reset-pass.component
 import { registerLocaleData } from "@angular/common";
 import localeVE from "@angular/common/locales/es-VE";
 import { FormUsuarioComponent } from "./components/form-usuario/form-usuario.component";
-import { RegistroComponent } from './containers/registro/registro.component';
-import { RestorePassComponent } from './containers/restore-pass/restore-pass.component';
-import { FormMovimientosDiariosComponent } from './components/form-movimientos-diarios/form-movimientos-diarios.component';
-import { ListaMovimientosDiariosComponent } from './components/lista-movimientos-diarios/lista-movimientos-diarios.component';
-import { DetalleComponent } from './components/detalle/detalle.component';
+import { RegistroComponent } from "./containers/registro/registro.component";
+import { RestorePassComponent } from "./containers/restore-pass/restore-pass.component";
 
 registerLocaleData(localeVE, "es-VE");
 
@@ -34,10 +31,7 @@ registerLocaleData(localeVE, "es-VE");
     FileValidator,
     FormUsuarioComponent,
     RegistroComponent,
-    RestorePassComponent,
-    FormMovimientosDiariosComponent,
-    ListaMovimientosDiariosComponent,
-    DetalleComponent
+    RestorePassComponent
   ],
   imports: [
     BrowserModule,

@@ -27,8 +27,11 @@ export class FormProformaComponent implements OnInit {
 
   pedidos: any;
   precios: any;
+  bancos: any;
   preciosAutorizados: any;
   pedidoSelected: boolean = false;
+  cobros = new FormArray([]);
+  showCobros: boolean = false;
 
   pedido: any;
 
@@ -48,6 +51,7 @@ export class FormProformaComponent implements OnInit {
   ngOnInit() {
     this.pedidos = this.dbHandler.getLocal("pedidosValues");
     this.precios = this.dbHandler.getLocal("preciosValues");
+    this.bancos = this.dbHandler.getLocal("bancosValues");
     this.initForm();
     this.showError = {
       errorAct: false
@@ -61,9 +65,39 @@ export class FormProformaComponent implements OnInit {
       referencia: new FormControl(""),
       recibo: new FormControl(""),
       observaciones: new FormControl(""),
+      estadoCobro: new FormControl(""),
       requiereFactura: new FormControl(""),
       productosAutorizados: this.productosAutorizados
     });
+
+    this.addCobro();
+  }
+
+  addCobro() {
+    const cobro = new FormGroup({
+      banco: new FormControl("", Validators.required),
+      fecha: new FormControl("", Validators.required),
+      monto: new FormControl("", Validators.required)
+    });
+
+    this.cobros.push(cobro);
+  }
+
+  removeCobro(event, index) {
+    this.cobros.removeAt(index);
+  }
+
+  toggleCobros() {
+    var estadoCobro = this.registroProforma.value.estadoCobro;
+    switch (estadoCobro) {
+      case "Cobrado":
+        this.showCobros = true;
+        break;
+
+      default:
+        this.showCobros = false;
+        break;
+    }
   }
 
   addProducto(productoId) {
@@ -86,6 +120,7 @@ export class FormProformaComponent implements OnInit {
 
   togglePedido() {
     this.preciosAutorizados = [];
+    this.productosAutorizados = new FormArray([]);
     var dataAux = this.registroProforma.value;
     console.log(dataAux);
     this.pedido = this.pedidos[dataAux.pedido];
@@ -134,6 +169,22 @@ export class FormProformaComponent implements OnInit {
       }
     }
 
+    let cobros = [];
+    var cobrosControls = this.cobros.controls;
+    for (let control of cobrosControls) {
+      if (control instanceof FormGroup) {
+        let banco = control.controls["banco"].value;
+        let monto = control.controls["monto"].value;
+        let fecha = control.controls["fecha"].value;
+        let cobro = {
+          banco,
+          monto,
+          fecha
+        };
+        cobros.push(cobro);
+      }
+    }
+
     let montoTotalAux = montoTotal.toFixed(2);
 
     dataValues = {
@@ -145,7 +196,8 @@ export class FormProformaComponent implements OnInit {
       requiereFactura: dataAux.requiereFactura,
       productosAutorizados: productosAutorizados,
       montoTotal: montoTotalAux,
-      cliente: this.pedido.cliente._id
+      cliente: this.pedido.cliente._id,
+      cobros: cobros
     };
     endpoint = "/proformas";
     error = this.catchUserErrors();

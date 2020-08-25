@@ -41,19 +41,18 @@ const proformaSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Cliente',
     },
-    cobros: [{
-        montoPagado: {
-            type: Number,
-        },
-        montoPendiente: {
-            type: Number,
-        },
-        movimientos: [{
-            type: Schema.Types.ObjectId,
-            ref: 'MovimientoDiario',
-        }]
-    }],
+    almacen: {
+        type: Schema.Types.ObjectId,
+        ref: 'Almacen',
+    },
+    ctaPorCobrar: {
+        type: Schema.Types.ObjectId,
+        ref: 'Cuentaporcobrar',
+    },
     observaciones: {
+        type: String,
+    },
+    codigo: {
         type: String,
     },
 })

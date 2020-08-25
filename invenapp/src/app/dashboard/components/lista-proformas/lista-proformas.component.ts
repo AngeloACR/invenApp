@@ -62,7 +62,7 @@ export class ListaProformasComponent implements OnInit {
     let auxfields = this.dbHandler.getLocal(this.name + "Fields");
     let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
-    this.fields = ["Id", "Fecha", "Monto Total", "Status", "Cliente"];
+    this.fields = ["Id", "Fecha", "Monto Total", "Monto Pendiente", "Cliente"];
 
     this.values = [];
 
@@ -71,7 +71,7 @@ export class ListaProformasComponent implements OnInit {
         value._id,
         value.fecha,
         value.montoTotal,
-        value.status,
+        value.montoPendiente,
         value.cliente.name
       ];
       this.values.push(aux);

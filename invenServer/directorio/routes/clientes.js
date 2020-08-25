@@ -57,7 +57,7 @@ clienteRouter.delete('/', auth, async (req, res, next) => {
 	try {
 
 		const item = req.query.item;
-
+		console.log(item);
 		let response = await clienteHandler.deleteCliente(item);
 		res.status(200).json(response);
 	}

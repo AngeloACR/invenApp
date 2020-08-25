@@ -9,14 +9,29 @@ proformaRouter.post('/', auth, async (req, res) => {
         const proforma = {
             pedido: req.body.pedido,
             cliente: req.body.cliente,
+            almacen: req.body.almacen,
             productosAutorizados: req.body.productosAutorizados,
             fecha: req.body.fecha,
+            condicionVenta: req.body.condicionVenta,
             montoTotal: req.body.montoTotal,
             observaciones: req.body.observaciones,
         };
-        let cobros = req.body.cobros,
 
-            response = await proformaHandler.addProforma(proforma, cobros);
+        response = await proformaHandler.addProforma(proforma);
+        let ctaPorCobrar = response.values.ctaPorCobrar
+
+        let cobros = req.body.cobros;
+        if (cobros && cobros.length) {
+            for (let i = 0; i < cobros.length; i++) {
+                let cobro = {
+                    banco: cobros[i].banco,
+                    fecha: cobros[i].fecha,
+                    monto: cobros[i].monto,
+                    ctaPorCobrar: ctaPorCobrar
+                }
+                await ventasHandler.createCobro(cobro);
+            }
+        }
         res.status(200).json(response);
     }
     catch (e) {

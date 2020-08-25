@@ -1,4 +1,5 @@
 const Banco = require('../models/banco');
+const MovimientoDiario = require('../models/movimientodiario');
 const DisponibilidadBancaria = require('../models/disponibilidadbancaria');
 const spawn = require("child_process").spawn;
 
@@ -13,7 +14,7 @@ const mainHandler = {
             }
 
             let response = await disponibilidadHandler.addDisponibilidadBancaria(dispo);
-
+            console.log(response);
             return response.values._id;
 
         } catch (error) {
@@ -31,8 +32,10 @@ const mainHandler = {
                 signo: element.signo,
                 fecha: element.fecha
             };
+            console.log('todavia creando movimiento')
             let response = await movimientoDiarioHandler.addMovimientoDiario(movimientoDiario);
-            return response.values;
+            console.log("Devolviendo el id del movimiento")
+            return response.values._id;
 
         } catch (error) {
             console.log(error.toString())
@@ -43,7 +46,7 @@ const mainHandler = {
     removeBancoRef: async function (element) {
         try {
             let bancoId = element._id;
-            let response = disponibilidadHandler.getDisponibilidadBancariaByBanco(bancoId);
+            let response = await disponibilidadHandler.getDisponibilidadBancariaByBanco(bancoId);
             let dispo = response.values;
 
             let deleteRes = await disponibilidadHandler.deleteDisponibilidadBancaria(dispo._id);
@@ -54,49 +57,55 @@ const mainHandler = {
 
     },
 
-    aumentarDisponibilidad: async function (movimiento) {
+    aumentarDisponibilidad: async function (montoActual, montoMovimiento) {
         try {
-            const bId = movimiento.banco;
+            return new Promise((resolve, reject) => {
 
-            let query = { 'banco': bId }
-            let response = disponibilidadHandler.getDisponibilidadBancariaByBanco(bId)
-            let dispo = response.values;
-            let montoActual = dispo.montoDisponible;
-            let montoMovimiento = movimiento.monto;
+                /*             const bId = movimiento.banco;
+                
+                            let query = { 'banco': bId }
+                            let response = disponibilidadHandler.getDisponibilidadBancariaByBanco(bId)
+                            let dispo = response.values;
+                            let montoActual = dispo.montoDisponible;
+                            let montoMovimiento = movimiento.monto;
+                 */
+                const pythonPath = "./finanzas/controllers/python/aumentardisponibilidad.py";
 
-            const pytonPath = "./python/aumentardisponibilidad.py";
+                const options = [pythonPath, montoActual, montoMovimiento];
 
-            const options = [pythonPath, montoActual, montoMovimiento];
+                const process = spawn('python', options);
 
-            const process = spawn('python', options);
+                var aumentarData;
 
-            var aumentarData;
+                process.stdout.on('data', async (data) => {
+                    aumentarData = +data.toString();
+                    console.log(aumentarData)
 
-            process.stdout.on('data', async (data) => {
-                console.log(data)
-                aumentarData = data;
-                //                aumentarData = data.toString();
+                });
 
-            });
-
-            process.on('close', async (code) => {
-                dispo.montoDisponible = aumentarData.disponibilidadDespues;
+                process.on('close', async (code) => {
+                    resolve(aumentarData)
+                /*                 dispo.montoDisponible = aumentarData.disponibilidadDespues;
                 dispo.movimientos.push(movimiento._id)
                 await dispo.save();
                 return {
                     success: true,
                     msg: aumentarData
                 };
+ */            });
             });
+
         } catch (error) {
             console.log(error.toString())
         }
 
     },
 
-    disminuirDisponibilidad: async function (movimiento) {
+    disminuirDisponibilidad: async function (montoActual, montoMovimiento) {
         try {
-            const bId = movimiento.banco;
+            return new Promise((resolve, reject) => {
+                console.log('Empezando la disminucion')
+/*             const bId = movimiento.banco;
 
             let query = { 'banco': bId }
             let response = disponibilidadHandler.getDisponibilidadBancariaByBanco(bId)
@@ -104,26 +113,34 @@ const mainHandler = {
             let montoActual = dispo.montoDisponible;
             let montoMovimiento = movimiento.monto;
 
-            const pytonPath = "./python/disminuirdisponibilidad.py";
+ */            const pythonPath = "./finanzas/controllers/python/disminuirdisponibilidad.py";
 
-            const options = [pythonPath, montoActual, montoMovimiento];
+                const options = [pythonPath, montoActual, montoMovimiento];
 
-            const process = spawn('python', options);
+                const process = spawn('python', options);
 
-            var disminuirData;
+                var disminuirData;
+                process.stderr.on('data', function (chunk) {
+                    console.log(chunk.toString())
+                });
 
-            process.stdout.on('data', async (data) => {
-                disminuirData = data.toString();
-            });
+                process.stdout.on('data', async (data) => {
+                    console.log('Recibiendo data')
+                    disminuirData = +data.toString();
+                    console.log(disminuirData);
+                });
 
-            process.on('close', async (code) => {
-                dispo.montoDisponible = disminuirData.disponibilidadDespues;
-                dispo.movimientos.push(movimiento._id)
-                await dispo.save();
-                return {
-                    success: true,
-                    msg: disminuirData
-                };
+                process.on('close', async (data) => {
+                    console.log('Cerrando el proceso')
+                    resolve(disminuirData)
+                    /* dispo.montoDisponible = disminuirData.disponibilidadDespues;
+                    dispo.movimientos.push(movimiento._id)
+                    await dispo.save();
+                    return {
+                        success: true,
+                        msg: disminuirData
+                    }; */
+                });
             });
         } catch (error) {
             console.log(error.toString())
@@ -133,14 +150,69 @@ const mainHandler = {
 
     addMovimientoToDisponibilidadBancaria: async function (movimiento) {
         try {
+            const bId = movimiento.banco;
+
+            let response = await disponibilidadHandler.getDisponibilidadBancariaByBanco(bId)
+            let dispo = response.values;
+            console.log(dispo);
+            console.log("Obteniendo monto disponible del banco")
+            let montoActual = dispo.montoDisponible;
+            console.log(montoActual);
+            let montoMovimiento = movimiento.monto;
+            console.log(montoMovimiento);
+            let sign = movimiento.signo
+            let data
+            console.log('Empezando la modificacion de la disponibilidad')
+            if (sign == '+') {
+                console.log('Aumentando disponibilidad')
+                data = await this.aumentarDisponibilidad(montoActual, montoMovimiento)
+            } else {
+                console.log('Disminuyendo disponibilidad')
+                data = await this.disminuirDisponibilidad(montoActual, montoMovimiento)
+            }
+
+            dispo.montoDisponible = data;
+            dispo.movimientos.push(movimiento._id)
+            await dispo.save();
+
+            return [montoActual, data];
         } catch (error) {
             console.log(error.toString())
         }
 
     },
 
-    removeMovimientoFromDisponibilidadBancaria: async function (movimientoId) {
+    removeMovimientoFromDisponibilidadBancaria: async function (movimiento) {
         try {
+            const bId = movimiento.banco;
+
+            let response = await disponibilidadHandler.getDisponibilidadBancariaByBanco(bId)
+            let dispo = response.values;
+            let montoActual = dispo.montoDisponible;
+            let montoMovimiento = movimiento.monto;
+            let sign = movimiento.signo
+            let data
+            if (sign == '+') {
+                data = await this.disminuirDisponibilidad(montoActual, montoMovimiento);
+            } else {
+                data = await this.aumentarDisponibilidad(montoActual, montoMovimiento);
+            }
+
+            dispo.movimientos.forEach(movimiento => {
+                if (movimiento.toString() == movimientoId) {
+                    dispo.movimientos.splice(i, 1)
+                    return;
+                }
+                i++
+            });
+
+            dispo.montoDisponible = data;
+
+            await dispo.save();
+            return {
+                success: true,
+                msg: disminuirData
+            };
         } catch (error) {
             console.log(error.toString())
         }
@@ -153,8 +225,7 @@ const bancoHandler = {
 
     deleteBanco: async function (id) {
         try {
-            const query = { "_id": id };
-            let response = await this.getBancoById(query);
+            let response = await this.getBancoById(id);
             let banco = response.values;
             await mainHandler.removeBancoRef(banco)
             let deleteRes = await banco.remove();
@@ -177,9 +248,8 @@ const bancoHandler = {
         try {
 
             let newBanco = new Banco(banco);
-            const query = { 'code': newBanco.code };
-            let aux = await this.findOne(query)
-            if (aux) {
+            let aux = await this.getBancoByAlias(newBanco.alias);
+            if (aux.values) {
                 throw new Error('Código de banco ya registrado');
             }
             let dispo = await mainHandler.createDisponibilidadBancaria(newBanco);
@@ -205,6 +275,7 @@ const bancoHandler = {
         try {
             const query = {};
             let bancos = await Banco.find(query)
+                .populate('disponibilidad');
             let response = {
                 status: true,
                 values: bancos
@@ -215,6 +286,23 @@ const bancoHandler = {
     getBancoById: async function (id) {
         try {
             const query = { '_id': id };
+            let banco = await Banco.findOne(query)
+            let response = {
+                status: true,
+                values: banco
+            }
+            return response;
+        } catch (error) {
+            let response = {
+                status: false,
+                msg: error.toString().replace("Error: ", "")
+            }
+            return response
+        }
+    },
+    getBancoByAlias: async function (id) {
+        try {
+            const query = { 'alias': id };
             let banco = await Banco.findOne(query)
             let response = {
                 status: true,
@@ -284,7 +372,7 @@ const disponibilidadHandler = {
 
             let response = {
                 status: true,
-                values: disponibilidadBancaria
+                values: newDisponibilidadBancaria
             }
             return response;
         } catch (error) {
@@ -373,15 +461,16 @@ const movimientoDiarioHandler = {
             const query = { "_id": id };
             let response = await this.getMovimientoDiarioById(query);
             let movimientoDiario = response.values;
+            let data = mainHandler.removeMovimientoToDisponibilidadBancaria(movimientoDiario)
 
-            let sign = newMovimientoDiario.signo
+            /* let sign = newMovimientoDiario.signo
             if (sign == '+') {
-                mainHandler.disminuirCuentaT(move)
-                mainHandler.disminuirDisponibilidad(move)
+                //mainHandler.disminuirCuentaT(move)
+                await mainHandler.disminuirDisponibilidad(move)
             } else {
-                mainHandler.aumentarCuentaT(move)
-                mainHandler.aumentarDisponibilidad(move)
-            }
+                //mainHandler.aumentarCuentaT(move)
+                await mainHandler.aumentarDisponibilidad(move)
+            } */
 
             let deleteRes = await movimientoDiario.remove();
             response = {
@@ -400,16 +489,19 @@ const movimientoDiarioHandler = {
 
     addMovimientoDiario: async function (move) {
         try {
+            console.log('Creando movimiento en el handler')
             let newMovimientoDiario = new MovimientoDiario(move)
             let sign = newMovimientoDiario.signo
-            let data;
-            if (sign == '+') {
-                data = await mainHandler.aumentarDisponibilidad(move)
+            console.log('Modificando disponibilidad')
+
+            let data = await mainHandler.addMovimientoToDisponibilidadBancaria(newMovimientoDiario)
+            /* if (sign == '+') {
+            data = await mainHandler.aumentarDisponibilidad(move)
             } else {
                 data = await mainHandler.disminuirDisponibilidad(move)
-            }
-            newMovimientoDiario.disponibilidadAntes = data.disponibilidadAntes;
-            newMovimientoDiario.disponibilidadDespues = data.disponibilidadDespues;
+            } */
+            newMovimientoDiario.disponibilidadAntes = data[0];
+            newMovimientoDiario.disponibilidadDespues = data[1];
             let movimientoDiario = await newMovimientoDiario.save()
 
             let response = {

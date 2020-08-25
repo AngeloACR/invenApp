@@ -12,6 +12,9 @@ const movimientoDiarioSchema = new mongoose.Schema({
     monto: {
         type: Number,
     },
+    codigo: {
+        type: String,
+    },
     signo: {
         type: String,
     },

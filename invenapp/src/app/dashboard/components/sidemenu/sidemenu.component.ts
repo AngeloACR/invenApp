@@ -312,13 +312,21 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/gasto',
 				id: 3
 			},{
-				name: 'Registar cuenta por pagar',
-				link: '/registro/cuentaporpagar',
+				name: 'Registar pago',
+				link: '/registro/pago',
 				id: 4
 			},{
-				name: 'Ver cuentas por pagar',
-				link: '/lista/cuentaporpagar',
+				name: 'Ver pagos',
+				link: '/lista/pago',
 				id: 5
+			},{
+				name: 'Registar cuenta por pagar',
+				link: '/registro/cuentasporpagar',
+				id: 6
+			},{
+				name: 'Ver cuentas por pagar',
+				link: '/lista/cuentasporpagar',
+				id: 7
 			},],
 		},{
 			name: 'Ventas',
@@ -342,12 +350,12 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/proforma',
 				id: 3
 			},{
-				name: 'Registar ingreso',
-				link: '/registro/ingreso',
+				name: 'Registar cobro',
+				link: '/registro/cobro',
 				id: 4
 			},{
-				name: 'Ver ingresos',
-				link: '/lista/ingreso',
+				name: 'Ver cobros',
+				link: '/lista/cobro',
 				id: 5
 			},{
 				name: 'Registar cuenta por cobrar',

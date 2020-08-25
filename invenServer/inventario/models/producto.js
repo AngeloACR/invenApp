@@ -10,10 +10,17 @@ const productoSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Disponibilidad',
   },
+  codigo: {
+    type: String,
+  },
   precio: {
     type: Schema.Types.ObjectId,
     ref: 'Precio',
   },
+  precios: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Precio',
+  }],
   name: {
     type: String,
   },

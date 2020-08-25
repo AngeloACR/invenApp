@@ -4,7 +4,7 @@ const Producto = require('../models/producto');
 const Precio = require('../models/precio');
 
 const mainHandler = {
-    agregarProductos: async function (productosIngresados, almacenId, ingresoId) {
+    agregarProductos: async function (productosIngresados, almacenId, compraId) {
         try {
 
 
@@ -22,7 +22,7 @@ const mainHandler = {
                         return;
                     }
                 });
-                disponibilidad.ingresos.push(ingresoId);
+                disponibilidad.compras.push(compraId);
                 disponibilidad = await disponibilidad.save();
             });
 
@@ -32,7 +32,7 @@ const mainHandler = {
 
     },
 
-    egresarProductos: async function (productosEgresados, almacenId, ingresoId) {
+    egresarProductos: async function (productosEgresados, almacenId, compraId) {
         try {
 
 
@@ -60,7 +60,7 @@ const mainHandler = {
 
     },
 
-    removeIngreso: async function (productosIngresados, almacenId, ingresoId) {
+    removeCompra: async function (productosIngresados, almacenId, compraId) {
         try {
 
             productosIngresados.forEach(async (productoIngresado) => {
@@ -78,9 +78,9 @@ const mainHandler = {
                 });
                 disponibilidad.qtyDisponible -= qty
                 let i = 0;
-                disponibilidad.ingresos.forEach(ingreso => {
-                    if (ingreso.toString() == ingresoId) {
-                        disponibilidad.ingresos.splice(i, 1)
+                disponibilidad.compras.forEach(compra => {
+                    if (compra.toString() == compraId) {
+                        disponibilidad.compras.splice(i, 1)
                         return;
                     }
                     i++
@@ -118,7 +118,7 @@ const mainHandler = {
 
     },
 
-    removePedido: async function (productosPedidos, pedidoId) {
+    desbloquearProductos: async function (productosPedidos, pedidoId) {
         try {
             productosPedidos.forEach(async (productoPedido) => {
 
@@ -284,7 +284,7 @@ const mainHandler = {
                     valor: 0
                 }
                 let newPrecio = new Precio(precio);
-                response = await precioHandler.addPrecio(precio);
+                response = await precioHandler.addPrecio(nePrecio);
                 if (response.status) {
                     precioId = response.values._id;
                 } else {

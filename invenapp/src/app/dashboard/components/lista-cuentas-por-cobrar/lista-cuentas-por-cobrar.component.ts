@@ -62,12 +62,12 @@ export class ListaCuentasPorCobrarComponent implements OnInit {
     let auxfields = this.dbHandler.getLocal(this.name + "Fields");
     let auxValues = this.dbHandler.getLocal(this.name + "Values");
 
-    this.fields = ["Id", "Cliente", "Monto Tota"];
+    this.fields = ["Id", "Referencia", "Monto pendiente"];
 
     this.values = [];
 
     auxValues.forEach(value => {
-      let aux = [value._id, value.cliente, value.montoTotal];
+      let aux = [value._id, value.referencia, value.balance];
       this.values.push(aux);
     });
 

@@ -37,10 +37,16 @@
         <label for="">Observaciones</label>
         <textarea class="" rows="6" type="text" formControlName="observaciones" name=""></textarea>
       </div>
-
       <div class="formInput">
-        <label for="">Estado*</label>
-        <select class="lInput" name="" formControlName="estado">
+        <label for="">Monto total de la compra*</label>
+        <input type="number" step="0.01" class="lInput" name="" formControlName="montoTotal">
+      </div>
+      <div class="errorTag"
+        *ngIf="fCompra.referencia.errors?.required && (fCompra.referencia.touched || fCompra.referencia.dirty)">Por
+        favor ingrese monto total de la compra</div>
+      <div class="formInput">
+        <label for="">Estado del pago*</label>
+        <select (change)="togglePayments()" class="lInput" name="" formControlName="estado">
           <option value="Pagado">Pagado</option>
           <option value="Por pagar">Por pagar</option>
         </select>
@@ -48,10 +54,43 @@
       </div>
       <div class="errorTag" *ngIf="fCompra.estado.errors?.required && (fCompra.estado.touched || fCompra.estado.dirty)">
         Por favor
-        seleccione el estado</div>
+        seleccione el estado del pago</div>
 
     </div>
 
+    <div class="paymentsBox" *ngIf="showPayments">
+      <div class="paymentsFunctions">
+        <p class="paymentFunction" (click)="addPago()">Agregar pago</p>
+      </div>
+      <div class="paymentsList">
+        <div class="paymentsTitle">
+          <p class="fechaTitle">Fecha</p>
+          <p class="bankTitle">Banco</p>
+          <p class="amountTitle">Monto</p>
+          <p class="deleteTitle">Eliminar</p>
+        </div>
+        <div class="arrayBox" *ngFor="let pago of pagos.controls; let i = index;">
+          <ng-container class="controlBox" [formGroup]="pago">
+            <div class="fechaField">
+              <input type="date" class="fechaInput" name="" formControlName="fecha" [max]="getToday()">
+            </div>
+            <div class="bankField">
+              <select class="bankInput" name="" formControlName="banco">
+                <option *ngFor="let value of bancos" [value]="value._id">{{value.alias}}</option>
+              </select>
+            </div>
+            <div class="amountField">
+              <input class="amountInput" type="number" step="0.01" formControlName="monto" />
+            </div>
+
+            <div class="deleteField">
+              <p (click)="removePayment($event, i)">X</p>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
 
     <div class="productsBox">
       <div class="productsFunctions">

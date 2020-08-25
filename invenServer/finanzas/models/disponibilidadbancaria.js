@@ -7,10 +7,9 @@ const disponibilidadBancariaSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Banco',
     },
-    movimientosDiarios: [{
-        type: Schema.Types.ObjectId,
-        ref: 'MovimientoDiario',
-    }],
+    codigo: {
+        type: String,
+    },
     montoDisponible: {
         type: Number,
     },
@@ -19,7 +18,11 @@ const disponibilidadBancariaSchema = new mongoose.Schema({
     },
     montoDiferido: {
         type: Number,
-    }
+    },
+    movimientos: [{
+        type: Schema.Types.ObjectId,
+        ref: 'MovimientoDiario',
+    }],
 })
 
 const DisponibilidadBancaria = module.exports = mongoose.model("DisponibilidadBancaria", disponibilidadBancariaSchema);

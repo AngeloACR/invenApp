@@ -3,6 +3,7 @@ const compraRouter = express.Router();
 const auth = require("../../users/auth/auth");
 const Compra = require('../models/compra');
 const compraHandler = require('../controllers/main').compraHandler;
+const comprasHandler = require('../controllers/main').mainHandler;
 
 compraRouter.post('/', auth, async (req, res) => {
 	try {
@@ -13,10 +14,25 @@ compraRouter.post('/', auth, async (req, res) => {
 			fecha: req.body.fecha,
 			estado: req.body.estado,
 			referencia: req.body.referencia,
+			montoTotal: req.body.montoTotal,
 			observaciones: req.body.observaciones,
 			proveedor: req.body.proveedor,
 		};
 		response = await compraHandler.addCompra(compra);
+		let ctaPorPagar = response.values.ctaPorPagar
+
+		let pagos = req.body.pagos;
+		if (pagos && pagos.length) {
+			for (let i = 0; i < pagos.length; i++) {
+				let pago = {
+					banco: pagos[i].banco,
+					fecha: pagos[i].fecha,
+					monto: pagos[i].monto,
+					ctaPorPagar: ctaPorPagar
+				}
+				await comprasHandler.createPago(pago);
+			}
+		}
 
 		res.status(200).json(response);
 	}

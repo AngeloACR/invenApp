@@ -1,7 +1,7 @@
-const Cliente = require('../models/cliente');
-const Proveedor = require('../models/proveedor');
-const ventasHandler = require('../../ventas/controllers/main').mainHandler
-const comprasHandler = require('../../compras/controllers/main').mainHandler
+const Cliente = require("../models/cliente");
+const Proveedor = require("../models/proveedor");
+const ventasHandler = require("../../ventas/controllers/main").mainHandler;
+const comprasHandler = require("../../compras/controllers/main").mainHandler;
 
 const mainHandler = {
     createCuentaPorPagar: async function (proveedor) {
@@ -9,60 +9,53 @@ const mainHandler = {
             let id = await comprasHandler.createCuentaPorPagarDeProveedor(proveedor);
             return id;
         } catch (error) {
-            console.log(error.toString())
+            console.log(error.toString());
         }
-
     },
     createCuentaPorCobrar: async function (cliente) {
         try {
             let id = await ventasHandler.createCuentaPorCobrarDeCliente(cliente);
             return id;
         } catch (error) {
-            console.log(error.toString())
+            console.log(error.toString());
         }
-
     },
     deleteCuentaPorPagar: async function (proveedor) {
         try {
-
             await comprasHandler.deleteCuentaPorPagarDeProveedor(proveedor);
         } catch (error) {
-            console.log(error.toString())
+            console.log(error.toString());
         }
-
     },
     deleteCuentaPorCobrar: async function (cliente) {
         try {
-
+            console.log("here1");
             await ventasHandler.deleteCuentaPorCobrarDeCliente(cliente);
         } catch (error) {
-            console.log(error.toString())
+            console.log(error.toString());
         }
-
-    },
-}
+    }
+};
 
 const clienteHandler = {
     deleteCliente: async function (id) {
         try {
-            let response = await this.getClienteById(id)
+            let response = await this.getClienteById(id);
             let cliente = response.values;
             let deleteRes = await cliente.remove();
             response = {
                 status: true,
                 values: deleteRes
-            }
+            };
             return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
-
-
 
     addCliente: async function (cliente) {
         try {
@@ -70,28 +63,28 @@ const clienteHandler = {
             if (cliente.rif == "NO APLICA") {
                 noAplica = true;
             }
-            let auxC = await this.getClienteByRif(cliente.rif)
+            let auxC = await this.getClienteByRif(cliente.rif);
             let aux = auxC.values;
 
             if (aux && !noAplica) {
-                throw new Error('Rif de cliente ya registrado')
+                throw new Error("Rif de cliente ya registrado");
             } else {
                 let newCliente = new Cliente(cliente);
-                let ctaPorCobrarId = await mainHandler.createCuentaPorCobrar(newCliente);
+        /*                 let ctaPorCobrarId = await mainHandler.createCuentaPorCobrar(newCliente);
                 newCliente.ctaPorCobrar = ctaPorCobrarId;
-                newCliente = await newCliente.save();
+ */ newCliente = await newCliente.save();
                 let response = {
                     status: true,
                     values: newCliente
-                }
+                };
                 return response;
             }
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
 
@@ -102,35 +95,41 @@ const clienteHandler = {
             let response = {
                 status: true,
                 values: clientes
-            }
+            };
             return response;
-        } catch (error) { throw error; }
+        } catch (error) {
+            throw error;
+        }
     },
     getClienteById: async function (id) {
         try {
-            const query = { '_id': id };
-            let cliente = await Cliente.findOne(query)
+            const query = { _id: id };
+            let cliente = await Cliente.findOne(query);
             let response = {
                 status: true,
                 values: cliente
-            }
+            };
             return response;
-        } catch (error) { throw error; }
+        } catch (error) {
+            throw error;
+        }
     },
     getClienteByRif: async function (rif) {
         try {
-            const query = { 'rif': rif };
-            let cliente = await Cliente.findOne(query)
+            const query = { rif: rif };
+            let cliente = await Cliente.findOne(query);
             let response = {
                 status: true,
                 values: cliente
-            }
+            };
             return response;
-        } catch (error) { throw error; }
+        } catch (error) {
+            throw error;
+        }
     },
     updateCliente: async function (data) {
         try {
-            let response = await this.getClienteById(id)
+            let response = await this.getClienteById(id);
             let cliente = response.values;
 
             cliente.name = data.name;
@@ -143,25 +142,22 @@ const clienteHandler = {
             response = {
                 status: true,
                 values: cliente
-            }
-            return response
-
+            };
+            return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     }
-}
+};
 
 const proveedorHandler = {
-
-
     deleteProveedor: async function (id) {
         try {
-            let response = await this.getProveedorById(id)
+            let response = await this.getProveedorById(id);
             let proveedor = response.values;
 
             let deleteRes = await proveedor.remove();
@@ -169,14 +165,14 @@ const proveedorHandler = {
             response = {
                 status: true,
                 values: deleteRes
-            }
+            };
             return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
 
@@ -186,87 +182,87 @@ const proveedorHandler = {
             if (proveedor.rif == "NO APLICA") {
                 noAplica = true;
             }
-            let auxC = await this.getProveedorByRif(proveedor.rif)
+            let auxC = await this.getProveedorByRif(proveedor.rif);
             let aux = auxC.values;
 
             if (aux && !noAplica) {
-                throw new Error('Rif de proveedor ya registrado')
+                throw new Error("Rif de proveedor ya registrado");
             } else {
-                let newProveedor = new Cliente(proveedor);
+                let newProveedor = new Proveedor(proveedor);
 
-                let ctaPorPagarId = await mainHandler.createCuentaPorPagar(newProveedor);
-                newProveedor.ctaPorPagar = ctaPorPagarId;
+                /*                 let ctaPorPagarId = await mainHandler.createCuentaPorPagar(newProveedor);
+                                        newProveedor.ctaPorPagar = ctaPorPagarId; */
                 newProveedor = await newProveedor.save();
                 let response = {
                     status: true,
                     values: newProveedor
-                }
+                };
                 return response;
             }
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
 
     getProveedores: async function () {
         try {
             const query = {};
-            let proveedors = await Proveedor.find(query)
+            let proveedors = await Proveedor.find(query);
             let response = {
                 status: true,
                 values: proveedors
-            }
+            };
             return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
     getProveedorById: async function (id) {
         try {
-            const query = { '_id': id };
-            let proveedor = await Proveedor.findOne(query)
+            const query = { _id: id };
+            let proveedor = await Proveedor.findOne(query);
             let response = {
                 status: true,
                 values: proveedor
-            }
+            };
             return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
     getProveedorByRif: async function (rif) {
         try {
-            const query = { 'rif': rif };
-            let proveedor = await Proveedor.findOne(query)
+            const query = { rif: rif };
+            let proveedor = await Proveedor.findOne(query);
             let response = {
                 status: true,
                 values: proveedor
-            }
+            };
             return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     },
 
     updateProveedor: async function (id, data) {
         try {
-            let response = await this.getProveedorById(id)
+            let response = await this.getProveedorById(id);
             let proveedor = response.values;
             proveedor.name = data.name;
             proveedor.address = data.address;
@@ -278,23 +274,22 @@ const proveedorHandler = {
             response = {
                 status: true,
                 values: proveedor
-            }
-            return response
-
+            };
+            return response;
         } catch (error) {
             let response = {
                 status: false,
                 msg: error.toString().replace("Error: ", "")
-            }
-            return response
+            };
+            return response;
         }
     }
-}
+};
 
 const inventarioCtrl = {
     mainHandler,
     clienteHandler,
     proveedorHandler
-}
+};
 
-module.exports = inventarioCtrl
+module.exports = inventarioCtrl;

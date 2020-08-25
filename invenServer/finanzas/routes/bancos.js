@@ -11,7 +11,7 @@ bancoRouter.post('/', auth, async (req, res) => {
 			status: req.body.status,
 			alias: req.body.alias,
 			accountNumber: req.body.accountNumber,
-			saldoInicial: 0,
+			saldoInicial: req.body.saldoInicial,
 		};
 		let response = await bancoHandler.addBanco(banco);
 		console.log(response);

@@ -1,0 +1,112 @@
+<div class="cardBox">
+  <form class="formBox" [formGroup]="registroGasto" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+      <!--       <div class="formInput">
+        <label for="">Fecha*</label>
+        <input type="date" class="lInput" name="" formControlName="fecha" [max]="getToday()">
+      </div>
+      <div class="formInput">
+        <label for="">Proveedor*</label>
+        <select class="lInput" name="" formControlName="proveedor">
+          <option *ngFor="let value of proveedores" [value]="value._id">{{value.name}}</option>
+        </select>
+
+      </div>
+      <div class="errorTag"
+        *ngIf="fGasto.proveedor.errors?.required && (fGasto.proveedor.touched || fGasto.proveedor.dirty)">Por
+        favor seleccione el proveedor
+      </div>
+ -->
+      <div class="formInput">
+        <label for="">Almacen*</label>
+        <select class="lInput" name="" formControlName="almacen">
+          <option *ngFor="let value of almacenes" [value]="value._id">{{value.code}}</option>
+        </select>
+
+      </div>
+      <div class="errorTag" *ngIf="fGasto.almacen.errors?.required && (fGasto.almacen.touched || fGasto.almacen.dirty)">
+        Por favor
+        seleccione el almacen</div>
+      <div class="formInput">
+        <label for="">Descripción del gasto*</label>
+        <input type="text" class="lInput" name="" formControlName="descripcion">
+      </div>
+      <div class="errorTag"
+        *ngIf="fGasto.descripcion.errors?.required && (fGasto.descripcion.touched || fGasto.descripcion.dirty)">Por
+        favor ingrese la descripción del gasto</div>
+      <div class="formInput">
+        <label for="">Referencia de gasto*</label>
+        <input type="text" class="lInput" name="" formControlName="referencia">
+      </div>
+      <div class="errorTag"
+        *ngIf="fGasto.referencia.errors?.required && (fGasto.referencia.touched || fGasto.referencia.dirty)">Por
+        favor ingrese la referencia de gasto</div>
+      <div class="formInput">
+        <label for="">Monto total del gasto*</label>
+        <input type="number" step="0.01" class="lInput" name="" formControlName="montoTotal">
+      </div>
+      <div class="errorTag"
+        *ngIf="fGasto.montoTotal.errors?.required && (fGasto.montoTotal.touched || fGasto.montoTotal.dirty)">Por
+        favor ingrese el monto total del gasto</div>
+      <div class="formInput">
+        <label for="">Observaciones</label>
+        <textarea class="" rows="6" type="text" formControlName="observaciones" name=""></textarea>
+      </div>
+
+      <div class="formInput">
+        <label for="">Estado del pago*</label>
+        <select (change)="togglePayments()" class="lInput" name="" formControlName="estadoPago">
+          <option value="Pagado">Pagado</option>
+          <option value="Por pagar">Por pagar</option>
+        </select>
+
+      </div>
+      <div class="errorTag"
+        *ngIf="fGasto.estadoPago.errors?.required && (fGasto.estadoPago.touched || fGasto.estadoPago.dirty)">
+        Por favor
+        seleccione el estado del pago</div>
+
+    </div>
+
+
+    <div class="paymentsBox" *ngIf="showPayments">
+      <div class="paymentsFunctions">
+        <p class="paymentFunction" (click)="addPago()">Agregar pago</p>
+      </div>
+      <div class="paymentsList">
+        <div class="paymentsTitle">
+          <p class="fechaTitle">Fecha</p>
+          <p class="bankTitle">Banco</p>
+          <p class="amountTitle">Monto</p>
+          <p class="deleteTitle">Eliminar</p>
+        </div>
+        <div class="arrayBox" *ngFor="let pago of pagos.controls; let i = index;">
+          <ng-container class="controlBox" [formGroup]="pago">
+            <div class="fechaField">
+              <input type="date" class="fechaInput" name="" formControlName="fecha" [max]="getToday()">
+            </div>
+            <div class="bankField">
+              <select class="bankInput" name="" formControlName="banco">
+                <option *ngFor="let value of bancos" [value]="value._id">{{value.alias}}</option>
+              </select>
+            </div>
+            <div class="amountField">
+              <input class="amountInput" type="number" step="0.01" formControlName="monto" />
+            </div>
+
+            <div class="deleteField">
+              <p (click)="removePayment($event, i)">X</p>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="buttonBox">
+      <p>Registrar gasto</p>
+    </button>
+  </form>
+</div>
+
+<app-error class="errorBox" [msg]='errorMsg' [ngClass]="showError" (closeError)="closeError()"></app-error>

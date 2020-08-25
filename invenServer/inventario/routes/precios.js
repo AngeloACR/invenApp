@@ -62,7 +62,8 @@ precioRouter.delete('/', auth, async (req, res, next) => {
 precioRouter.put('/', auth, async (req, res, next) => {
 	try {
 		const updateData = req.body;
-		const id = req.body._id;
+		console.log(updateData)
+		const id = req.body.id;
 
 		let response = await precioHandler.updatePrecio(id, updateData);
 		res.status(200).json(response);

@@ -25,14 +25,17 @@ const precios = require('./inventario/routes/precios');
 const almacenes = require('./inventario/routes/almacenes');
 
 const compras = require('./compras/routes/compras');
+const pagos = require('./compras/routes/pagos');
+const ctasporpagar = require('./compras/routes/ctasporpagar');
+const gastos = require('./compras/routes/gastos');
 
 const pedidos = require('./ventas/routes/pedidos');
+const cobros = require('./ventas/routes/cobros');
 const proformas = require('./ventas/routes/proformas');
+const ctasporcobrar = require('./ventas/routes/ctasporcobrar');
 
 const bancos = require('./finanzas/routes/bancos');
 
-const ctasporcobrar = require('./ventas/routes/ctasporcobrar');
-const ctasporpagar = require('./compras/routes/ctasporpagar');
 const ctast = require('./contabilidad/routes/cuentast');
 const movimientosdiarios = require('./finanzas/routes/movimientosdiarios');
 
@@ -85,6 +88,7 @@ module.exports.init = function (folder, thePath, port) {
     app.use('/vendedores', vendedores);
     app.use('/administradores', administradores);
     app.use('/clientes', clientes);
+    app.use('/gastos', gastos);
     app.use('/proveedores', proveedores);
     app.use('/mails', mails);
     app.use('/pedidos', pedidos);
@@ -98,6 +102,8 @@ module.exports.init = function (folder, thePath, port) {
     app.use('/almacenes', almacenes);
     app.use('/proformas', proformas);
     app.use('/bancos', bancos);
+    app.use('/pagos', pagos);
+    app.use('/cobros', cobros);
     app.use('/cuentasporcobrar', ctasporcobrar);
     app.use('/cuentasporpagar', ctasporpagar);
     app.use('/cuentast', ctast);

@@ -19,9 +19,11 @@ export class RegistroComponent implements OnInit {
   isPedido: boolean;
   isUsuario: boolean;
   isRol: boolean;
+  isCobro: boolean;
+  isPago: boolean;
   isBanco: boolean;
   isMovimientoDiario: boolean;
-  isEgreso: boolean;
+  isGasto: boolean;
   isCuentaT: boolean;
   isProforma: boolean;
 
@@ -57,7 +59,9 @@ export class RegistroComponent implements OnInit {
     this.isProducto = false;
     this.isAlmacen = false;
     this.isBanco = false;
-    this.isEgreso = false;
+    this.isCobro = false;
+    this.isPago = false;
+    this.isGasto = false;
     this.isProforma = false;
     this.isMovimientoDiario = false;
     this.isCuentaT = false;
@@ -87,14 +91,20 @@ export class RegistroComponent implements OnInit {
       case "banco":
         this.isBanco = true;
         break;
+      case "cobro":
+        this.isCobro = true;
+        break;
+      case "pago":
+        this.isPago = true;
+        break;
       case "movimientodiario":
         this.isMovimientoDiario = true;
         break;
       case "cuentat":
         this.isCuentaT = true;
         break;
-      case "egreso":
-        this.isEgreso = true;
+      case "gasto":
+        this.isGasto = true;
         break;
       case "proforma":
         this.isProforma = true;

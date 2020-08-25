@@ -12,6 +12,7 @@ export class DbHandlerService {
   localSource = "http://localhost:3400";
   serverSource = "";
 
+  //mySource = this.localSource;
   mySource = this.serverSource;
 
   constructor(
@@ -138,6 +139,10 @@ export class DbHandlerService {
           name: "clientes"
         },
         {
+          endpoint: "/gastos/all",
+          name: "gastos"
+        },
+        {
           endpoint: "/proveedores/all",
           name: "proveedores"
         },
@@ -186,13 +191,21 @@ export class DbHandlerService {
           name: "cuentasporpagar"
         },
         {
+          endpoint: "/cobros/all",
+          name: "cobros"
+        },
+        {
+          endpoint: "/pagos/all",
+          name: "pagos"
+        },
+        {
           endpoint: "/company",
           name: "company"
-        },
+        } /* 
         {
           endpoint: "/movimientosdiarios/all",
           name: "movimientosdiarios"
-        }
+        } */
       ];
     } else if (tipo == "Admin") {
       refreshList = [
@@ -247,11 +260,11 @@ export class DbHandlerService {
         {
           endpoint: "/company",
           name: "company"
-        },
+        } /* 
         {
           endpoint: "/movimientosdiarios/all",
           name: "movimientosdiarios"
-        }
+        } */
       ];
     } else if (tipo == "Vendedor") {
       refreshList = [

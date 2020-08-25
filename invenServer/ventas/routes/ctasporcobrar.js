@@ -14,6 +14,7 @@ ctaporcobrarRouter.post('/', auth, async (req, res) => {
         };
 
         let response = await ctaPorCobrarHandler.addCtaporcobrar(ctaporcobrar);
+
         res.status(200).json(response);
     }
     catch (e) {

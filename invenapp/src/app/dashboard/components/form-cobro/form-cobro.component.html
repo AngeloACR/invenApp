@@ -1,0 +1,32 @@
+<div class="cardBox">
+
+  <form class="formBox" [formGroup]="registroCobro" (ngSubmit)="endRegistro()">
+    <div class="formContent">
+      <div class="formInput">
+        <label for="">Fecha*</label>
+        <input type="date" class="lInput" name="" formControlName="fecha" [max]="getToday()">
+      </div>
+      <div class="formInput">
+
+        <label for="mBacc">Banco </label>
+        <select class="lInput" formControlName="banco">
+          <option *ngFor="let value of bancos;" value={{value._id}}>{{value.alias}}</option>
+        </select>
+      </div>
+      <div class="formInput">
+        <label for="mTAcc">Referencia </label>
+        <select class="lInput" formControlName="ctaPorCobrar">
+          <option *ngFor="let value of cuentasPorCobrar;" value={{value._id}}>{{value._id}}</option>
+        </select>
+      </div>
+      <div class="formInput">
+        <label for="mAmmount">Monto </label>
+        <input i18n lang="es-VE" type="number" step="0.01" class="lInput" formControlName="monto" name="">
+      </div>
+    </div>
+    <button type="submit" class="buttonBox">
+      <p>Registrar Cobro</p>
+    </button>
+  </form>
+
+</div>
