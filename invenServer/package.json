@@ -18,10 +18,10 @@
     "express-rate-limit": "^2.11.0",
     "helmet": "^3.9.0",
     "jsonwebtoken": "*",
-    "mongoose": "*",
-    "nodemailer": "*",
+    "mongoose": "^6.0.12",
     "multer": "*",
-    "node-schedule": "*"
+    "node-schedule": "*",
+    "nodemailer": "^6.7.0"
   },
   "author": "Angelo Crincoli",
   "license": "ISC"
