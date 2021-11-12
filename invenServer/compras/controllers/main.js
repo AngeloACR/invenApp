@@ -739,7 +739,7 @@ const gastoHandler = {
                 default:
                     break;
             }
-            let gasto = await newGasto.save();
+            gasto = await newGasto.save();
             let response = {
                 status: true,
                 values: gasto
