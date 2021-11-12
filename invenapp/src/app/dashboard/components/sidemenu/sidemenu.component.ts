@@ -16,7 +16,7 @@ export class SidemenuComponent implements OnInit {
 	user: any;
 	isAdmin: boolean;
 	isVendedor: boolean;
-	isSuperAdmin: boolean;
+	isSuperAdmin: boolean = true;
 
 	myMenu: any;
 
@@ -28,10 +28,10 @@ export class SidemenuComponent implements OnInit {
 
 	ngOnInit() {
 		
-		this.user = this.auth.decode();
+/* 		this.user = this.auth.decode();
 		this.isAdmin = (this.user.type === 'Admin');
 		this.isVendedor = (this.user.type === 'Vendedor');
-		this.isSuperAdmin = (this.user.type === 'SuperAdmin');
+		this.isSuperAdmin = (this.user.type === 'SuperAdmin'); */
 		if(this.isAdmin){
 			this.setAdminMenu();
 		}else if(this.isVendedor){
