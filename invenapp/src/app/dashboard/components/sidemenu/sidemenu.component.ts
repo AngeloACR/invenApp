@@ -174,7 +174,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/cuentat',
 				id: 1
 			},{
-				name: 'Registar movimiento diario',
+				name: 'Registrar movimiento diario',
 				link: '/registro/movimientodiario',
 				id: 2
 			},{
@@ -304,7 +304,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/compra',
 				id: 1
 			},{
-				name: 'Registar gasto',
+				name: 'Registrar gasto',
 				link: '/registro/gasto',
 				id: 2
 			},{
@@ -312,7 +312,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/gasto',
 				id: 3
 			},{
-				name: 'Registar pago',
+				name: 'Registrar pago',
 				link: '/registro/pago',
 				id: 4
 			},{
@@ -320,7 +320,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/pago',
 				id: 5
 			},{
-				name: 'Registar cuenta por pagar',
+				name: 'Registrar cuenta por pagar',
 				link: '/registro/cuentasporpagar',
 				id: 6
 			},{
@@ -350,7 +350,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/proforma',
 				id: 3
 			},{
-				name: 'Registar cobro',
+				name: 'Registrar cobro',
 				link: '/registro/cobro',
 				id: 4
 			},{
@@ -358,7 +358,7 @@ export class SidemenuComponent implements OnInit {
 				link: '/lista/cobro',
 				id: 5
 			},{
-				name: 'Registar cuenta por cobrar',
+				name: 'Registrar cuenta por cobrar',
 				link: '/registro/cuentaporcobrar',
 				id: 6
 			},{

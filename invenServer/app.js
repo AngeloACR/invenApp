@@ -4,7 +4,7 @@ const localServer = require('./localServer');
 
 const connection = db.initConnect();
 
-const localPort = 3400;
+const localPort = 7250;
 const localFolder = './public/invenapp';
 const localPath = localFolder + '/index.html';
 const localApp = localServer.init(localFolder, localPath, localPort);

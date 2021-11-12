@@ -275,7 +275,7 @@ const compraHandler = {
             newCompra.ctaPorPagar = ctaPorPagarId;
             switch (newCompra.estado) {
                 case 'Por pagar':
-                    //                    await mainHandler.aumentarBalance(newCompra);
+                    //await mainHandler.aumentarBalance(newCompra);
                     break;
 
                 default:
@@ -283,7 +283,7 @@ const compraHandler = {
                     break;
             }
             await mainHandler.agregarProductos(newCompra);
-            let compra = await newCompra.save();
+            compra = await newCompra.save();
             let response = {
                 status: true,
                 values: compra

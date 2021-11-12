@@ -86,6 +86,7 @@ export class FormGastoComponent implements OnInit {
       almacen: new FormControl("", Validators.required),
       montoTotal: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
+      fecha: new FormControl(""),
       observaciones: new FormControl("", Validators.required),
       referencia: new FormControl("", Validators.required),
       pagos: this.pagos
@@ -119,7 +120,7 @@ export class FormGastoComponent implements OnInit {
     let refreshList;
     let endpoint;
 
-         let pagos = [];
+    let pagos = [];
     var pagosControls = this.pagos.controls;
     for (let control of pagosControls) {
       if (control instanceof FormGroup) {
@@ -133,7 +134,7 @@ export class FormGastoComponent implements OnInit {
         };
         pagos.push(pago);
       }
-    } 
+    }
 
     dataValues = {
       estadoPago: dataAux.estadoPago,
@@ -142,7 +143,7 @@ export class FormGastoComponent implements OnInit {
       descripcion: dataAux.descripcion,
       observaciones: dataAux.observaciones,
       referencia: dataAux.referencia,
-      pagos: pagos,
+      pagos: pagos
     };
 
     endpoint = "/gastos";
