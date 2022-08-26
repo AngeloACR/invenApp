@@ -18,7 +18,7 @@
     "express-rate-limit": "^2.11.0",
     "helmet": "^3.9.0",
     "jsonwebtoken": "*",
-    "mongoose": "^6.0.12",
+    "mongoose": "^6.4.6",
     "multer": "*",
     "node-schedule": "*",
     "nodemailer": "^6.7.0"
